@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Presentation",
+    "icon": "f015",
+    "active": true
+  },
+  {
+    "title": "Planning",
+    "icon": "f073"
+  },
+  {
+    "title": "Carte",
+    "icon": "f7b6"
+  },
+  {
+    "title": "Settings",
+    "icon": "f013"
+  }
+]
