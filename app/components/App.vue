@@ -1,11 +1,11 @@
 <template>
     <Page>
         <ActionBar title="Welcome to Wellca-Coffee-Vue!"/>
-        <GridLayout columns="auto, auto" rows="*, auto">
-            <Label class="fas" :text="icon" col="0" row="0"/>
-            <Label class="message" :text="msg" col="1" row="0"/>
+        <GridLayout class="gridmain" columns="auto, *" rows="*, auto">
+            <Label class="icon fas" :text="icon" col="0" row="0"/>
+            <Label class="message" :text="`menu selected: ${whenMenuChange}`" col="1" row="0"/>
 
-            <Navigation row="1" colspan="2"/>
+            <Navigation row="1" colSpan="2"/>
         </GridLayout>
     </Page>
 </template>
@@ -18,8 +18,12 @@
     },
     data() {
       return {
-        msg: 'Hello World!',
         icon: String.fromCharCode('0xf015')
+      }
+    },
+    computed: {
+      whenMenuChange() {
+        return this.$store.getters.indexItemCurrentlySelected;
       }
     }
   }
@@ -28,16 +32,20 @@
 <style scoped lang="scss">
 Page {
   background: #242424;
-}
-ActionBar {
+  ActionBar {
     background-color: #bdbdbd;
     color: #ffffff;
+  }
+  .gridmain {
+    width: 100%;
+    color: white;
+    .icon {
+    }
+    .message {
+      font-size: 20;
+    }
+  }
 }
 
-.message {
-    vertical-align: center;
-    text-align: center;
-    font-size: 20;
-    color: #333333;
-}
+
 </style>

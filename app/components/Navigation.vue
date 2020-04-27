@@ -8,7 +8,7 @@
         <StackLayout class="navigation__circle__right"/>
       </AbsoluteLayout>
       <FlexboxLayout class="navigation_items-container">
-        <Label v-for="(item, index) in listItems" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': index === indexItemCurrentlySelected }" :text="item.icon"/>
+        <Label v-for="(item, index) in listItems" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': index === $store.getters.indexItemCurrentlySelected }" :text="item.icon"/>
       </FlexboxLayout>
       <StackLayout @pan="panCircle" ref="circlePan" class="navigation__circlePan"/>
     </AbsoluteLayout>
@@ -16,34 +16,28 @@
 
 <script>
   const platformModule = require("tns-core-modules/platform");
-  import menu from '../config/menu.json';
 
   export default {
     data() {
       return {
-        menuItems: menu,
-        block: platformModule.screen.mainScreen.widthDIPs / menu.length,
-        halfABlock: platformModule.screen.mainScreen.widthDIPs / menu.length / 2
+        block: undefined,
+        halfABlock: undefined
       }
     },
     mounted() {
+      
+      this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.state.menu.length;
+      this.halfABlock = this.block / 2;
       this.translateCircle(this.distanceCalculated());
     },
     computed: {
       listItems() {
-        return this.menuItems.map(item => {
+        return this.$store.state.menu.map(item => {
           return {
             ...item,
             icon: String.fromCharCode(`0x${item.icon}`)
           };
         });
-      },
-      indexItemCurrentlySelected() {
-        let indexSelected = 0;
-        this.listItems.forEach((item, index) => {
-          if (item.active === true) indexSelected = index;
-        });
-        return indexSelected;
       },
     },
     methods: {
@@ -56,7 +50,7 @@
           // finger moving
           this.translateCircle(this.distanceStart + args.deltaX);
           const indexToSelect = Math.trunc((this.$refs.circlePan.nativeView.translateX + 26) / this.block);
-          if (this.indexItemCurrentlySelected !== indexToSelect) this.selectItem(indexToSelect, false);
+          if (this.$store.getters.indexItemCurrentlySelected !== indexToSelect) this.selectItem(indexToSelect, false);
         } else if (args.state === 3) {
           // finger up
           const indexToSelect = Math.trunc(this.$refs.circlePan.nativeView.translateX / this.block);
@@ -64,14 +58,11 @@
         }
       },
       selectItem(indexParam, escapeTransalte = true) {
-        this.menuItems = this.menuItems.map((item, index) => {
-          item.active = index === indexParam;
-          return item;
-        });
+        this.$store.commit('changeActiveMenu', indexParam);
         if (escapeTransalte) this.translateCircleAnimated();
       },
       distanceCalculated() {
-        const multiplicator = this.indexItemCurrentlySelected + 1;
+        const multiplicator = this.$store.getters.indexItemCurrentlySelected + 1;
         const distance = multiplicator * this.block - this.halfABlock - 56;
         return distance;
       },
