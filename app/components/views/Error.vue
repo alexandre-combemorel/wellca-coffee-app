@@ -1,5 +1,5 @@
 <template>
-  <GridLayout class="settings" columns="auto, auto" rows="*, auto">
+  <GridLayout class="error" columns="auto, auto" rows="*, auto">
       <Label class="fas" :text="icon" col="0" row="0"/>
       <Label class="message" :text="msg" col="1" row="0"/>
   </GridLayout>
@@ -9,7 +9,7 @@
   export default {
     data() {
       return {
-        msg: 'settings',
+        msg: 'Error',
         icon: String.fromCharCode('0xf015')
       }
     }
@@ -17,8 +17,8 @@
 </script>
 
 <style scoped lang="scss">
-.settings {
+.error {
   color: white;
-  background: #cccccc;
+  background: grey;
 }
 </style>

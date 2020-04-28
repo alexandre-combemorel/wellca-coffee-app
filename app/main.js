@@ -6,6 +6,7 @@ if(TNS_ENV !== 'production') {
   Vue.use(VueDevtools)
 }
 import store from './store'
+Vue.prototype.$store = store
 
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')

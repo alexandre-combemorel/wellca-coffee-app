@@ -37,7 +37,7 @@
             icon: String.fromCharCode(`0x${item.icon}`)
           };
         });
-      },
+      }
     },
     methods: {
       panCircle(args) {
@@ -49,7 +49,7 @@
         } else if (args.state === 2) {
           // finger moving
           this.translateCircle(this.distanceStart + args.deltaX);
-          if (this.$store.getters.indexItemCurrentlyActive !== indexToSelect) this.activateItem(indexToSelect, false);
+          if (this.$store.getters.indexItemCurrentlyActive !== indexToSelect) this.activateItem(indexToSelect);
         } else if (args.state === 3) {
           // finger up
           this.selectItem(indexToSelect);
@@ -60,6 +60,7 @@
       },
       selectItem(indexParam) {
         this.$store.commit('changeSelectedMenu', indexParam);
+        this.$emit('selected');
         this.translateCircleAnimated();
       },
       distanceCalculated() {

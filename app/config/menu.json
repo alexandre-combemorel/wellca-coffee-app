@@ -15,6 +15,7 @@
   },
   {
     "title": "Settings",
-    "icon": "f013"
+    "icon": "f013",
+    "component": "Settings"
   }
 ]
