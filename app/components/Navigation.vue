@@ -21,11 +21,10 @@
     data() {
       return {
         block: undefined,
-        halfABlock: undefined
+        halfABlock: undefined,
       }
     },
     mounted() {
-      
       this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.state.menu.length;
       this.halfABlock = this.block / 2;
       this.translateCircle(this.distanceCalculated());
@@ -42,6 +41,7 @@
     },
     methods: {
       panCircle(args) {
+        const indexToSelect = Math.trunc((this.$refs.circlePan.nativeView.translateX + 56) / this.block); // 56 is to align with the center of CirclePan: $wandhSide + $wandhCenter/2 (see css)
         if (args.state === 1) {
           // finger down
           this.prevDeltaX = 0;
@@ -49,11 +49,9 @@
         } else if (args.state === 2) {
           // finger moving
           this.translateCircle(this.distanceStart + args.deltaX);
-          const indexToSelect = Math.trunc((this.$refs.circlePan.nativeView.translateX + 26) / this.block);
           if (this.$store.getters.indexItemCurrentlySelected !== indexToSelect) this.selectItem(indexToSelect, false);
         } else if (args.state === 3) {
           // finger up
-          const indexToSelect = Math.trunc(this.$refs.circlePan.nativeView.translateX / this.block);
           this.selectItem(indexToSelect);
         }
       },
@@ -73,12 +71,12 @@
           duration: 200
         });
         this.$refs.circlePan.nativeView.animate({
-          translate: { x: distance + 26, y: 0 },
+          translate: { x: distance, y: 0 },
           duration: 200
         });
       },
       translateCircle(distance) {
-        this.$refs.circlePan.nativeView.translateX = distance + 26;
+        this.$refs.circlePan.nativeView.translateX = distance;
         this.$refs.circleMark.nativeView.translateX = distance;
       }
     }
@@ -156,6 +154,7 @@ $colorBackground: white;
     }
   }
   &__circlePan {
+    margin-left: $wandhSide;
     width: $wandhCenter;
     height: $wandhCenter;
     border-radius: 50;
