@@ -2,7 +2,8 @@
   {
     "title": "Presentation",
     "icon": "f015",
-    "active": true
+    "active": true,
+    "selected": true
   },
   {
     "title": "Planning",

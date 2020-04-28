@@ -8,7 +8,7 @@
         <StackLayout class="navigation__circle__right"/>
       </AbsoluteLayout>
       <FlexboxLayout class="navigation_items-container">
-        <Label v-for="(item, index) in listItems" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': index === $store.getters.indexItemCurrentlySelected }" :text="item.icon"/>
+        <Label v-for="(item, index) in listItems" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': index === $store.getters.indexItemCurrentlyActive }" :text="item.icon"/>
       </FlexboxLayout>
       <StackLayout @pan="panCircle" ref="circlePan" class="navigation__circlePan"/>
     </AbsoluteLayout>
@@ -49,18 +49,21 @@
         } else if (args.state === 2) {
           // finger moving
           this.translateCircle(this.distanceStart + args.deltaX);
-          if (this.$store.getters.indexItemCurrentlySelected !== indexToSelect) this.selectItem(indexToSelect, false);
+          if (this.$store.getters.indexItemCurrentlyActive !== indexToSelect) this.activateItem(indexToSelect, false);
         } else if (args.state === 3) {
           // finger up
           this.selectItem(indexToSelect);
         }
       },
-      selectItem(indexParam, escapeTransalte = true) {
+      activateItem(indexParam) {
         this.$store.commit('changeActiveMenu', indexParam);
-        if (escapeTransalte) this.translateCircleAnimated();
+      },
+      selectItem(indexParam) {
+        this.$store.commit('changeSelectedMenu', indexParam);
+        this.translateCircleAnimated();
       },
       distanceCalculated() {
-        const multiplicator = this.$store.getters.indexItemCurrentlySelected + 1;
+        const multiplicator = this.$store.getters.indexItemCurrentlyActive + 1;
         const distance = multiplicator * this.block - this.halfABlock - 56;
         return distance;
       },
