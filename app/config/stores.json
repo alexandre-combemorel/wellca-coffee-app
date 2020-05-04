@@ -1,0 +1,196 @@
+[
+  {
+    "id": 1,
+    "location": "Bourges",
+    "created_at": "2020-05-04T04:00:06.530Z",
+    "updated_at": "2020-05-04T04:00:06.530Z",
+    "information": {
+      "id": 1,
+      "description": "Coffee truck de bourges",
+      "title": "Bourges",
+      "img": [
+        {
+          "id": 1,
+          "name": "bourges",
+          "alternativeText": "",
+          "caption": "",
+          "width": 800,
+          "height": 410,
+          "formats": {
+            "thumbnail": {
+              "hash": "thumbnail_bourges_75043c8ef1",
+              "ext": ".jpeg",
+              "mime": "image/jpeg",
+              "width": 245,
+              "height": 126,
+              "size": 11.13,
+              "url": "/uploads/thumbnail_bourges_75043c8ef1.jpeg"
+            },
+            "medium": {
+              "hash": "medium_bourges_75043c8ef1",
+              "ext": ".jpeg",
+              "mime": "image/jpeg",
+              "width": 750,
+              "height": 384,
+              "size": 83.05,
+              "url": "/uploads/medium_bourges_75043c8ef1.jpeg"
+            },
+            "small": {
+              "hash": "small_bourges_75043c8ef1",
+              "ext": ".jpeg",
+              "mime": "image/jpeg",
+              "width": 500,
+              "height": 256,
+              "size": 41.24,
+              "url": "/uploads/small_bourges_75043c8ef1.jpeg"
+            }
+          },
+          "hash": "bourges_75043c8ef1",
+          "ext": ".jpeg",
+          "mime": "image/jpeg",
+          "size": 96.57,
+          "url": "/uploads/bourges_75043c8ef1.jpeg",
+          "previewUrl": null,
+          "provider": "local",
+          "provider_metadata": null,
+          "created_at": "2020-05-04T03:59:14.702Z",
+          "updated_at": "2020-05-04T03:59:14.702Z"
+        }
+      ]
+    },
+    "navigations": [
+      {
+        "id": 1,
+        "title": "Presentation",
+        "icon": "f015",
+        "component": null,
+        "active": true,
+        "selected": true,
+        "created_at": "2020-05-04T04:53:03.245Z",
+        "updated_at": "2020-05-04T07:08:54.572Z"
+      },
+      {
+        "id": 2,
+        "title": "Planning",
+        "icon": "f073",
+        "component": null,
+        "active": null,
+        "selected": null,
+        "created_at": "2020-05-04T04:53:12.678Z",
+        "updated_at": "2020-05-04T07:08:54.572Z"
+      },
+      {
+        "id": 3,
+        "title": "Carte",
+        "icon": "f7b6",
+        "component": null,
+        "active": null,
+        "selected": null,
+        "created_at": "2020-05-04T04:53:20.759Z",
+        "updated_at": "2020-05-04T05:29:22.123Z"
+      },
+      {
+        "id": 4,
+        "title": "Parametres",
+        "icon": "f013",
+        "component": "Settings",
+        "active": null,
+        "selected": null,
+        "created_at": "2020-05-04T04:53:30.344Z",
+        "updated_at": "2020-05-04T07:08:54.572Z"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "location": "Paris",
+    "created_at": "2020-05-04T04:00:29.385Z",
+    "updated_at": "2020-05-04T04:00:29.385Z",
+    "information": {
+      "id": 2,
+      "description": "Coffee truck de Paris",
+      "title": "Paris",
+      "img": [
+        {
+          "id": 2,
+          "name": "paris",
+          "alternativeText": "",
+          "caption": "",
+          "width": 968,
+          "height": 681,
+          "formats": {
+            "thumbnail": {
+              "hash": "thumbnail_paris_eadabe68ef",
+              "ext": ".jpeg",
+              "mime": "image/jpeg",
+              "width": 222,
+              "height": 156,
+              "size": 13.64,
+              "url": "/uploads/thumbnail_paris_eadabe68ef.jpeg"
+            },
+            "medium": {
+              "hash": "medium_paris_eadabe68ef",
+              "ext": ".jpeg",
+              "mime": "image/jpeg",
+              "width": 750,
+              "height": 528,
+              "size": 144.94,
+              "url": "/uploads/medium_paris_eadabe68ef.jpeg"
+            },
+            "small": {
+              "hash": "small_paris_eadabe68ef",
+              "ext": ".jpeg",
+              "mime": "image/jpeg",
+              "width": 500,
+              "height": 352,
+              "size": 67.81,
+              "url": "/uploads/small_paris_eadabe68ef.jpeg"
+            }
+          },
+          "hash": "paris_eadabe68ef",
+          "ext": ".jpeg",
+          "mime": "image/jpeg",
+          "size": 199.96,
+          "url": "/uploads/paris_eadabe68ef.jpeg",
+          "previewUrl": null,
+          "provider": "local",
+          "provider_metadata": null,
+          "created_at": "2020-05-04T03:59:15.792Z",
+          "updated_at": "2020-05-04T03:59:15.792Z"
+        }
+      ]
+    },
+    "navigations": [
+      {
+        "id": 1,
+        "title": "Presentation",
+        "icon": "f015",
+        "component": null,
+        "active": true,
+        "selected": true,
+        "created_at": "2020-05-04T04:53:03.245Z",
+        "updated_at": "2020-05-04T07:08:54.572Z"
+      },
+      {
+        "id": 2,
+        "title": "Planning",
+        "icon": "f073",
+        "component": null,
+        "active": null,
+        "selected": null,
+        "created_at": "2020-05-04T04:53:12.678Z",
+        "updated_at": "2020-05-04T07:08:54.572Z"
+      },
+      {
+        "id": 4,
+        "title": "Parametres",
+        "icon": "f013",
+        "component": "Settings",
+        "active": null,
+        "selected": null,
+        "created_at": "2020-05-04T04:53:30.344Z",
+        "updated_at": "2020-05-04T07:08:54.572Z"
+      }
+    ]
+  }
+]

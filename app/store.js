@@ -1,15 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import menu from './config/menu.json';
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    menu
+    menu: [],
+    stores: [],
   },
   mutations: {
+    setStores(state, storesParam) {
+      state.stores = storesParam;
+    },
+    setMenu(state, menuParam){
+      state.menu = menuParam;
+    },
     changeActiveMenu(state, indexParam) {
       state.menu = state.menu.map((item, index) => {
         item.active = index === indexParam;
@@ -24,10 +29,14 @@ export default new Vuex.Store({
       });
     },
   },
-  actions: {
-
-  },
+  actions: {},
   getters: {
+    isStoresLoaded: state => {
+      return state.stores.length > 0;
+    },
+    isMenuLoaded: state => {
+      return state.menu.length > 0;
+    },
     indexItemCurrentlyActive: state => {
       let indexActive = 0;
       state.menu.forEach((item, index) => {

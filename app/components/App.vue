@@ -1,82 +1,86 @@
 <template>
-    <Page class="app">
-        <ActionBar title="Welcome to Wellca-Coffee-Vue!"/>
-        <GridLayout class="gridmain" columns="auto, *" rows="auto, *, auto">
-            <Label class="icon fas" :text="icon" col="0" row="0"/>
-            <Label class="message" :text="`menu selected: ${whenMenuChange}`" col="1" row="0"/>
-            <GridLayout :columns="columsDefinition" class="views-container" ref="views-container" colSpan="2" row="1">
-              <StackLayout v-for="(item, index) in $store.state.menu" :col="index" :key="index" class="views-container__view">
-                <component :is="item.component || 'Error'"/>
-              </StackLayout>
-            </GridLayout>
-
-            <Navigation v-on:selected="onSelectMenu" row="2" colSpan="2"/>
-        </GridLayout>
+    <Page class="select-page">
+      <FlexboxLayout v-if="displayStores" class="store-list-container" flexDirection="column">
+        <Label @tap="selectStore(store)" v-for="store in $store.state.stores" :key="store.id" :text="store.information.title" class="store-list-container__store"/>
+      </FlexboxLayout>
+      <FlexboxLayout v-else class="loader" flexDirection="column">
+        <Label text="Loading..." class="loader__item"/>
+      </FlexboxLayout>
     </Page>
 </template>
 
 <script>
-  import Navigation from './Navigation';
-  import Settings from './views/Settings';
-  import Error from './views/Error';
+  import stores from '../config/stores.json'
+  import Home from './views/Home';
 
   export default {
     components: {
-      Navigation, Settings, Error
+      Home
     },
-    data() {
-      return {
-        icon: String.fromCharCode('0xf015')
-      }
+    mounted() {
+      this.fetchStores();
     },
     computed: {
-      whenMenuChange() {
-        return this.$store.getters.indexItemCurrentlySelected;
-      },
-      columsDefinition() {
-        let columns = "auto";
-        for (let i = 1; i < this.$store.state.menu.length ; i++) {
-          columns += ", auto"
-        }
-        return columns;
-      },
+      displayStores() {
+        return this.$store.getters.isStoresLoaded;
+      }
     },
     methods: {
-      onSelectMenu() {
-        const containerEl = this.$refs['views-container'];
-        const space = containerEl.nativeView.getActualSize().width;
-        containerEl.childNodes.forEach(viewElement => {
-          viewElement.nativeView.animate({
-            translate: { x: this.$store.getters.indexItemCurrentlySelected*-space, y: 0 },
-            duration: 200
-          })
-        });
+      async fetchStores() {
+        try {
+          // const response = await fetch("https://35.197.188.115/stores", {
+          //   method: "GET",
+          //   agent
+          // });
+          // const stores = await response.json();
+          
+          this.$store.commit('setStores', stores);
+        } catch (e) {
+          console.error("Couldn't load the Stores (shops):", e);
+        }
+        
       },
+      selectStore(storeSelected) {
+        this.$store.commit('setMenu', storeSelected.navigations);
+        // load everything
+        this.$navigateTo(Home,{
+				animated: true,
+				transition: {
+					name: "slideLeft",
+					duration: 200,
+					curve: "easeIn"
+				}
+			})
+      }
     }
   }
 </script>
 
 <style scoped lang="scss">
-.app {
+.select-page {
   background: #242424;
-  ActionBar {
-    background-color: #bdbdbd;
-    color: #ffffff;
-  }
-  .views-container {
-    &__view {
+  .store-list-container {
+    height: 100%;
+    width: 100%;
+    padding: 20;
+    justify-content: center;
+    &__store {
+      border-width: 1;
+      border-radius: 5;
+      font-weight: bold;
+      border-color: white;
+      color: white;
+      margin: 10;
       width: 100%;
-      height: 100%;
       padding: 10;
     }
   }
-  .gridmain {
-    width: 100%;
-    color: white;
-    .icon {
-    }
-    .message {
-      font-size: 20;
+  .loader {
+    padding: 20;
+    justify-content: center;
+    align-items: center;
+    &__item {
+      color: white;
     }
   }
 }
