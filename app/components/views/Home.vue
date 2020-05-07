@@ -1,10 +1,8 @@
 <template>
     <Page class="home">
-        <ActionBar title="Welcome to Wellca-Coffee-Vue!"/>
-        <GridLayout class="gridmain" columns="auto, *" rows="auto, *, auto">
-            <Label class="icon fas" :text="icon" col="0" row="0"/>
-            <Label class="message" :text="`menu selected: ${whenMenuChange}`" col="1" row="0"/>
-            <GridLayout :columns="columsDefinition" class="views-container" ref="views-container" colSpan="2" row="1">
+        <ActionBar title="Welcome to Wellca Coffee App"/>
+        <GridLayout class="gridmain" columns="auto, *" rows="*, auto">
+            <GridLayout :columns="columsDefinition" class="views-container" ref="views-container" colSpan="2" row="0">
               <StackLayout v-for="(item, index) in $store.state.menu" :col="index" :key="index" class="views-container__view">
                 <component :is="item.component || 'Error'"/>
               </StackLayout>
