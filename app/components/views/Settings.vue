@@ -1,24 +1,49 @@
 <template>
-  <GridLayout class="settings" columns="auto, auto" rows="*, auto">
-      <Label class="fas" :text="icon" col="0" row="0"/>
-      <Label class="message" :text="msg" col="1" row="0"/>
-  </GridLayout>
+  <AbsoluteLayout class="settings">
+    <FlexboxLayout class="settings__content">
+      <WebView class="settings__content__logo" src="~/assets/svg/logo.svg" />
+      <Label @tap="openDialog('Terms of Use')" class="settings__content__termsOfUser settings__content--labels" text="Terms of Use" />
+      <Label @tap="openDialog('privacyStatement')" class="settings__content__privacyStatement settings__content--labels" text="Privacy Statement" />
+      <Label class="settings__content__version settings__content--labels" :text="`Version: ${config.version}`" />
+    </FlexboxLayout>
+  </AbsoluteLayout>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        msg: 'settings',
-        icon: String.fromCharCode('0xf015')
-      }
+import config from '../../config/config.json';
+
+export default {
+  data() {
+    return {
+      config,
+      dialogContent: null,
+      dialogTitle: null,
     }
+  },
+  methods: {
+    openDialog(id) {
+      this.dialogTitle = id;
+      this.dialogContent = this.config[id];
+    },
   }
+}
 </script>
 
 <style scoped lang="scss">
 .settings {
-  color: white;
-  background: #cccccc;
+  &__content {
+    width: 100%;
+    height: 100%;
+    color: white;
+    flex-direction: column;
+    &__logo {
+      margin: 20 0;
+      width: 100%;
+      height: 100;
+    }
+    &--labels {
+      margin: 10 0;
+    }
+  }
 }
 </style>
