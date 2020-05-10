@@ -8,7 +8,7 @@
         <StackLayout class="navigation__circle__right"/>
       </AbsoluteLayout>
       <FlexboxLayout class="navigation_items-container">
-        <Label v-for="(item, index) in listItems" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': index === $store.getters.indexItemCurrentlyActive }" :text="item.icon"/>
+        <Label v-for="(item, index) in $store.getters.getMenu" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': item.active }" :text="item.icon"/>
       </FlexboxLayout>
       <StackLayout @pan="panCircle" ref="circlePan" class="navigation__circlePan"/>
     </AbsoluteLayout>
@@ -16,7 +16,7 @@
 
 <script>
   const platformModule = require("tns-core-modules/platform");
-
+  
   export default {
     data() {
       return {
@@ -25,19 +25,9 @@
       }
     },
     mounted() {
-      this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.state.menu.length;
+      this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.getters.getMenu.length;
       this.halfABlock = this.block / 2;
       this.translateCircle(this.distanceCalculated());
-    },
-    computed: {
-      listItems() {
-        return this.$store.state.menu.map(item => {
-          return {
-            ...item,
-            icon: String.fromCharCode(`0x${item.icon}`)
-          };
-        });
-      }
     },
     methods: {
       panCircle(args) {

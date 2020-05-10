@@ -1,17 +1,8 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+const moduleNavigation = {
   state: {
     menu: [],
-    stores: [],
   },
   mutations: {
-    setStores(state, storesParam) {
-      state.stores = storesParam;
-    },
     setMenu(state, menuParam){
       state.menu = menuParam;
     },
@@ -31,8 +22,13 @@ export default new Vuex.Store({
   },
   actions: {},
   getters: {
-    isStoresLoaded: state => {
-      return state.stores.length > 0;
+    getMenu: state => {
+      return state.menu.map(item => {
+        return {
+          ...item,
+          icon: String.fromCharCode(`0x${item.icon}`)
+        };
+      });
     },
     isMenuLoaded: state => {
       return state.menu.length > 0;
@@ -52,4 +48,6 @@ export default new Vuex.Store({
       return indexSelected;
     }
   }
-});
+}
+
+export default moduleNavigation;

@@ -3,14 +3,14 @@
     <AbsoluteLayout class="home__wrapper">
       <GridLayout class="home__wrapper__gridmain" columns="auto, *" rows="*, auto">
         <GridLayout :columns="columsDefinition" class="home__wrapper__gridmain__views-container" ref="views-container" colSpan="2" row="0">
-          <StackLayout v-for="(item, index) in $store.state.menu" :col="index" :key="index" class="home__wrapper__gridmain__views-container__view">
+          <StackLayout v-for="(item, index) in $store.getters.getMenu" :col="index" :key="index" class="home__wrapper__gridmain__views-container__view">
             <component :is="item.component || 'Error'"/>
           </StackLayout>
         </GridLayout>
 
         <Navigation v-on:selected="onSelectMenu" row="2" colSpan="2"/>
       </GridLayout>
-      <SliderBottom class="home__wrapper__slider-bottom" title="test"/>
+      <SliderBottom class="home__wrapper__slider-bottom"/>
     </AbsoluteLayout>
   </Page>
 </template>
@@ -36,7 +36,7 @@ export default {
     },
     columsDefinition() {
       let columns = "auto";
-      for (let i = 1; i < this.$store.state.menu.length ; i++) {
+      for (let i = 1; i < this.$store.getters.getMenu.length ; i++) {
         columns += ", auto"
       }
       return columns;

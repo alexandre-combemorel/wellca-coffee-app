@@ -5,7 +5,7 @@ import VueDevtools from 'nativescript-vue-devtools'
 if(TNS_ENV !== 'production') {
   Vue.use(VueDevtools)
 }
-import store from './store'
+import store from './store/store'
 Vue.prototype.$store = store
 
 // Prints Vue logs when --env.production is *NOT* set while building

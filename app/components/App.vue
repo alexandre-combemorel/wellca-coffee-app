@@ -1,7 +1,7 @@
 <template>
     <Page class="select-page">
-      <FlexboxLayout v-if="displayStores" class="store-list-container" flexDirection="column">
-        <Label @tap="selectStore(store)" v-for="store in $store.state.stores" :key="store.id" :text="store.information.title" class="store-list-container__store"/>
+      <FlexboxLayout v-if="isLoaded" class="store-list-container" flexDirection="column">
+        <Label @tap="selectStore(store)" v-for="store in $store.getters.getStores" :key="store.id" :text="store.information.title" class="store-list-container__store"/>
       </FlexboxLayout>
       <FlexboxLayout v-else class="loader" flexDirection="column">
         <Label text="Loading..." class="loader__item"/>
@@ -21,7 +21,7 @@
       this.fetchStores();
     },
     computed: {
-      displayStores() {
+      isLoaded() {
         return this.$store.getters.isStoresLoaded;
       }
     },
@@ -35,6 +35,7 @@
           // const stores = await response.json();
           
           this.$store.commit('setStores', stores);
+          
         } catch (e) {
           console.error("Couldn't load the Stores (shops):", e);
         }
