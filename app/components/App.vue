@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import stores from '../config/stores.json'
+  // import stores from '../config/stores.json'
   import Home from './views/Home';
 
   export default {
@@ -28,11 +28,10 @@
     methods: {
       async fetchStores() {
         try {
-          // const response = await fetch("https://35.197.188.115/stores", {
-          //   method: "GET",
-          //   agent
-          // });
-          // const stores = await response.json();
+          const response = await fetch("https://app.wellcacoffee.com/stores", {
+            method: "GET",
+          });
+          const stores = await response.json();
           
           this.$store.commit('setStores', stores);
           

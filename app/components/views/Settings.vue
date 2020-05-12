@@ -3,7 +3,7 @@
     <FlexboxLayout class="settings__content">
       <WebView class="settings__content__logo" src="~/assets/svg/logo.svg" />
       <Label @tap="openDialog('Terms of Use')" class="settings__content__termsOfUser settings__content--labels" text="Terms of Use" />
-      <Label @tap="openDialog('privacyStatement')" class="settings__content__privacyStatement settings__content--labels" text="Privacy Statement" />
+      <Label @tap="openDialog('Privacy Statement')" class="settings__content__privacyStatement settings__content--labels" text="Privacy Statement" />
       <Label class="settings__content__version settings__content--labels" :text="`Version: ${config.version}`" />
     </FlexboxLayout>
   </AbsoluteLayout>
@@ -22,8 +22,11 @@ export default {
   },
   methods: {
     openDialog(id) {
-      this.dialogTitle = id;
-      this.dialogContent = this.config[id];
+      this.$store.commit("setSliderComponentState", {
+        title: id,
+        data: this.config[id],
+        componentName: "TextBlock"
+      });
     },
   }
 }

@@ -1,9 +1,10 @@
 <template>
-  <AbsoluteLayout @swipe="closeSlider" ref="slider-bottom" class="slider-bottom">
+  <AbsoluteLayout v-if="$store.getters.getComponentSelected" @swipe="closeSliderFromSwipe" ref="slider-bottom" class="slider-bottom">
     <FlexboxLayout class="slider-bottom__background"></FlexboxLayout>
     <GridLayout columns="*, auto" rows="auto, auto" class="slider-bottom__content">
-      <Label row="0" col="0" class="slider-bottom__content__title" :text="title"/>
-      <Label row="0" col="1" class="slider-bottom__content__close" text="Close"/>
+      <Label row="0" col="0" class="slider-bottom__content__title" :text="$store.getters.getComponentTitle"/>
+      <Label row="0" col="1" class="slider-bottom__content__close" text="Close" @tap="closeSlider"/>
+      <component :is="$store.getters.getComponentSelected" :data="$store.getters.getDataSliderBottom" row="1" colSpan="2"/>
     </GridLayout>
   </AbsoluteLayout>
 </template>
@@ -11,8 +12,12 @@
 <script>
 const platformModule = require("tns-core-modules/platform");
 
+import TextBlock from '../atoms/TextBlock'
+
 export default {
-  props: ["title"],
+  components: {
+    TextBlock
+  },
   data: {
     heightScreen: undefined,
   },
@@ -20,14 +25,17 @@ export default {
     this.heightScreen = platformModule.screen.mainScreen.heightDIPs;
   },
   methods: {
-    closeSlider(args) {
+    closeSliderFromSwipe(args) {
       if (args.direction === 8) {
-        this.$refs['slider-bottom'].nativeView.animate({
-          translate: { x: 0, y: this.heightScreen },
-          duration: 150
-        });
+        this.closeSlider();
       }
-      
+    },
+    async closeSlider() {
+      await this.$refs['slider-bottom'].nativeView.animate({
+        translate: { x: 0, y: this.heightScreen },
+        duration: 150
+      });
+      this.$store.commit("resetSliderBottom");
     }
   }
 }
