@@ -1,6 +1,6 @@
 <template>
-  <StackLayout>
-    <Label :text="data"/>
+  <StackLayout class="text-block">
+    <Label class="text-block__content" :text="data" textWrap="true"/>
   </StackLayout>
 </template>
 
@@ -10,6 +10,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.text-block {
+  width: 100%;
+  &__content {
+    width: 100%;
+  }
+}
 </style>
