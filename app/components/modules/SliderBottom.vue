@@ -1,5 +1,5 @@
 <template>
-  <AbsoluteLayout v-if="$store.getters.getComponentSelected" @swipe="closeSliderFromSwipe" ref="slider-bottom" class="slider-bottom">
+  <AbsoluteLayout @swipe="closeSliderFromSwipe" ref="slider-bottom" class="slider-bottom">
     <FlexboxLayout class="slider-bottom__background"></FlexboxLayout>
     <GridLayout columns="*, auto" rows="auto, auto" class="slider-bottom__content">
       <Label row="0" col="0" class="slider-bottom__content__title" :text="$store.getters.getComponentTitle"/>
@@ -10,7 +10,6 @@
 </template>
 
 <script>
-const platformModule = require("tns-core-modules/platform");
 
 import TextBlock from '../atoms/TextBlock'
 
@@ -18,11 +17,27 @@ export default {
   components: {
     TextBlock
   },
-  data: {
-    heightScreen: undefined,
+  computed: {
+    visibility() {
+      return this.$store.getters.getSliderVisibility;
+    }
   },
-  mounted() {
-    this.heightScreen = platformModule.screen.mainScreen.heightDIPs;
+  watch: {
+    async visibility(newVisibility) {
+      const componentHeight = this.$refs['slider-bottom'].nativeView.getActualSize().height;
+      if (newVisibility) {
+        await this.$refs['slider-bottom'].nativeView.animate({
+          translate: { x: 0, y: -componentHeight },
+          duration: 150
+        });
+      } else {
+        await this.$refs['slider-bottom'].nativeView.animate({
+          translate: { x: 0, y: 0 },
+          duration: 150
+        });
+        this.$store.commit("resetSliderBottom");
+      }
+    }
   },
   methods: {
     closeSliderFromSwipe(args) {
@@ -30,12 +45,8 @@ export default {
         this.closeSlider();
       }
     },
-    async closeSlider() {
-      await this.$refs['slider-bottom'].nativeView.animate({
-        translate: { x: 0, y: this.heightScreen },
-        duration: 150
-      });
-      this.$store.commit("resetSliderBottom");
+    closeSlider() {
+      this.$store.commit("hideSlider");
     }
   }
 }
@@ -46,6 +57,7 @@ export default {
   width: 100%;
   height: 100%;
   top: 5;
+  margin-top: 100%;
   &__content {
     top: 0;
     left: 0;

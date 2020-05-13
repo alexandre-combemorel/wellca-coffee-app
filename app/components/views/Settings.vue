@@ -27,6 +27,7 @@ export default {
         data: this.config[id],
         componentName: "TextBlock"
       });
+      this.$store.commit("showSlider");
     },
   }
 }
