@@ -15,6 +15,7 @@
 </template>
 
 <script>
+  import utils from '../../utils/all';
   const platformModule = require("tns-core-modules/platform");
   
   export default {
@@ -24,10 +25,13 @@
         halfABlock: undefined,
       }
     },
-    mounted() {
+    async mounted() {
       this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.getters.getMenu.length;
       this.halfABlock = this.block / 2;
       this.translateCircle(this.distanceCalculated());
+
+      await utils.returnHeightWhenNativeViewLoaded(this.$refs.circlePan.nativeView)
+      this.selectItem(2);
     },
     methods: {
       panCircle(args) {

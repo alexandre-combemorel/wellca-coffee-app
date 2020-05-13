@@ -3,15 +3,11 @@
     <BackArrow class="menu__back-btn" />
     <ScrollView orientation="vertical" class="menu__section">
       <StackLayout orientation="vertical">
-        <Title content="NOS BOISSON" class="menu__section__page-title"/>
-        <StackLayout v-for="index in [1, 2, 3, 4, 5]" :key="index" orientation="vertical">
-          <SectionTitle :content="`LES LATTES ${index}`" class="menu__section__title"/>
+        <StackLayout @tap="openActionCategorySelector()"><Title content="NOS BOISSON" class="menu__section__page-title"/></StackLayout>
+        <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
+          <SectionTitle :content="category.name" class="menu__section__title"/>
           <FlexboxLayout orientation="horizontal" class="menu__section__items">
-            <TileImage maintext="Main text" secondtext="second text" class="menu__section__items__item"/>
-            <TileImage maintext="Main text" secondtext="second text" class="menu__section__items__item"/>
-            <TileImage maintext="Main text" secondtext="second text" class="menu__section__items__item"/>
-            <TileImage maintext="Main text" secondtext="second text" class="menu__section__items__item"/>
-            <TileImage maintext="Main text" secondtext="second text" class="menu__section__items__item"/>
+            <TileImage v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id" :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" class="menu__section__items__item"/>
           </FlexboxLayout>
         </StackLayout>
       </StackLayout>
@@ -33,9 +29,25 @@ export default {
   components: {
     Title, SectionTitle, BackArrow, TileImage
   },
+  data() {
+    return {
+      categories: [],
+      items: [],
+      categorySelected: 0,
+    };
+  },
   mounted() {
     this.initGradientPosition();
     this.fetchCarteItems();
+  },
+  computed: {
+    categoriesToDisplay() {
+      if (this.categorySelected === 0) {
+        return this.categories;
+      } else {
+        return this.categories.filter(category => category.id === this.categorySelected);
+      }
+    }
   },
   methods: {
     async initGradientPosition() {
@@ -47,16 +59,25 @@ export default {
     },
     async fetchCarteItems() {
       try {
-        const response = await fetch("https://app.wellcacoffee.com/carte-items", {
-          method: "GET",
-        });
-        const carteItems = await response.json();
-        console.log("fetchCarteItems -> carteItems", carteItems)
+        let response;
+        // Fetch the categories
+        response = await fetch("https://app.wellcacoffee.com/carte-categories", { method: "GET" });
+        this.categories = await response.json();
+        // Fetch the items
+        response = await fetch("https://app.wellcacoffee.com/carte-items", { method: "GET" });
+        this.items = await response.json();
       } catch (e) {
-        console.error("Couldn't load the carte items (shops):", e);
+        console.error("Couldn't load the carte items:", e);
       }
-      
     },
+    async openActionCategorySelector() {
+      const all = "Toutes les categories";
+      const categorySelectedParam = await action("Select your category", "Cancel", [all, ...this.categories.map(category => category.name)])
+      this.categorySelected = categorySelectedParam === all ? 0 : this.categories.filter(category => category.name === categorySelectedParam)[0].id;
+    },
+    itemPerCategory(cateId) {
+      return this.items.filter(item => item.carte_category.id === cateId);
+    }
   }
 }
 </script>
