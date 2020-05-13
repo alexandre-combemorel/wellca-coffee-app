@@ -10,12 +10,11 @@
 </template>
 
 <script>
-  // import stores from '../config/stores.json'
-  import Home from './views/Home';
+  import Index from './views/Index';
 
   export default {
     components: {
-      Home
+      Index
     },
     mounted() {
       this.fetchStores();
@@ -32,8 +31,8 @@
             method: "GET",
           });
           const stores = await response.json();
-          
           this.$store.commit('setStores', stores);
+          this.selectStore(stores[0]);
           
         } catch (e) {
           console.error("Couldn't load the Stores (shops):", e);
@@ -43,14 +42,14 @@
       selectStore(storeSelected) {
         this.$store.commit('setMenu', storeSelected.navigations);
         // load everything
-        this.$navigateTo(Home,{
-				animated: true,
-				transition: {
-					name: "slideLeft",
-					duration: 200,
-					curve: "easeIn"
-				}
-			})
+        this.$navigateTo(Index,{
+          animated: true,
+          transition: {
+            name: "slideLeft",
+            duration: 200,
+            curve: "easeIn"
+          }
+        })
       }
     }
   }
