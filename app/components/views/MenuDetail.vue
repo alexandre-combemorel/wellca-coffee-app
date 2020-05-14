@@ -1,6 +1,6 @@
 <template>
   <StackLayout>
-    
+    <Label text="test"/>
   </StackLayout>
 </template>
 

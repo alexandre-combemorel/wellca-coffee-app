@@ -21,8 +21,8 @@ const moduleMenu = {
   getters: {
     isMenuLoaded: state => state.menuLoaded,
     getCategories: state => state.categories,
-    getCategory: (state, cateSelected) => {
-      return state.categories.filter(category => category.id === cateSelected);
+    getCategory: (state) => {
+      return (cateSelected) => state.categories.filter(category => category.id === cateSelected);
     },
     getItems: state => state.items,
   }

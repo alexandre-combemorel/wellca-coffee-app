@@ -7,7 +7,9 @@
         <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
           <SectionTitle :content="category.name" class="menu__section__title"/>
           <FlexboxLayout orientation="horizontal" class="menu__section__items">
-            <TileImage v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id" :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu__section__items__item"/>
+            <StackLayout @tap="openMenuDetail()" v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id">
+              <TileImage :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu__section__items__item"/>
+            </StackLayout>
           </FlexboxLayout>
         </StackLayout>
       </StackLayout>
@@ -24,6 +26,7 @@ import BackArrow from '../atoms/BackArrow';
 import Title from '../atoms/Title';
 import SectionTitle from '../molecules/SectionTitle';
 import TileImage from '../molecules/TileImage';
+import MenuDetail from './MenuDetail';
 
 import utils from '../../utils/all';
 
@@ -90,6 +93,16 @@ export default {
     returnImageUrl(pathUrl) {
       return `${config.apiUrl}${pathUrl}`;
     },
+    openMenuDetail() {
+      this.$navigateTo(MenuDetail, {
+        animated: true,
+        transition: {
+          name: "slideRight",
+          duration: 200,
+          curve: "easeIn"
+        }
+      })
+    }
   }
 }
 </script>
