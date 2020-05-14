@@ -1,4 +1,5 @@
 const moduleSliderBottom = {
+  namespaced: true,
   state: {
     componentSelected: undefined,
     componentTitle: undefined,

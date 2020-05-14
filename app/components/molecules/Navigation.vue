@@ -8,7 +8,7 @@
         <StackLayout class="navigation__circle__right"/>
       </AbsoluteLayout>
       <FlexboxLayout class="navigation_items-container">
-        <Label v-for="(item, index) in $store.getters.getMenu" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': item.active }" :text="item.icon"/>
+        <Label v-for="(item, index) in $store.getters['navigation/getMenu']" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': item.active }" :text="item.icon"/>
       </FlexboxLayout>
       <StackLayout @pan="panCircle" ref="circlePan" class="navigation__circlePan"/>
     </AbsoluteLayout>
@@ -26,7 +26,7 @@
       }
     },
     async mounted() {
-      this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.getters.getMenu.length;
+      this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.getters['navigation/getMenu'].length;
       this.halfABlock = this.block / 2;
       this.translateCircle(this.distanceCalculated());
 
@@ -43,22 +43,22 @@
         } else if (args.state === 2) {
           // finger moving
           this.translateCircle(this.distanceStart + args.deltaX);
-          if (this.$store.getters.indexItemCurrentlyActive !== indexToSelect) this.activateItem(indexToSelect);
+          if (this.$store.getters['navigation/indexItemCurrentlyActive'] !== indexToSelect) this.activateItem(indexToSelect);
         } else if (args.state === 3) {
           // finger up
           this.selectItem(indexToSelect);
         }
       },
       activateItem(indexParam) {
-        this.$store.commit('changeActiveMenu', indexParam);
+        this.$store.commit('navigation/changeActiveMenu', indexParam);
       },
       selectItem(indexParam) {
-        this.$store.commit('changeSelectedMenu', indexParam);
+        this.$store.commit('navigation/changeSelectedMenu', indexParam);
         this.$emit('selected');
         this.translateCircleAnimated();
       },
       distanceCalculated() {
-        const multiplicator = this.$store.getters.indexItemCurrentlyActive + 1;
+        const multiplicator = this.$store.getters['navigation/indexItemCurrentlyActive'] + 1;
         const distance = multiplicator * this.block - this.halfABlock - 56;
         return distance;
       },

@@ -22,12 +22,12 @@ export default {
   },
   methods: {
     openDialog(id) {
-      this.$store.commit("setSliderComponentState", {
+      this.$store.commit("sliderBottom/setSliderComponentState", {
         title: id,
         data: this.config[id],
         componentName: "TextBlock"
       });
-      this.$store.commit("showSlider");
+      this.$store.commit("sliderBottom/showSlider");
     },
   }
 }

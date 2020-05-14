@@ -1,5 +1,7 @@
 <template>
-  
+  <StackLayout>
+    
+  </StackLayout>
 </template>
 
 <script>

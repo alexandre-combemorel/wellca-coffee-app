@@ -1,7 +1,7 @@
 <template>
     <Page class="select-page">
       <FlexboxLayout v-if="isLoaded" class="store-list-container" flexDirection="column">
-        <Label @tap="selectStore(store)" v-for="store in $store.getters.getStores" :key="store.id" :text="store.information.title" class="store-list-container__store"/>
+        <Label @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :text="store.information.title" class="store-list-container__store"/>
       </FlexboxLayout>
       <FlexboxLayout v-else class="loader" flexDirection="column">
         <Label text="Loading..." class="loader__item"/>
@@ -22,7 +22,7 @@
     },
     computed: {
       isLoaded() {
-        return this.$store.getters.isStoresLoaded;
+        return this.$store.getters['stores/isStoresLoaded'];
       }
     },
     methods: {
@@ -32,7 +32,7 @@
             method: "GET",
           });
           const stores = await response.json();
-          this.$store.commit('setStores', stores);
+          this.$store.commit('stores/setStores', stores);
           this.selectStore(stores[0]);
           
         } catch (e) {
@@ -41,7 +41,7 @@
         
       },
       selectStore(storeSelected) {
-        this.$store.commit('setMenu', storeSelected.navigations);
+        this.$store.commit('navigation/setMenu', storeSelected.navigations);
         // load everything
         this.$navigateTo(Index,{
           animated: true,

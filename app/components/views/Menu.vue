@@ -33,21 +33,29 @@ export default {
   },
   data() {
     return {
-      categories: [],
-      items: [],
       categorySelected: 0,
     };
   },
+  watch: {
+    isViewSelected(newVal, oldVal) {
+        console.log("isViewSelected -> newVal && !this.$store.getters['menu/isMenuLoaded']", newVal, this.$store.getters['menu/isMenuLoaded'])
+      if (newVal && !this.$store.getters['menu/isMenuLoaded']) {
+        this.fetchCarteItems();
+      }
+    },
+  },
   mounted() {
     this.initGradientPosition();
-    this.fetchCarteItems();
   },
   computed: {
+    isViewSelected() {
+      return this.$store.getters['menu/getMenuSelected'] === "Menu";
+    },
     categoriesToDisplay() {
       if (this.categorySelected === 0) {
-        return this.categories;
+        return this.$store.getters['menu/getCategories'];
       } else {
-        return this.categories.filter(category => category.id === this.categorySelected);
+        return this.$store.getters['menu/getCategory'](this.categorySelected);
       }
     }
   },
@@ -64,21 +72,21 @@ export default {
         let response;
         // Fetch the categories
         response = await fetch(`${config.apiUrl}/carte-categories`, { method: "GET" });
-        this.categories = await response.json();
+        this.$store.commit("['menu/setCategories", await response.json())
         // Fetch the items
         response = await fetch(`${config.apiUrl}/carte-items`, { method: "GET" });
-        this.items = await response.json();
+        this.$store.commit("['menu/setItems", await response.json())
       } catch (e) {
         console.error("Couldn't load the carte items:", e);
       }
     },
     async openActionCategorySelector() {
       const all = "Toutes les categories";
-      const categorySelectedParam = await action("Select your category", "Cancel", [all, ...this.categories.map(category => category.name)])
-      this.categorySelected = categorySelectedParam === all ? 0 : this.categories.filter(category => category.name === categorySelectedParam)[0].id;
+      const categorySelectedParam = await action("Select your category", "Cancel", [all, ...this.$store.getters['menu/getCategories'].map(category => category.name)])
+      this.categorySelected = categorySelectedParam === all ? 0 : this.$store.getters['menu/getCategories'].filter(category => category.name === categorySelectedParam)[0].id;
     },
     itemPerCategory(cateId) {
-      return this.items.filter(item => item.carte_category.id === cateId);
+      return this.$store.getters['menu/getItems'].filter(item => item.carte_category.id === cateId);
     },
     returnImageUrl(pathUrl) {
       return `${config.apiUrl}${pathUrl}`;

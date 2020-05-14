@@ -1,4 +1,5 @@
 const moduleNavigation = {
+  namespaced: true,
   state: {
     menu: [],
   },
@@ -46,7 +47,8 @@ const moduleNavigation = {
         if (item.selected === true) indexSelected = index;
       });
       return indexSelected;
-    }
+    },
+    getMenuSelected: state => state.menu.filter(item => item.selected)[0].component
   }
 }
 

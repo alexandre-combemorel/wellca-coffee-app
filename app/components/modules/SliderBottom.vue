@@ -2,9 +2,9 @@
   <AbsoluteLayout @swipe="closeSliderFromSwipe" ref="slider-bottom" class="slider-bottom">
     <FlexboxLayout class="slider-bottom__background"></FlexboxLayout>
     <GridLayout columns="*, auto" rows="auto, auto" class="slider-bottom__content">
-      <Label row="0" col="0" class="slider-bottom__content__title" :text="$store.getters.getComponentTitle"/>
+      <Label row="0" col="0" class="slider-bottom__content__title" :text="$store.getters['sliderBottom/getComponentTitle']"/>
       <Label row="0" col="1" class="slider-bottom__content__close" text="Close" @tap="closeSlider"/>
-      <component :is="$store.getters.getComponentSelected" :data="$store.getters.getDataSliderBottom" row="1" colSpan="2"/>
+      <component :is="$store.getters['sliderBottom/getComponentSelected']" :data="$store.getters['sliderBottom/getDataSliderBottom']" row="1" colSpan="2"/>
     </GridLayout>
   </AbsoluteLayout>
 </template>
@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     visibility() {
-      return this.$store.getters.getSliderVisibility;
+      return this.$store.getters['sliderBottom/getSliderVisibility'];
     }
   },
   watch: {
@@ -35,7 +35,7 @@ export default {
           translate: { x: 0, y: 0 },
           duration: 150
         });
-        this.$store.commit("resetSliderBottom");
+        this.$store.commit("sliderBottom/resetSliderBottom");
       }
     }
   },
@@ -46,7 +46,7 @@ export default {
       }
     },
     closeSlider() {
-      this.$store.commit("hideSlider");
+      this.$store.commit("sliderBottom/hideSlider");
     }
   }
 }

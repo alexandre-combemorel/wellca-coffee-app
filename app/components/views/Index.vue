@@ -3,7 +3,7 @@
     <AbsoluteLayout class="index__wrapper">
       <GridLayout class="index__wrapper__gridmain" columns="auto, *" rows="*, auto">
         <GridLayout :columns="columsDefinition" class="index__wrapper__gridmain__views-container" ref="views-container" colSpan="2" row="0">
-          <StackLayout v-for="(item, index) in $store.getters.getMenu" :col="index" :key="index" class="index__wrapper__gridmain__views-container__view">
+          <StackLayout v-for="(item, index) in $store.getters['navigation/getMenu']" :col="index" :key="index" class="index__wrapper__gridmain__views-container__view">
             <component :is="item.component || 'Error'"/>
           </StackLayout>
         </GridLayout>
@@ -35,11 +35,11 @@ export default {
   },
   computed: {
     whenMenuChange() {
-      return this.$store.getters.indexItemCurrentlySelected;
+      return this.$store.getters['navigation/indexItemCurrentlySelected'];
     },
     columsDefinition() {
       let columns = "auto";
-      for (let i = 1; i < this.$store.getters.getMenu.length ; i++) {
+      for (let i = 1; i < this.$store.getters['navigation/getMenu'].length ; i++) {
         columns += ", auto"
       }
       return columns;
@@ -51,7 +51,7 @@ export default {
       const space = containerEl.nativeView.getActualSize().width;
       containerEl.childNodes.forEach(viewElement => {
         viewElement.nativeView.animate({
-          translate: { x: this.$store.getters.indexItemCurrentlySelected*-space, y: 0 },
+          translate: { x: this.$store.getters['navigation/indexItemCurrentlySelected']*-space, y: 0 },
           duration: 200
         })
       });
