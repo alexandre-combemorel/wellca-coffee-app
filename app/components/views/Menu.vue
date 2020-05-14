@@ -38,7 +38,6 @@ export default {
   },
   watch: {
     isViewSelected(newVal, oldVal) {
-        console.log("isViewSelected -> newVal && !this.$store.getters['menu/isMenuLoaded']", newVal, this.$store.getters['menu/isMenuLoaded'])
       if (newVal && !this.$store.getters['menu/isMenuLoaded']) {
         this.fetchCarteItems();
       }
@@ -49,7 +48,7 @@ export default {
   },
   computed: {
     isViewSelected() {
-      return this.$store.getters['menu/getMenuSelected'] === "Menu";
+      return this.$store.getters['navigation/getMenuSelected'] === "Menu";
     },
     categoriesToDisplay() {
       if (this.categorySelected === 0) {
@@ -72,10 +71,10 @@ export default {
         let response;
         // Fetch the categories
         response = await fetch(`${config.apiUrl}/carte-categories`, { method: "GET" });
-        this.$store.commit("['menu/setCategories", await response.json())
+        this.$store.commit("menu/setCategories", await response.json())
         // Fetch the items
         response = await fetch(`${config.apiUrl}/carte-items`, { method: "GET" });
-        this.$store.commit("['menu/setItems", await response.json())
+        this.$store.commit("menu/setItems", await response.json())
       } catch (e) {
         console.error("Couldn't load the carte items:", e);
       }
