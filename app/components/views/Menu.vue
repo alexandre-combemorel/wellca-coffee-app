@@ -7,7 +7,7 @@
         <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
           <SectionTitle :content="category.name" class="menu__section__title"/>
           <FlexboxLayout orientation="horizontal" class="menu__section__items">
-            <TileImage v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id" :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" class="menu__section__items__item"/>
+            <TileImage v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id" :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu__section__items__item"/>
           </FlexboxLayout>
         </StackLayout>
       </StackLayout>
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import config from '../../config/config.json'
+
 import BackArrow from '../atoms/BackArrow';
 import Title from '../atoms/Title';
 import SectionTitle from '../molecules/SectionTitle';
@@ -61,10 +63,10 @@ export default {
       try {
         let response;
         // Fetch the categories
-        response = await fetch("https://app.wellcacoffee.com/carte-categories", { method: "GET" });
+        response = await fetch(`${config.apiUrl}/carte-categories`, { method: "GET" });
         this.categories = await response.json();
         // Fetch the items
-        response = await fetch("https://app.wellcacoffee.com/carte-items", { method: "GET" });
+        response = await fetch(`${config.apiUrl}/carte-items`, { method: "GET" });
         this.items = await response.json();
       } catch (e) {
         console.error("Couldn't load the carte items:", e);
@@ -77,7 +79,10 @@ export default {
     },
     itemPerCategory(cateId) {
       return this.items.filter(item => item.carte_category.id === cateId);
-    }
+    },
+    returnImageUrl(pathUrl) {
+      return `${config.apiUrl}${pathUrl}`;
+    },
   }
 }
 </script>

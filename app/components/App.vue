@@ -11,6 +11,7 @@
 
 <script>
   import Index from './views/Index';
+  import config from '../config/config.json';
 
   export default {
     components: {
@@ -27,7 +28,7 @@
     methods: {
       async fetchStores() {
         try {
-          const response = await fetch("https://app.wellcacoffee.com/stores", {
+          const response = await fetch(`${config.apiUrl}/stores`, {
             method: "GET",
           });
           const stores = await response.json();

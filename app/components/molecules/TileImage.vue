@@ -1,8 +1,8 @@
 <template>
   <FlexboxLayout class="tile-image">
-    <Label text="" class="tile-image__image"/>
-    <Label :text="maintext" class="tile-image__main-text"/>
-    <Label :text="secondtext" class="tile-image__second-text"/>
+    <Image :src="img" class="tile-image__image"/>
+    <Label v-if="maintext" :text="maintext" class="tile-image__main-text"/>
+    <Label v-if="secondtext" :text="secondtext" class="tile-image__second-text"/>
   </FlexboxLayout>
 </template>
 
@@ -20,7 +20,6 @@ export default {
   &__image {
     width: 100%;
     height: 120;
-    background: gray;
   }
   &__main-text {
     width: 90%;
