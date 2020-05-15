@@ -23,10 +23,14 @@ import Title from '../atoms/Title';
 import SectionTitle from '../molecules/SectionTitle';
 import TileImage from '../molecules/TileImage';
 
+import config from '../../config/config.json'
 import utils from '../../utils/all';
 
 export default {
-data() {
+  components: {
+    Title, SectionTitle, TileImage
+  },
+  data() {
     return {
       categorySelected: 0,
     };

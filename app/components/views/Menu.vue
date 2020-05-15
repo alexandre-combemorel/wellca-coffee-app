@@ -1,7 +1,7 @@
 <template>
   <AbsoluteLayout class="menu">
     <BackArrow class="menu__back-btn" />
-    <component is="MenuAll"/>
+    <MenuAll/>
   </AbsoluteLayout>
 </template>
 
