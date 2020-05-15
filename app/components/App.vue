@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import Index from './views/Index';
+  import Index from './Index';
   import config from '../config/config.json';
 
   export default {

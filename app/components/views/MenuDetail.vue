@@ -1,7 +1,9 @@
 <template>
-  <StackLayout>
-    <Label text="test"/>
-  </StackLayout>
+  <Page class="menu-detail">
+    <StackLayout>
+      <Label text="test"/>
+    </StackLayout>
+  </Page>
 </template>
 
 <script>

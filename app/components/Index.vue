@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import Navigation from '../molecules/Navigation';
-import Error from './Error';
-import SliderBottom from '../modules/SliderBottom';
+import Navigation from './molecules/Navigation';
+import SliderBottom from './modules/SliderBottom';
 
 //Views
-import Settings from './Settings';
-import Menu from './Menu';
+import Settings from './views/Settings';
+import Menu from './views/Menu';
+import Error from './views/Error';
 
 export default {
   components: {
