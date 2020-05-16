@@ -1,7 +1,8 @@
 <template>
   <AbsoluteLayout class="menu">
-    <BackArrow class="menu__back-btn" />
-    <MenuAll/>
+    <BackArrow class="menu__back-btn" v-on:taped="showMenuAll"/>
+    <MenuAll v-show="isMenuAllVisibile"/>
+    <MenuDetail v-show="!isMenuAllVisibile"/>
   </AbsoluteLayout>
 </template>
 
@@ -28,6 +29,9 @@ export default {
     isViewSelected() {
       return this.$store.getters['navigation/getMenuSelected'] === "Menu";
     },
+    isMenuAllVisibile() {
+      return this.$store.getters['menu/getMenuItemSelected'] === undefined;
+    },
   },
   methods: {
     async fetchCarteItems() {
@@ -42,6 +46,9 @@ export default {
       } catch (e) {
         console.error("Couldn't load the carte items:", e);
       }
+    },
+    showMenuAll() {
+      this.$store.commit("menu/setMenuItemSelected", undefined);
     },
   }
 }

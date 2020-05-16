@@ -1,3 +1,5 @@
+import config from '../config/config.json';
+
 const returnHeightWhenNativeViewLoaded = (nativeView) => {
   return new Promise((accept, reject) => {
     const checkViewLoaded = () => {
@@ -12,6 +14,11 @@ const returnHeightWhenNativeViewLoaded = (nativeView) => {
   });
 };
 
+const returnImageUrl = (pathUrl) => {
+  return `${config.apiUrl}${pathUrl}`;
+};
+
 export default {
-  returnHeightWhenNativeViewLoaded
+  returnHeightWhenNativeViewLoaded,
+  returnImageUrl
 };

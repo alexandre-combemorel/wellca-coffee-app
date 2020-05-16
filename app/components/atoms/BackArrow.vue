@@ -1,22 +1,9 @@
 <template>
-  <Label class="back-arrow" text="BACK" @tap="back"/>
+  <Label class="back-arrow" text="BACK" @tap="$emit('taped')"/>
 </template>
 
 <script>
-export default {
-  methods: {
-    back() {
-      this.$navigateTo(App,{
-          animated: true,
-          transition: {
-            name: "slideRight",
-            duration: 200,
-            curve: "easeIn"
-          }
-        })
-    }
-  }
-}
+export default {}
 </script>
 
 <style scoped lang="scss">

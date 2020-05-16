@@ -38,7 +38,6 @@
         const indexToSelect = Math.trunc((this.$refs.circlePan.nativeView.translateX + 56) / this.block); // 56 is to align with the center of CirclePan: $wandhSide + $wandhCenter/2 (see css)
         if (args.state === 1) {
           // finger down
-          this.prevDeltaX = 0;
           this.distanceStart = this.distanceCalculated();
         } else if (args.state === 2) {
           // finger moving

@@ -1,6 +1,6 @@
 <template>
   <FlexboxLayout class="tile-image">
-    <Image :src="img" class="tile-image__image"/>
+    <Image :src="img" class="tile-image__image" :class="`tile-image--${setSize}`"/>
     <Label v-if="maintext" :text="maintext" class="tile-image__main-text"/>
     <Label v-if="secondtext" :text="secondtext" class="tile-image__second-text"/>
   </FlexboxLayout>
@@ -8,18 +8,30 @@
 
 <script>
 export default {
-  props: ['img', 'maintext', 'secondtext']
+  props: ['img', 'maintext', 'secondtext', 'size'],
+  computed: {
+    setSize() {
+      return this.size | 'normal';
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
 .tile-image {
   flex-direction: column;
-  width: 150;
+  width: 170;
   align-items: center;
-  &__image {
-    width: 100%;
-    height: 120;
+  justify-content: center;
+  &--normal {
+    .tile-image__image {
+      width: 50;
+    }
+  }
+  &--small {
+    .tile-image__image {
+      width: 70%;
+    }
   }
   &__main-text {
     width: 90%;
