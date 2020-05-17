@@ -57,8 +57,9 @@
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .select-page {
-  background: #242424;
+  background: $primary-color;
   .store-list-container {
     height: 100%;
     width: 100%;
@@ -69,7 +70,7 @@
       border-radius: 5;
       font-weight: bold;
       border-color: white;
-      color: white;
+      color: $text-color-primary;
       margin: 10;
       width: 100%;
       padding: 10;
@@ -80,7 +81,7 @@
     justify-content: center;
     align-items: center;
     &__item {
-      color: white;
+      color: $text-color-primary;
     }
   }
 }

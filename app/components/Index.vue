@@ -61,13 +61,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .index {
-  background: #242424;
+  background: $primary-color;
   &__wrapper {
     &__gridmain {
       width: 100%;
       height: 100%;
-      color: white;
+      color: $text-color-primary;
       &__views-container {
         &__view {
           width: 100%;

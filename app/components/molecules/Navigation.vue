@@ -81,10 +81,11 @@
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 $wandhSide: 26;
 $wandhCenter: 60;
-$colorCenter: #242424;
-$colorBackground: white;
+$colorCenter: $primary-color;
+$colorBackground: $tertiary-color;
 .navigation {
   width: 100%;
   height: 70;
@@ -104,13 +105,13 @@ $colorBackground: white;
       width: 100%;
       font-size: 25;
       text-align: center;
-      color: black;
+      color: $primary-color;
     }
     .active {
       animation-name: upAndBigger;
       animation-duration: 0.2s;
       // font-size: 40;
-      color: white;
+      color: $text-color-primary;
       transform: translateY(-15) scale(1.5);
     }
   }

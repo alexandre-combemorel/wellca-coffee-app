@@ -16,12 +16,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .section-title {
   &__barre {
     flex-grow: 1;
     margin-bottom: 5;
     border-bottom-width: 1;
-    border-bottom-color: white;
+    border-bottom-color: $tertiary-color;
     transform: translateX(20);
   }
 }

@@ -7,8 +7,9 @@ export default {}
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .back-arrow {
   width: 100%;
-  color: white;
+  color: $tertiary-color;
 }
 </style>

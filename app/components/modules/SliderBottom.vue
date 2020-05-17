@@ -53,6 +53,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .slider-bottom {
   width: 100%;
   height: 100%;
@@ -66,10 +67,7 @@ export default {
     height: 100%;
     padding: 10 15;
     &__title {
-      color: black;
-    }
-    &__core {
-      background: red;
+      color: $text-color-secondary;
     }
   }
   &__background {
@@ -77,7 +75,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: white;
+    background: $tertiary-color;
     border-radius: 15 15 0 0;
     opacity: 0.9;
   }

@@ -25,6 +25,9 @@ export default {
   justify-content: center;
   &__image {
     width: 100%;
+    animation-name: zoomOff;
+    animation-duration: 0.15s;
+    animation-fill-mode: forwards;
   }
   &--small {
     .tile-image__image {
@@ -33,7 +36,7 @@ export default {
     }
     &.zoomed {
       .tile-image__image {
-        animation-name: zoom;
+        animation-name: zoomOn;
         animation-duration: 0.15s;
         animation-fill-mode: forwards;
       }
@@ -48,8 +51,12 @@ export default {
     font-size: 10;
   }
 }
-@keyframes zoom {
+@keyframes zoomOn {
     from { transform: scale(1); }
     to { transform: scale(1.5); }
+}
+@keyframes zoomOff {
+    from { transform: scale(1.5); }
+    to { transform: scale(1); }
 }
 </style>

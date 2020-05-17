@@ -8,8 +8,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .title {
-  font-size: 24;
+  font-size: $title-size;
 }
 </style>
