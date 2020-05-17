@@ -18,12 +18,15 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .section-title {
+  &__title {
+    margin-left: $size-l;
+  }
   &__barre {
     flex-grow: 1;
-    margin-bottom: 5;
+    margin-bottom: $size-xs+1;
+    margin-left: $size-xs;
     border-bottom-width: 1;
     border-bottom-color: $tertiary-color;
-    transform: translateX(20);
   }
 }
 </style>

@@ -56,6 +56,7 @@ export default {
 
 <style scoped lang="scss">
 .menu {
+  width: 100%;
   height: 100%;
   &__back-btn {
     z-index: 1;

@@ -1,7 +1,7 @@
 <template>
   <AbsoluteLayout class="menu-all" ref="menu-all">
     <ScrollView orientation="vertical" class="menu-all__section">
-      <StackLayout orientation="vertical">
+      <StackLayout orientation="vertical" class="menu-all__section--wrapper">
         <StackLayout @tap="openActionCategorySelector()"><Title content="NOS BOISSON" class="menu-all__section__page-title"/></StackLayout>
         <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
           <SectionTitle :content="category.name" class="menu-all__section__title"/>
@@ -74,26 +74,31 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .menu-all {
   height: 100%;
   width: 100%;
   &__section {
     width: 100%;
     height: 100%;
+    &--wrapper {
+      padding-bottom: $size-xxl;
+    }
     &__page-title {
       margin-top: 130;
       margin-bottom: 50;
-    text-align: center;
+      text-align: center;
     }
     &__title {
       margin-top: 50;
     }
     &__items {
+      width: 100%;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: center;
       width: 100%;
       &__item {
-        margin: 10;
+        margin: $size-xs;
       }
     }
   }
@@ -101,10 +106,10 @@ export default {
     height: 40;
     width: 100%;
     &--top {
-      background: linear-gradient(to top, rgba(255,255,255,0), #242424);
+      background: linear-gradient(to top, rgba(23, 25, 28, 0), $primary-color);
     }
     &--bottom {
-      background: linear-gradient(to bottom, rgba(255,255,255,0), #242424);
+      background: linear-gradient(to bottom, rgba(23, 25, 28, 0), $primary-color);
     }
   }
 }

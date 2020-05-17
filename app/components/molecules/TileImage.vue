@@ -20,7 +20,7 @@ export default {
 <style scoped lang="scss">
 .tile-image {
   flex-direction: column;
-  width: 170;
+  width: 192;
   align-items: center;
   justify-content: center;
   &__image {
