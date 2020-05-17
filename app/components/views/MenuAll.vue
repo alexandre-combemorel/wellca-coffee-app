@@ -2,7 +2,7 @@
   <AbsoluteLayout class="menu-all" ref="menu-all">
     <ScrollView orientation="vertical" class="menu-all__section">
       <StackLayout orientation="vertical" class="menu-all__section--wrapper">
-        <StackLayout @tap="openActionCategorySelector()"><Title :content="categorySelectedName" class="menu-all__section__page-title"/></StackLayout>
+        <StackLayout @tap="openActionCategorySelector()"><Title :content="categoryName" class="menu-all__section__page-title"/></StackLayout>
         <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
           <SectionTitle :content="category.name" class="menu-all__section__title"/>
           <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
@@ -40,20 +40,11 @@ export default {
   },
   computed: {
     categoriesToDisplay() {
-      const categorySelectedId = this.$store.getters['menu/getCategorySelected'];
-      if (categorySelectedId === 0) {
-        return this.$store.getters['menu/getCategories'];
-      } else {
-        return this.$store.getters['menu/getCategory'](categorySelectedId);
-      }
+      const categorySelected = this.$store.getters['menu/getCategorySelected'];
+      return categorySelected !== undefined ? [categorySelected] : this.$store.getters['menu/getCategories'];
     },
-    categorySelectedName() {
-      let cateName = this.allCategoryName;
-      const categorySelectedId = this.$store.getters['menu/getCategorySelected'];
-      if (categorySelectedId !== 0) {
-        cateName = this.$store.getters['menu/getCategory'](categorySelectedId)[0].name;
-      }
-      return cateName;
+    categoryName() {
+      return this.categoriesToDisplay.length > 0 ? this.allCategoryName : this.categoriesToDisplay.name;
     }
   },
   methods: {
