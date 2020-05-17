@@ -35,9 +35,6 @@ const moduleMenu = {
     },
     getItems: state => state.items,
     getMenuItemSelected: state => state.menuItemSelected,
-    // getMenuItemSelectedIndex: state => {
-    //   return statestate.menuItemSelected
-    // },
   }
 }
 export default moduleMenu;

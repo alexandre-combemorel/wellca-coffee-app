@@ -30,7 +30,7 @@
       this.halfABlock = this.block / 2;
       this.translateCircle(this.distanceCalculated());
 
-      await utils.returnHeightWhenNativeViewLoaded(this.$refs.circlePan.nativeView)
+      await utils.returnSizeWhenNativeViewLoaded(this.$refs.circlePan.nativeView)
       this.selectItem(2);
     },
     methods: {

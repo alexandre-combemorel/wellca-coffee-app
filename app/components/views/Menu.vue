@@ -2,7 +2,7 @@
   <AbsoluteLayout class="menu">
     <BackArrow class="menu__back-btn" v-on:taped="showMenuAll"/>
     <MenuAll v-show="isMenuAllVisibile"/>
-    <MenuDetail v-show="!isMenuAllVisibile"/>
+    <MenuDetail v-show="!isMenuAllVisibile" :is-display="!isMenuAllVisibile"/>
   </AbsoluteLayout>
 </template>
 

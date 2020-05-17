@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      icon: String.fromCharCode('0xf015')
+      padding: true
     }
   },
   computed: {
@@ -72,7 +72,6 @@ export default {
         &__view {
           width: 100%;
           height: 100%;
-          padding: 10;
         }
       }
     }

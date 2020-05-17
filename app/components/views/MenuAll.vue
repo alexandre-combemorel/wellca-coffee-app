@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     async initGradientPosition() {
-      const height = await utils.returnHeightWhenNativeViewLoaded(this.$refs['menu-all'].nativeView);
+      const { height } = await utils.returnSizeWhenNativeViewLoaded(this.$refs['menu-all'].nativeView);
       this.$refs['menu-all__gradient'].nativeView.animate({
         translate: { x: 0, y: height-this.$refs['menu-all__gradient'].nativeView.getActualSize().height },
         duration: 0

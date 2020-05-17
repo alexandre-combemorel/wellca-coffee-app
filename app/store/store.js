@@ -4,6 +4,7 @@ import stores from './modules/stores'
 import navigation from './modules/navigation'
 import sliderBottom from './modules/sliderBottom'
 import menu from './modules/menu'
+import app from './modules/app'
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     stores,
     navigation,
     sliderBottom,
-    menu
+    menu,
+    app
   }
 });
