@@ -4,7 +4,7 @@ const moduleMenu = {
     categories: [],
     items: [],
     menuLoaded: false,
-    categorySelected: 0,
+    categorySelectedId: 0,
     menuItemSelected: undefined,
   },
   mutations: {
@@ -18,8 +18,8 @@ const moduleMenu = {
     setMenuLoaded(state, isLoaded) {
       state.menuLoaded = isLoaded;
     },
-    setCategorySelected(state, categorySelected) {
-      state.categorySelected = categorySelected;
+    setCategorySelected(state, categorySelectedId) {
+      state.categorySelectedId = categorySelectedId;
     },
     setMenuItemSelected(state, menuItemSelected) {
       state.menuItemSelected = menuItemSelected;
@@ -29,7 +29,7 @@ const moduleMenu = {
   getters: {
     isMenuLoaded: state => state.menuLoaded,
     getCategories: state => state.categories,
-    getCategorySelected: state => state.categorySelected,
+    getCategorySelected: state => state.categorySelectedId,
     getCategory: (state) => {
       return (cateSelected) => state.categories.filter(category => category.id === cateSelected);
     },

@@ -2,7 +2,7 @@
   <AbsoluteLayout class="menu-all" ref="menu-all">
     <ScrollView orientation="vertical" class="menu-all__section">
       <StackLayout orientation="vertical" class="menu-all__section--wrapper">
-        <StackLayout @tap="openActionCategorySelector()"><Title content="NOS BOISSON" class="menu-all__section__page-title"/></StackLayout>
+        <StackLayout @tap="openActionCategorySelector()"><Title :content="categorySelectedName" class="menu-all__section__page-title"/></StackLayout>
         <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
           <SectionTitle :content="category.name" class="menu-all__section__title"/>
           <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
@@ -30,17 +30,30 @@ export default {
   components: {
     Title, SectionTitle, TileImage
   },
+  data() {
+    return {
+      allCategoryName: "NOS BOISSONS"
+    };
+  },
   mounted() {
     this.initGradientPosition();
   },
   computed: {
     categoriesToDisplay() {
-      const cateSelected = this.$store.getters['menu/getCategorySelected'];
-      if (cateSelected === 0) {
+      const categorySelectedId = this.$store.getters['menu/getCategorySelected'];
+      if (categorySelectedId === 0) {
         return this.$store.getters['menu/getCategories'];
       } else {
-        return this.$store.getters['menu/getCategory'](cateSelected);
+        return this.$store.getters['menu/getCategory'](categorySelectedId);
       }
+    },
+    categorySelectedName() {
+      let cateName = this.allCategoryName;
+      const categorySelectedId = this.$store.getters['menu/getCategorySelected'];
+      if (categorySelectedId !== 0) {
+        cateName = this.$store.getters['menu/getCategory'](categorySelectedId)[0].name;
+      }
+      return cateName;
     }
   },
   methods: {
@@ -52,10 +65,9 @@ export default {
       });
     },
     async openActionCategorySelector() {
-      const all = "Toutes les categories";
-      const categorySelectedParam = await action("Select your category", "Cancel", [all, ...this.$store.getters['menu/getCategories'].map(category => category.name)])
+      const categorySelectedParam = await action("Choisissez votre categorie", "Retour", [this.allCategoryName, ...this.$store.getters['menu/getCategories'].map(category => category.name)])
       const categorySelected = 
-        categorySelectedParam === all 
+        categorySelectedParam === this.allCategoryName 
           ? 0 
           : this.$store.getters['menu/getCategories'].filter(category => category.name === categorySelectedParam)[0].id;
       this.$store.commit('menu/setCategorySelected', categorySelected);
