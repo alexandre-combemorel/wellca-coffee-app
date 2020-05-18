@@ -17,7 +17,11 @@
             <Label v-if="itemSelected" :text="itemSelected.item.sub_title" class="menu-detail__information__subtitle"/>
             <TextBlock v-if="itemSelected" :data="itemSelected.item.description" class="menu-detail__information__description"/>
           </FlexboxLayout>
-          <Label text="test"/>
+          <FlexboxLayout class="menu-detail__button-price">
+            <Button content="button 1$"/>
+            <Button content="button 2$"/>
+            <Button content="button 3$"/>
+          </FlexboxLayout>
         </StackLayout>
       </ScrollView>
     </StackLayout>
@@ -30,11 +34,12 @@ import utils from '../../utils/all';
 import TextBlock from '../atoms/TextBlock'
 import TileImage from '../molecules/TileImage';
 import Title from '../atoms/Title';
+import Button from '../atoms/Button';
 
 export default {
   props: ['isDisplay'],
   components: {
-    TileImage, TextBlock, Title
+    TileImage, TextBlock, Title, Button
   },
   data() {
     return {
@@ -166,6 +171,10 @@ export default {
       font-size: $text-size;
       margin-top: $size-m;
     }
+  }
+  &__button-price {
+    margin-top: 20;
+    justify-content: space-around;
   }
 }
 </style>
