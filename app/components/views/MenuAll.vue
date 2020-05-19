@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      allCategoryName: "NOS BOISSONS",
+      allCategoryName: config.views.MenuAll.title,
       topGradientActive: false,
       scrollView: undefined,
       pageTitleView: undefined,
@@ -64,7 +64,7 @@ export default {
       return categorySelected !== undefined ? [categorySelected] : this.$store.getters['menu/getCategories'];
     },
     categoryName() {
-      return this.categoriesToDisplay.length > 1 ? this.allCategoryName : this.categoriesToDisplay[0].name;
+      return this.categoriesToDisplay.length > 1 ? this.allCategoryName : this.categoriesToDisplay[0] && this.categoriesToDisplay[0].name;
     }
   },
   methods: {
@@ -104,24 +104,13 @@ export default {
       return utils.returnImageUrl(path);
     },
     async makeSticky(event) {
-      let translateTo = 0;
       if (this.stateMenu === stateMenu.first) {
         if (event.state === 1) {
           this.positionStart = this.scrollView.translateY;
         } else if (event.state === 2 && event.deltaY < 0) {
-          translateTo = this.positionStart + event.deltaY;
-          this.scrollView.translateY = translateTo;
-          this.pageTitleView.translateY = translateTo*0.5;
+          this.translateElementDuringTransition(event.deltaY);
         } else if (event.state === 3 && event.deltaY < 0) {
-          this.pageTitleView.animate({
-            translate: { x: 0, y:-90 },
-            duration: 150
-          });
-          await this.scrollView.animate({
-            translate: { x: 0, y:-190 },
-            duration: 150
-          });
-          this.stateMenu = stateMenu.second;
+          this.setViewToState(stateMenu.second, event.deltaY);
         }
       } else if (this.stateMenu === stateMenu.second) {
         if (event.state === 1) {
@@ -130,26 +119,43 @@ export default {
         }
         if (event.deltaY > 0 && this.scrollingPosition === 0) {
           if (event.state === 2) {
-            translateTo = this.positionStart + event.deltaY;
-            this.scrollView.translateY = translateTo;
-            this.pageTitleView.translateY = translateTo*0.5;
+            this.translateElementDuringTransition(event.deltaY);
             this.topGradientActive = false;
           } else if (event.state === 3 && event.deltaY > 0) {
-            this.pageTitleView.animate({
-              translate: { x: 0, y: 0 },
-              duration: 150
-            });
-            this.scrollView.animate({
-              translate: { x: 0, y: 0 },
-              duration: 150
-            });
-            this.stateMenu = stateMenu.first;
+            this.setViewToState(stateMenu.first, event.deltaY);
           }
         } else if (event.state === 2) { // emulate scroll because pan and scroll can't work together
           this.scrollView.scrollToVerticalOffset(this.scrollingStart - event.deltaY, false);
           this.topGradientActive = true;
         }
       }
+    },
+    translateElementDuringTransition(deltaY) {
+      const translateTo = this.positionStart + deltaY;
+      this.scrollView.translateY = translateTo;
+      this.pageTitleView.translateY = translateTo*0.5;
+    },
+    setViewToState(state, deltaY) {
+      if (Math.abs(deltaY) < 200) {
+        state = state === stateMenu.first ? stateMenu.second : stateMenu.first;
+      }
+      let yTitle, yScroll;
+      if (state === stateMenu.first) {
+        yTitle = 0;
+        yScroll = 0;
+      } else {
+        yTitle = -90;
+        yScroll = -190;
+      }
+      this.pageTitleView.animate({
+        translate: { x: 0, y: yTitle },
+        duration: 150
+      });
+      this.scrollView.animate({
+        translate: { x: 0, y: yScroll },
+        duration: 150
+      });
+      this.stateMenu = state;
     },
     getScroll(event) {
       this.scrollingPosition = event.scrollY;
