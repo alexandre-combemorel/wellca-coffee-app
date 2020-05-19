@@ -117,7 +117,6 @@ export default {
             translate: { x: 0, y:-190 },
             duration: 150
           });
-          this.scrollView.scrollToVerticalOffset(1, true);
           this.stateMenu = stateMenu.second;
         }
       } else if (this.stateMenu === stateMenu.second) {
@@ -144,7 +143,6 @@ export default {
         } else if (event.state === 2) { // emulate scroll because pan and scroll can't work together
           this.scrollView.scrollToVerticalOffset(this.scrollingStart - event.deltaY, false);
         }
-        
       }
     },
     getScroll(event) {
