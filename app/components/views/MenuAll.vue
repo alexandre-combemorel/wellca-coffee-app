@@ -6,8 +6,8 @@
           <Title :content="categoryName"/>
         </StackLayout>
       </FlexboxLayout>
-      <ScrollView @pan="makeSticky" @scroll="getScroll" orientation="vertical" ref="menu-all__section" class="menu-all__section">
-        <StackLayout orientation="vertical" class="menu-all__section--wrapper">
+      <ScrollView @scroll="getScroll" orientation="vertical" ref="menu-all__section" class="menu-all__section">
+        <StackLayout @pan="makeSticky" orientation="vertical" class="menu-all__section--wrapper">
           <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
             <SectionTitle :content="category.name" class="menu-all__section__title"/>
             <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
@@ -19,8 +19,8 @@
         </StackLayout>
       </ScrollView>
     </AbsoluteLayout>
-    <Label class="menu-all__gradient menu-all__gradient--top"/>
-    <Label class="menu-all__gradient menu-all__gradient--bottom" ref="menu-all__gradient"/>
+    <Label class="menu-all__gradient menu-all__gradient--top" v-show="topGradientActive"/>
+    <Label class="menu-all__gradient menu-all__gradient--bottom" ref="menu-all__gradient--bottom"/>
   </AbsoluteLayout>
 </template>
 
@@ -31,6 +31,7 @@ import TileImage from '../molecules/TileImage';
 
 import config from '../../config/config.json'
 import utils from '../../utils/all';
+const platformModule = require("tns-core-modules/platform");
 
 const stateMenu = {
   first: "expanded",
@@ -44,6 +45,7 @@ export default {
   data() {
     return {
       allCategoryName: "NOS BOISSONS",
+      topGradientActive: false,
       scrollView: undefined,
       pageTitleView: undefined,
       positionStart: undefined,
@@ -53,7 +55,7 @@ export default {
       stateMenu: stateMenu.first,
     };
   },
-  async mounted() {
+  mounted() {
     this.initMounted();
   },
   computed: {
@@ -71,6 +73,7 @@ export default {
       await utils.returnSizeWhenNativeViewLoaded(this.$refs['menu-all__section'].nativeView);
       this.scrollView = this.$refs['menu-all__section'].nativeView;
       this.pageTitleView = this.$refs['menu-all__page-title'].nativeView;
+      // this.scrollView.height = platformModule.screen.mainScreen.heightDIPs
       this.setScrollEnable(false);
     },
     setScrollEnable(isEnable) {
@@ -80,7 +83,8 @@ export default {
     },
     async initGradientPosition() {
       const { height } = await utils.returnSizeWhenNativeViewLoaded(this.$refs['menu-all'].nativeView);
-      this.$refs['menu-all__gradient'].nativeView.translateY = height-this.$refs['menu-all__gradient'].nativeView.getActualSize().height;
+      const gradientBottomView = this.$refs['menu-all__gradient--bottom'].nativeView;
+      gradientBottomView.translateY = height-gradientBottomView.getActualSize().height;
     },
     async openActionCategorySelector() {
       const categorySelectedParam = await action("Choisissez votre categorie", "Retour", [this.allCategoryName, ...this.$store.getters['menu/getCategories'].map(category => category.name)])
@@ -113,7 +117,7 @@ export default {
             translate: { x: 0, y:-90 },
             duration: 150
           });
-          this.scrollView.animate({
+          await this.scrollView.animate({
             translate: { x: 0, y:-190 },
             duration: 150
           });
@@ -129,6 +133,7 @@ export default {
             translateTo = this.positionStart + event.deltaY;
             this.scrollView.translateY = translateTo;
             this.pageTitleView.translateY = translateTo*0.5;
+            this.topGradientActive = false;
           } else if (event.state === 3 && event.deltaY > 0) {
             this.pageTitleView.animate({
               translate: { x: 0, y: 0 },
@@ -142,6 +147,7 @@ export default {
           }
         } else if (event.state === 2) { // emulate scroll because pan and scroll can't work together
           this.scrollView.scrollToVerticalOffset(this.scrollingStart - event.deltaY, false);
+          this.topGradientActive = true;
         }
       }
     },
@@ -173,15 +179,15 @@ export default {
     height: 100%;
     top: 250;
     &--wrapper {
-      padding-bottom: $size-xxl;
+      padding-bottom: 70; // menu size
     }
     &__title {
     }
     &__items {
       width: 100%;
+      padding: $size-m 0;
       flex-wrap: wrap;
       justify-content: center;
-      width: 100%;
       &__item {
         margin: $size-xs;
       }
@@ -192,6 +198,7 @@ export default {
     width: 100%;
     &--top {
       background: linear-gradient(to top, rgba(23, 25, 28, 0), $primary-color);
+      top: 60;
     }
     &--bottom {
       background: linear-gradient(to bottom, rgba(23, 25, 28, 0), $primary-color);
