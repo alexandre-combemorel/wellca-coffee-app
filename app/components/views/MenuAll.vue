@@ -9,7 +9,7 @@
       <ScrollView @scroll="getScroll" orientation="vertical" ref="menu-all__section" class="menu-all__section">
         <StackLayout @pan="makeSticky" orientation="vertical" class="menu-all__section--wrapper">
           <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
-            <SectionTitle :content="category.name" class="menu-all__section__title"/>
+            <SectionTitle :content="category.name" v-if="categoriesToDisplay.length > 1" class="menu-all__section__title"/>
             <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
               <StackLayout @tap="openMenuDetail(menuItem)" v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id">
                 <TileImage :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu-all__section__items__item"/>
@@ -64,7 +64,7 @@ export default {
       return categorySelected !== undefined ? [categorySelected] : this.$store.getters['menu/getCategories'];
     },
     categoryName() {
-      return this.categoriesToDisplay.length > 0 ? this.allCategoryName : this.categoriesToDisplay.name;
+      return this.categoriesToDisplay.length > 1 ? this.allCategoryName : this.categoriesToDisplay[0].name;
     }
   },
   methods: {
