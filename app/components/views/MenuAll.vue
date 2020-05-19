@@ -1,18 +1,24 @@
 <template>
   <AbsoluteLayout class="menu-all" ref="menu-all">
-    <ScrollView orientation="vertical" class="menu-all__section">
-      <StackLayout orientation="vertical" class="menu-all__section--wrapper">
-        <StackLayout @tap="openActionCategorySelector()"><Title :content="categoryName" class="menu-all__section__page-title"/></StackLayout>
-        <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
-          <SectionTitle :content="category.name" class="menu-all__section__title"/>
-          <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
-            <StackLayout @tap="openMenuDetail(menuItem)" v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id">
-              <TileImage :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu-all__section__items__item"/>
-            </StackLayout>
-          </FlexboxLayout>
+    <AbsoluteLayout class="menu-all--wrapper">
+      <FlexboxLayout @tap="openActionCategorySelector()" class="menu-all__page-title" ref="menu-all__page-title">
+        <StackLayout>
+          <Title :content="categoryName"/>
         </StackLayout>
-      </StackLayout>
-    </ScrollView>
+      </FlexboxLayout>
+      <ScrollView @pan="makeSticky" @scroll="getScroll" orientation="vertical" ref="menu-all__section" class="menu-all__section">
+        <StackLayout orientation="vertical" class="menu-all__section--wrapper">
+          <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
+            <SectionTitle :content="category.name" class="menu-all__section__title"/>
+            <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
+              <StackLayout @tap="openMenuDetail(menuItem)" v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id">
+                <TileImage :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu-all__section__items__item"/>
+              </StackLayout>
+            </FlexboxLayout>
+          </StackLayout>
+        </StackLayout>
+      </ScrollView>
+    </AbsoluteLayout>
     <Label class="menu-all__gradient menu-all__gradient--top"/>
     <Label class="menu-all__gradient menu-all__gradient--bottom" ref="menu-all__gradient"/>
   </AbsoluteLayout>
@@ -26,17 +32,29 @@ import TileImage from '../molecules/TileImage';
 import config from '../../config/config.json'
 import utils from '../../utils/all';
 
+const stateMenu = {
+  first: "expanded",
+  second: "compact"
+};
+
 export default {
   components: {
     Title, SectionTitle, TileImage
   },
   data() {
     return {
-      allCategoryName: "NOS BOISSONS"
+      allCategoryName: "NOS BOISSONS",
+      scrollView: undefined,
+      pageTitleView: undefined,
+      positionStart: undefined,
+      scrollingEnabled: false,
+      scrollingPosition: 0,
+      scrollingStart: 0,
+      stateMenu: stateMenu.first,
     };
   },
-  mounted() {
-    this.initGradientPosition();
+  async mounted() {
+    this.initMounted();
   },
   computed: {
     categoriesToDisplay() {
@@ -48,12 +66,21 @@ export default {
     }
   },
   methods: {
+    async initMounted() {
+      await this.initGradientPosition();
+      await utils.returnSizeWhenNativeViewLoaded(this.$refs['menu-all__section'].nativeView);
+      this.scrollView = this.$refs['menu-all__section'].nativeView;
+      this.pageTitleView = this.$refs['menu-all__page-title'].nativeView;
+      this.setScrollEnable(false);
+    },
+    setScrollEnable(isEnable) {
+      // this.scrollView.ios.scrollEnabled = isEnable;
+      this.scrollView.android.setScrollEnabled(isEnable);
+      this.scrollingEnabled = isEnable;
+    },
     async initGradientPosition() {
       const { height } = await utils.returnSizeWhenNativeViewLoaded(this.$refs['menu-all'].nativeView);
-      this.$refs['menu-all__gradient'].nativeView.animate({
-        translate: { x: 0, y: height-this.$refs['menu-all__gradient'].nativeView.getActualSize().height },
-        duration: 0
-      });
+      this.$refs['menu-all__gradient'].nativeView.translateY = height-this.$refs['menu-all__gradient'].nativeView.getActualSize().height;
     },
     async openActionCategorySelector() {
       const categorySelectedParam = await action("Choisissez votre categorie", "Retour", [this.allCategoryName, ...this.$store.getters['menu/getCategories'].map(category => category.name)])
@@ -71,6 +98,57 @@ export default {
     },
     returnImageUrl(path) {
       return utils.returnImageUrl(path);
+    },
+    async makeSticky(event) {
+      let translateTo = 0;
+      if (this.stateMenu === stateMenu.first) {
+        if (event.state === 1) {
+          this.positionStart = this.scrollView.translateY;
+        } else if (event.state === 2 && event.deltaY < 0) {
+          translateTo = this.positionStart + event.deltaY;
+          this.scrollView.translateY = translateTo;
+          this.pageTitleView.translateY = translateTo*0.5;
+        } else if (event.state === 3 && event.deltaY < 0) {
+          this.pageTitleView.animate({
+            translate: { x: 0, y:-90 },
+            duration: 150
+          });
+          this.scrollView.animate({
+            translate: { x: 0, y:-190 },
+            duration: 150
+          });
+          this.scrollView.scrollToVerticalOffset(1, true);
+          this.stateMenu = stateMenu.second;
+        }
+      } else if (this.stateMenu === stateMenu.second) {
+        if (event.state === 1) {
+          this.positionStart = this.scrollView.translateY;
+          this.scrollingStart = this.scrollingPosition;
+        }
+        if (event.deltaY > 0 && this.scrollingPosition === 0) {
+          if (event.state === 2) {
+            translateTo = this.positionStart + event.deltaY;
+            this.scrollView.translateY = translateTo;
+            this.pageTitleView.translateY = translateTo*0.5;
+          } else if (event.state === 3 && event.deltaY > 0) {
+            this.pageTitleView.animate({
+              translate: { x: 0, y: 0 },
+              duration: 150
+            });
+            this.scrollView.animate({
+              translate: { x: 0, y: 0 },
+              duration: 150
+            });
+            this.stateMenu = stateMenu.first;
+          }
+        } else if (event.state === 2) { // emulate scroll because pan and scroll can't work together
+          this.scrollView.scrollToVerticalOffset(this.scrollingStart - event.deltaY, false);
+        }
+        
+      }
+    },
+    getScroll(event) {
+      this.scrollingPosition = event.scrollY;
     }
   }
 }
@@ -81,19 +159,25 @@ export default {
 .menu-all {
   height: 100%;
   width: 100%;
+  &--wrapper {
+    height: 100%;
+    width: 100%;
+  }
+  &__page-title {
+    width: 100%;
+    height: 250;
+    justify-content: center;
+    align-items: center;
+  }
   &__section {
+    z-index: 10;
     width: 100%;
     height: 100%;
+    top: 250;
     &--wrapper {
       padding-bottom: $size-xxl;
     }
-    &__page-title {
-      margin-top: 130;
-      margin-bottom: 50;
-      text-align: center;
-    }
     &__title {
-      margin-top: 50;
     }
     &__items {
       width: 100%;
