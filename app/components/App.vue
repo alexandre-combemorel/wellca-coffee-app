@@ -59,7 +59,7 @@
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .select-page {
-  background: $primary-color;
+  background: linear-gradient(to bottom, $secondary-color, $primary-color);
   .store-list-container {
     height: 100%;
     width: 100%;

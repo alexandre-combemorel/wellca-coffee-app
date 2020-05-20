@@ -1,30 +1,30 @@
 <template>
-    <StackLayout class="menu-detail">
-      <Title v-if="categoryName" :content="categoryName" class="menu-detail__section-title"/>
-      <ScrollView @pan="panItems" @scroll="scrollItems" orientation="horizontal" ref="menu-detail__list" class="menu-detail__list">
+    <GridLayout rows="auto, auto, *, auto" class="menu-detail">
+      <FlexboxLayout row="0" class="menu-detail__section-title">
+        <Title v-if="categoryName" :content="categoryName"/>
+      </FlexboxLayout>
+      <ScrollView row="1" @pan="panItems" @scroll="scrollItems" orientation="horizontal" ref="menu-detail__list" class="menu-detail__list"  scrollBarIndicatorVisible="false">
         <StackLayout orientation="horizontal">
-          <Label ref="menu-detail__list__buffer--start"/>
+          <Label class="menu-detail__list__buffer" ref="menu-detail__list__buffer--start"/>
           <StackLayout v-for="menuItem in items" :key="menuItem.id" class="menu-detail__list__item-wrapper">
             <TileImage v-on:sizecomponent="setSizeItem" :img="returnImageUrl(menuItem.item.img[0].url)" size="small" :zoomed="isTileImageZoomed(menuItem.id)"  class="menu-detail__list__item-wrapper__item"/>
           </StackLayout>
-          <Label ref="menu-detail__list__buffer--end"/>
+          <Label class="menu-detail__list__buffer" ref="menu-detail__list__buffer--end"/>
         </StackLayout>
       </ScrollView>
-      <ScrollView orientation="vertical">
-        <StackLayout>
-          <FlexboxLayout class="menu-detail__information">
-            <Label v-if="itemSelected" :text="itemSelected.item.title" class="menu-detail__information__title"/>
-            <Label v-if="itemSelected" :text="itemSelected.item.sub_title" class="menu-detail__information__subtitle"/>
-            <TextBlock v-if="itemSelected" :data="itemSelected.item.description" class="menu-detail__information__description"/>
-          </FlexboxLayout>
-          <FlexboxLayout class="menu-detail__button-price">
-            <Button content="button 1$"/>
-            <Button content="button 2$"/>
-            <Button content="button 3$"/>
-          </FlexboxLayout>
-        </StackLayout>
+      <ScrollView row="2" orientation="vertical" class="menu-detail__information--wrapper">
+        <FlexboxLayout class="menu-detail__information">
+          <Label v-if="itemSelected" :text="itemSelected.item.title" class="menu-detail__information__title"/>
+          <Label v-if="itemSelected" :text="itemSelected.item.sub_title" class="menu-detail__information__subtitle"/>
+          <TextBlock v-if="itemSelected" :data="itemSelected.item.description" class="menu-detail__information__description"/>
+        </FlexboxLayout>
       </ScrollView>
-    </StackLayout>
+      <FlexboxLayout row="3" class="menu-detail__button-price">
+        <Button content="button 1$"/>
+        <Button content="button 2$"/>
+        <Button content="button 3$"/>
+      </FlexboxLayout>
+    </GridLayout>
 </template>
 
 <script>
@@ -146,19 +146,22 @@ export default {
 .menu-detail {
   height: 100%;
   width: 100%;
+  flex-direction: column;
   &__section-title {
-    margin-top: 50;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
     height: 70;
   }
   &__list {
     width: 100%;
-    margin-bottom: 20;
+    height: 160;
   }
   &__information {
-    width: 100%;
+    &--wrapper {
+      flex-shrink: 1;
+    }
     flex-direction: column;
-    padding: $size-l;
+    padding: 0 $size-l;
     &__title {
       font-size: $title-size;
       font-weight: bold;
@@ -173,8 +176,8 @@ export default {
     }
   }
   &__button-price {
-    margin-top: 20;
     justify-content: space-around;
+    padding: $size-s 0;
   }
 }
 </style>

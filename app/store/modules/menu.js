@@ -10,7 +10,7 @@ const moduleMenu = {
   mutations: {
     setItems(state, items) {
       state.items = items;
-      // state.menuItemSelected = items[1];// to be removed
+      state.menuItemSelected = items[0];// to be removed
     },
     setCategories(state, categories) {
       state.categories = categories;

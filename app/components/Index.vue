@@ -1,14 +1,14 @@
 <template>
   <Page class="index" actionBarHidden="true">
     <AbsoluteLayout class="index__wrapper">
-      <GridLayout class="index__wrapper__gridmain" columns="auto, *" rows="*, auto">
-        <GridLayout :columns="columsDefinition" class="index__wrapper__gridmain__views-container" ref="views-container" colSpan="2" row="0">
+      <GridLayout class="index__wrapper__gridmain" rows="*, auto">
+        <GridLayout row="0" :columns="columsDefinition" class="index__wrapper__gridmain__views-container" ref="views-container">
           <StackLayout v-for="(item, index) in $store.getters['navigation/getMenu']" :col="index" :key="index" class="index__wrapper__gridmain__views-container__view">
             <component :is="item.component || 'Error'"/>
           </StackLayout>
         </GridLayout>
 
-        <Navigation v-on:selected="onSelectMenu" row="2" colSpan="2"/>
+        <Navigation v-on:selected="onSelectMenu" row="1" class="navigation" ref="navigation"/>
       </GridLayout>
       <SliderBottom class="index__wrapper__slider-bottom"/>
     </AbsoluteLayout>
@@ -24,14 +24,22 @@ import Settings from './views/Settings';
 import Menu from './views/Menu';
 import Error from './views/Error';
 
+import utils from '../utils/all';
+
 export default {
   components: {
     Navigation, Settings, Error, SliderBottom, Menu
   },
   data() {
     return {
-      padding: true
+      viewsContainerView: undefined,
     }
+  },
+  async mounted() {
+    await utils.returnSizeWhenNativeViewLoaded(this.$refs['views-container'].nativeView);
+    this.viewsContainerView = this.$refs['views-container'].nativeView;
+    // this.viewsContainerView.height = this.viewsContainerView.getActualSize().height - this.$refs.navigation.nativeView.getActualSize().height;
+    
   },
   computed: {
     whenMenuChange() {
@@ -63,7 +71,7 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .index {
-  background: $primary-color;
+  background: linear-gradient(to bottom, $secondary-color, $primary-color);
   &__wrapper {
     &__gridmain {
       width: 100%;
@@ -79,7 +87,6 @@ export default {
       }
     }
     &__slider-bottom {
-      bottom: 0;
       height: 100%;
     }
   }

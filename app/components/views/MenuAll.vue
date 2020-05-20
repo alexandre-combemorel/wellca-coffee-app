@@ -55,8 +55,8 @@ export default {
       stateMenu: stateMenu.first,
     };
   },
-  mounted() {
-    this.initMounted();
+  async mounted() {
+    await this.initMounted();
   },
   computed: {
     categoriesToDisplay() {
@@ -73,7 +73,6 @@ export default {
       await utils.returnSizeWhenNativeViewLoaded(this.$refs['menu-all__section'].nativeView);
       this.scrollView = this.$refs['menu-all__section'].nativeView;
       this.pageTitleView = this.$refs['menu-all__page-title'].nativeView;
-      // this.scrollView.height = platformModule.screen.mainScreen.heightDIPs
       this.setScrollEnable(false);
     },
     setScrollEnable(isEnable) {
@@ -93,6 +92,7 @@ export default {
           ? 0 
           : this.$store.getters['menu/getCategories'].filter(category => category.name === categorySelectedParam)[0].id;
       this.$store.commit('menu/setCategorySelected', categorySelected);
+      if (categorySelected !== 0) this.setViewToState(stateMenu.second, 0, true);
     },
     itemPerCategory(cateId) {
       return this.$store.getters['menu/getItems'].filter(item => item.carte_category.id === cateId);
@@ -135,8 +135,8 @@ export default {
       this.scrollView.translateY = translateTo;
       this.pageTitleView.translateY = translateTo*0.5;
     },
-    setViewToState(state, deltaY) {
-      if (Math.abs(deltaY) < 200) {
+    setViewToState(state, deltaY, forceState) {
+      if (Math.abs(deltaY) < 200 && !forceState) {
         state = state === stateMenu.first ? stateMenu.second : stateMenu.first;
       }
       let yTitle, yScroll;

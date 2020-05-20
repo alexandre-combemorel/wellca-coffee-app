@@ -1,5 +1,7 @@
 <template>
-  <Label :text="content" class="button" :class="addClasses" @tap="pressed"/>
+  <StackLayout class="button--wrapper">
+    <Label :text="content" class="button" :class="addClasses" @tap="pressed"/>
+  </StackLayout>
 </template>
 
 <script>

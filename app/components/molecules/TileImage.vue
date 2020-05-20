@@ -21,6 +21,7 @@ export default {
 .tile-image {
   flex-direction: column;
   width: 192;
+  height: 100%;
   align-items: center;
   justify-content: center;
   &__image {
@@ -31,7 +32,6 @@ export default {
   }
   &--small {
     .tile-image__image {
-      margin-top: 20;
       width: 70%;
     }
     &.zoomed {
