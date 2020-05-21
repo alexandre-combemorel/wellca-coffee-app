@@ -1,4 +1,4 @@
-const moduleMenu = {
+const moduleCafeGrain = {
   namespaced: true,
   state: {
     categories: [],
@@ -10,10 +10,14 @@ const moduleMenu = {
   mutations: {
     setItems(state, items) {
       state.items = items;
+      let arrayCategories = [];
+      items.forEach(i => {
+        if (arrayCategories.filter(cate => cate.id === i.carte_category.id).length === 0) {
+          arrayCategories.push(i.carte_category);
+        }
+      });
+      state.categories = arrayCategories;
       // state.menuItemSelected = items[0];// to be removed
-    },
-    setCategories(state, categories) {
-      state.categories = categories;
     },
     setMenuLoaded(state, isLoaded) {
       state.menuLoaded = isLoaded;
@@ -42,4 +46,4 @@ const moduleMenu = {
     getMenuItemSelected: state => state.menuItemSelected,
   }
 }
-export default moduleMenu;
+export default moduleCafeGrain;

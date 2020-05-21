@@ -1,8 +1,8 @@
 <template>
   <AbsoluteLayout class="menu">
     <BackArrow class="menu__back-btn" v-on:taped="showMenuAll"/>
-    <MenuAll v-show="isMenuAllVisibile"/>
-    <MenuDetail v-show="!isMenuAllVisibile" :is-display="!isMenuAllVisibile"/>
+    <MenuAll v-show="isMenuAllVisibile" :type_selected="item.type_selected"/>
+    <MenuDetail v-show="!isMenuAllVisibile" :is-display="!isMenuAllVisibile" :type_selected="item.type_selected"/>
   </AbsoluteLayout>
 </template>
 
@@ -18,9 +18,10 @@ export default {
   components: {
     BackArrow, MenuAll, MenuDetail
   },
+  props: ['item'],
   watch: {
     isViewSelected(newVal, oldVal) {
-      if (newVal && !this.$store.getters['menu/isMenuLoaded']) {
+      if (newVal && !this.$store.getters[`${this.item.type_selected}/isMenuLoaded`]) {
         this.fetchCarteItems();
       }
     },
@@ -30,25 +31,21 @@ export default {
       return this.$store.getters['navigation/getMenuSelected'] === "Menu";
     },
     isMenuAllVisibile() {
-      return this.$store.getters['menu/getMenuItemSelected'] === undefined;
+      return this.$store.getters[`${this.item.type_selected}/getMenuItemSelected`] === undefined;
     },
   },
   methods: {
     async fetchCarteItems() {
       try {
-        let response;
-        // Fetch the categories
-        response = await fetch(`${config.apiUrl}/carte-categories`, { method: "GET" });
-        this.$store.commit("menu/setCategories", await response.json())
         // Fetch the items
-        response = await fetch(`${config.apiUrl}/carte-items`, { method: "GET" });
-        this.$store.commit("menu/setItems", await response.json())
+        const response = await fetch(`${config.apiUrl}/carte-items?carte_type.name=${this.item.type_selected}`, { method: "GET" });
+        this.$store.commit(`${this.item.type_selected}/setItems`, await response.json())
       } catch (e) {
         console.error("Couldn't load the carte items:", e);
       }
     },
     showMenuAll() {
-      this.$store.commit("menu/setMenuItemSelected", undefined);
+      this.$store.commit(`${this.item.type_selected}/setMenuItemSelected`, undefined);
     },
   }
 }

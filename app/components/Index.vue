@@ -4,7 +4,7 @@
       <GridLayout class="index__wrapper__gridmain" rows="*, auto">
         <GridLayout row="0" :columns="columsDefinition" class="index__wrapper__gridmain__views-container" ref="views-container">
           <StackLayout v-for="(item, index) in $store.getters['navigation/getMenu']" :col="index" :key="index" class="index__wrapper__gridmain__views-container__view">
-            <component :is="item.component || 'Error'"/>
+            <component :is="item.component || 'Error'" :item="item"/>
           </StackLayout>
         </GridLayout>
 

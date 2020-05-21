@@ -42,6 +42,7 @@ export default {
   components: {
     Title, SectionTitle, TileImage
   },
+  props: ['type_selected'],
   data() {
     return {
       allCategoryName: config.views.MenuAll.title,
@@ -64,8 +65,8 @@ export default {
   },
   computed: {
     categoriesToDisplay() {
-      const categorySelected = this.$store.getters['menu/getCategorySelected'];
-      return categorySelected !== undefined ? [categorySelected] : this.$store.getters['menu/getCategories'];
+      const categorySelected = this.$store.getters[`${this.type_selected}/getCategorySelected`];
+      return categorySelected !== undefined ? [categorySelected] : this.$store.getters[`${this.type_selected}/getCategories`];
     },
     categoryName() {
       return this.categoriesToDisplay.length > 1 ? this.allCategoryName : this.categoriesToDisplay[0] && this.categoriesToDisplay[0].name;
@@ -90,19 +91,19 @@ export default {
       gradientBottomView.translateY = height-gradientBottomView.getActualSize().height;
     },
     async openActionCategorySelector() {
-      const categorySelectedParam = await action("Choisissez votre categorie", "Retour", [this.allCategoryName, ...this.$store.getters['menu/getCategories'].map(category => category.name)])
+      const categorySelectedParam = await action("Choisissez votre categorie", "Retour", [this.allCategoryName, ...this.$store.getters[`${this.type_selected}/getCategories`].map(category => category.name)])
       const categorySelected = 
         categorySelectedParam === this.allCategoryName 
           ? 0 
-          : this.$store.getters['menu/getCategories'].filter(category => category.name === categorySelectedParam)[0].id;
-      this.$store.commit('menu/setCategorySelected', categorySelected);
+          : this.$store.getters[`${this.type_selected}/getCategories`].filter(category => category.name === categorySelectedParam)[0].id;
+      this.$store.commit(`${this.type_selected}/setCategorySelected`, categorySelected);
       if (categorySelected !== 0) this.setViewToState(stateMenu.second, 0, true);
     },
     itemPerCategory(cateId) {
-      return this.$store.getters['menu/getItems'].filter(item => item.carte_category.id === cateId);
+      return this.$store.getters[`${this.type_selected}/getItems`].filter(item => item.carte_category.id === cateId);
     },
     openMenuDetail(menuItem) {
-      this.$store.commit("menu/setMenuItemSelected", menuItem);
+      this.$store.commit(`${this.type_selected}/setMenuItemSelected`, menuItem);
     },
     returnImageUrl(path) {
       return utils.returnImageUrl(path);

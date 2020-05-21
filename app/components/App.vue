@@ -42,6 +42,7 @@
       },
       selectStore(storeSelected) {
         this.$store.commit('navigation/setMenu', storeSelected.navigations);
+        this.$store.commit('stores/setStoreSelected', storeSelected);
         // load everything
         this.$navigateTo(Index,{
           animated: true,

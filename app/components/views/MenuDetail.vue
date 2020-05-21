@@ -41,6 +41,7 @@ export default {
   components: {
     TileImage, TextBlock, Title, Button
   },
+  props: ['type_selected'],
   data() {
     return {
       positionList: 0,
@@ -62,15 +63,15 @@ export default {
   },
   computed: {
     categoryName() {
-      const itemSelected = this.$store.getters['menu/getMenuItemSelected'];
+      const itemSelected = this.$store.getters[`${this.type_selected}/getMenuItemSelected`];
       return itemSelected ? itemSelected.carte_category.name : undefined;
     },
     itemSelected() {
-      return this.$store.getters['menu/getMenuItemSelected'];
+      return this.$store.getters[`${this.type_selected}/getMenuItemSelected`];
     },
     items() {
       const cateId = this.itemSelected?.carte_category.id;
-      return this.$store.getters['menu/getItems'].filter(item => item?.carte_category.id === cateId);
+      return this.$store.getters[`${this.type_selected}/getItems`].filter(item => item?.carte_category.id === cateId);
     }
   },
   methods: {
@@ -107,7 +108,7 @@ export default {
     },
     selectItemAccordingToNewPostion(positionX) {
       const indexToSelect = Math.abs(positionX + this.widthScreen * 0.2) / this.widthItem;
-      this.$store.commit("menu/setMenuItemSelected", this.getItemFromIndex(Math.trunc(indexToSelect)));
+      this.$store.commit(`${this.type_selected}/setMenuItemSelected`, this.getItemFromIndex(Math.trunc(indexToSelect)));
     },
     setListPosition(animate) {
       if (this.menuListView) {
