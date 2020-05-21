@@ -57,6 +57,10 @@ export default {
   },
   async mounted() {
     await this.initMounted();
+    console.log(`screen.mainScreen.heightDIPs ${platformModule.screen.mainScreen.heightDIPs}`); // The absolute height of the screen in density independent pixels.
+    console.log(`screen.mainScreen.heightPixels ${platformModule.screen.mainScreen.heightPixels}`); // The absolute height of the screen in pixels.
+    console.log(`screen.mainScreen.widthDIPs ${platformModule.screen.mainScreen.widthDIPs}`); // The absolute width of the screen in density independent pixels.
+    console.log(`screen.mainScreen.widthPixels ${platformModule.screen.mainScreen.widthPixels}`);
   },
   computed: {
     categoriesToDisplay() {

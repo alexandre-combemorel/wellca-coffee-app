@@ -71,13 +71,15 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .index {
-  background: linear-gradient(to bottom, $secondary-color, $primary-color);
+  
   &__wrapper {
+    background: $primary-color;
     &__gridmain {
       width: 100%;
       height: 100%;
       color: $text-color-primary;
       &__views-container {
+        background: linear-gradient(to bottom, $secondary-color, $primary-color);
         width: 100%;
         height: 100%;
         &__view {
