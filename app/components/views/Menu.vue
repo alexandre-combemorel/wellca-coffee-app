@@ -38,7 +38,7 @@ export default {
     async fetchCarteItems() {
       try {
         // Fetch the items
-        const response = await fetch(`${config.apiUrl}/carte-items?carte_type.name=${this.item.type_selected}`, { method: "GET" });
+        const response = await fetch(`${config.apiUrl}/carte-items?carte_type.name=${this.item.type_selected}&stores.id=${this.$store.getters['stores/getStoreSelected'].id}`, { method: "GET" });
         this.$store.commit(`${this.item.type_selected}/setItems`, await response.json())
       } catch (e) {
         console.error("Couldn't load the carte items:", e);
