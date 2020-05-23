@@ -21,6 +21,7 @@ import SliderBottom from './modules/SliderBottom';
 
 //Views
 import Settings from './views/Settings';
+import Home from './views/Home';
 import Menu from './views/Menu';
 import Error from './views/Error';
 
@@ -28,7 +29,7 @@ import utils from '../utils/all';
 
 export default {
   components: {
-    Navigation, Settings, Error, SliderBottom, Menu
+    Navigation, Settings, Error, SliderBottom, Menu, Home
   },
   data() {
     return {
