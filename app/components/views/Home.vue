@@ -96,10 +96,10 @@ export default {
   height: 100%;
   &__title {
     text-align:center;
-    margin: $size-xxl 0;
+    // margin: $size-xxl 0;
   }
   &__section-title {
-    margin-bottom: $size-l;
+    margin-bottom: $size-m;
   }
   &__opening {
     width:100%;
@@ -110,11 +110,10 @@ export default {
     }
     &__content {
       margin: 0 $size-l;
-      padding: 0 $size-m;
       &__clock {
         width: 115;
         background: grey;
-        margin-right: $size-xxl;
+        margin-right: $size-l;
       }
       &__title {
         margin-bottom: $size-l;
@@ -122,10 +121,10 @@ export default {
       &__info {
         &__item {
           text-align: right;
-          margin-top: $size-xl;
+          margin-top: $size-m;
           &__text {
-            margin-top: $size-m;
-            font-size: 20;
+            margin-top: $size-s;
+            font-size: 16;
             text-wrap: true;
           }
         }
@@ -134,23 +133,24 @@ export default {
     &__content-description {
       margin: 0 $size-l;
       margin-top: $size-l;
-      margin-bottom: $size-xxl;
+      margin-bottom: $size-l;
       &__item {
         border-color: white;
         border-width: 2;
-        padding: $size-m;
+        padding: $size-s;
         &__title {
           font-size: 18;
         }
         &__text {
-          margin-top: $size-m;
+          margin-top: $size-s;
           text-wrap: true;
         }
       }
     }
   }
   &__map {
-    width: 300;
+    margin: 0 $size-l;
+    margin-bottom: $size-l;
     height: 300;
   }
 }

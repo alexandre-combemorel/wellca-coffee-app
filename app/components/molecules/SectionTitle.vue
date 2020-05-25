@@ -19,12 +19,12 @@ export default {
 @import '~/assets/css/variables.scss';
 .section-title {
   &__title {
-    margin-left: $size-l;
+    margin-left: $size-m;
   }
   &__barre {
     flex-grow: 1;
     margin-bottom: $size-xs+1;
-    margin-left: $size-xs;
+    margin-left: $size-m;
     border-bottom-width: 1;
     border-bottom-color: $tertiary-color;
   }

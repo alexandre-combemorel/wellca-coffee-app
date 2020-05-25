@@ -30,7 +30,7 @@ export default {
   border-width: 2;
   border-radius: 5;
   border-color: $tertiary-color;
-  padding: $size-m;
+  padding: $size-s;
   &--press {
     background: $tertiary-color;
     color: $text-color-secondary;

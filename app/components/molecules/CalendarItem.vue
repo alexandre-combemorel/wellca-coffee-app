@@ -15,14 +15,14 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .calendar-item {
-  width: 40;
+  width: 36;
   text-align: center;
   font-size: 14;
-  margin-right: $size-l;
+  margin-right: $size-m;
   &__date {
-    padding-top: 6;
-    height: 40;
-    margin: $size-s 0;
+    padding-top: 4;
+    height: 36;
+    margin: $size-xs 0;
     border-color: white;
     border-width: 2;
     border-radius: 50;
