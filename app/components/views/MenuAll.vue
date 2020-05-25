@@ -145,8 +145,8 @@ export default {
         yTitle = 0;
         yScroll = 0;
       } else {
-        yTitle = -90;
-        yScroll = -190;
+        yTitle = -108;
+        yScroll = -216;
       }
       this.pageTitleView.animate({
         translate: { x: 0, y: yTitle },
@@ -176,7 +176,8 @@ export default {
   }
   &__page-title {
     width: 100%;
-    height: 250;
+    margin-top: $size-xxl*2;
+    margin-bottom: $size-xxl+$size-xl;
     justify-content: center;
     align-items: center;
   }
@@ -184,11 +185,9 @@ export default {
     z-index: 10;
     width: 100%;
     height: 100%;
-    top: 250;
+    top: 336; // &__page-title margin-top + margin-bottom + height &__page-title
     &--wrapper {
       padding-bottom: 70; // menu size
-    }
-    &__title {
     }
     &__items {
       width: 100%;
@@ -205,7 +204,7 @@ export default {
     width: 100%;
     &--top {
       background: linear-gradient(to top, rgba(23, 25, 28, 0), $primary-color);
-      top: 60;
+      top: 120;
     }
     &--bottom {
       background: linear-gradient(to bottom, rgba(23, 25, 28, 0), $primary-color);
