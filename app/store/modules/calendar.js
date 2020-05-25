@@ -1,3 +1,4 @@
+import dateUtils from '../../utils/date';
 const moduleCalendar = {
   namespaced: true,
   state: {
@@ -31,7 +32,16 @@ const moduleCalendar = {
         const selectedDay = new Date(dateDay.getFullYear(), dateDay.getMonth(), dateDay.getDate());
         return startDay.getTime() <= selectedDay.getTime() && selectedDay.getTime() <= endDay.getTime();
       });
-    }
+    },
+    getFirstDateDayWithEvent: state => {
+      let earliestDateDay = Infinity;
+      state.events.forEach(event => {
+        if (event.date_start.getTime() < earliestDateDay) {
+          earliestDateDay = event.date_start.getTime();
+        }
+      });
+      return earliestDateDay !== Infinity ? dateUtils.simplifyDate(new Date(earliestDateDay)) : undefined;
+    },
   }
 }
 export default moduleCalendar;

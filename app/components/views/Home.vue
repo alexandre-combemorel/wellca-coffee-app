@@ -6,7 +6,7 @@
         <SectionTitle :content="`OUVERTURE`" class="home__section-title"/>
         <StackLayout class="home__section__opening">
           <StackLayout class="home__section__opening__calendar">
-            <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="isDayWithEvent(dateDay)" v-on:datetap="displayEventsForDay"/>
+            <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="isDayWithEvent(dateDay)" v-on:datetap="selectDay"/>
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
             <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock"></StackLayout>
@@ -27,7 +27,7 @@
           </FlexboxLayout>
         </StackLayout>
         <SectionTitle :content="`MAP`" class="home__section__section-title"/>
-        <MapView class="home__section__map" iosOverflowSafeArea="true" @mapReady="onMapReady"></MapView>
+        <MapView v-show="dateDaySelected" class="home__section__map" iosOverflowSafeArea="true" @mapReady="onMapReady"></MapView>
       </StackLayout>
     </ScrollView>
   </GridLayout>
@@ -35,7 +35,7 @@
 
 <script>
 import { isAndroid, isIOS } from "tns-core-modules/platform";
-import dateNames from '../../utils/date';
+import dateUtils from '../../utils/date';
 import config from '../../config/config.json'
 var mapsModule = require("nativescript-google-maps-sdk");
 
@@ -52,11 +52,17 @@ export default {
       dateRange: [],
       eventsToDisplay: [],
       dateDaySelected: undefined,
+      promiseMapReady: undefined,
+      listMarkers: [],
     };
   },
   async mounted() {
     this.setDateRange(new Date());
+    this.promiseMapReady = new Promise(resolve => {
+      this.resolveMapReady = resolve;
+    });
     await this.fetchEvents();
+    this.selectDay(this.$store.getters['calendar/getFirstDateDayWithEvent']);
   },
   computed: {
     eventsDescriptionToDisplay() {
@@ -71,7 +77,7 @@ export default {
   },
   methods: {
     setDateRange(date) {
-      const dateStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const dateStart = dateUtils.simplifyDate(date);
       this.dateRange = [];
       for(let numDay = 0; numDay < 7; numDay++) {
         this.dateRange.push(new Date(dateStart.getFullYear(), dateStart.getMonth(), dateStart.getDate()+numDay));
@@ -89,12 +95,13 @@ export default {
     isDayWithEvent(dateDay) {
       return this.$store.getters['calendar/isDayWithEvent'](dateDay) ? "" : "disabled";
     },
-    displayEventsForDay(dateDay) {
+    selectDay(dateDay) {
       this.dateDaySelected = dateDay;
       this.eventsToDisplay = this.$store.getters['calendar/getEventsForTheDay'](dateDay);
+      this.addMarkers();
     },
     getCurrentDaySelectedNameLong() {
-      return this.dateDaySelected ? dateNames.dayOfTheWeekLong[this.dateDaySelected.getDay()] : "";
+      return this.dateDaySelected ? dateUtils.dayOfTheWeekLong[this.dateDaySelected.getDay()] : "";
     },
     getCurrentDaySelectedHours(event) {
       const formatHoursStart = event.date_start.getHours() < 10 ? `0${event.date_start.getHours()}` : event.date_start.getHours();
@@ -123,9 +130,7 @@ export default {
       this.mapView = args.object;
       this.mapView.zoomGesturesEnabled = false;
       const gMap = this.mapView.gMap;
-      this.mapView.latitude = 47.082692;
-      this.mapView.longitude = 2.392121;
-      this.mapView.zoom = 10;
+      this.mapView.zoom = 15;
       if (isAndroid) {
         const uiSettings = gMap.getUiSettings();
       }
@@ -133,18 +138,39 @@ export default {
         gMap.myLocationEnabled = true;
         gMap.settings.myLocationButton = true;
       }
-      this.addMarker({ 
-        lat: this.mapView.latitude,
-        long: this.mapView.longitude
-      });
+      this.resolveMapReady(true);
     },
-    addMarker(coords) {
-      const marker = new mapsModule.Marker();
-      marker.position = mapsModule.Position.positionFromLatLng(coords.lat, coords.long);
-      marker.title = "Bourges";
-      marker.snippet = "France";
-      marker.userData = { index : 1 };
-      this.mapView.addMarker(marker);
+    async addMarkers() {
+      await this.promiseMapReady;
+      this.listMarkers.forEach(marker => {
+        marker.setMap(null);
+      });
+      this.listMarkers = [];
+      this.eventsToDisplay.forEach(event => {
+        const locationInfo = {
+          lat: event.lat,
+          long: event.long,
+          title: event.title,
+          sub_title: event.sub_title
+        }
+        const marker = new mapsModule.Marker();
+        marker.position = mapsModule.Position.positionFromLatLng(locationInfo.lat, locationInfo.long);
+        marker.title = locationInfo.title;
+        marker.snippet = locationInfo.sub_title;
+        this.mapView.addMarker(marker);
+        this.listMarkers.push(marker);
+      });
+      if (this.eventsToDisplay.length > 1) {
+        let bounds = new mapsModule.LatLngBounds();
+        for (let i = 0; i < this.listMarkers.length; i++) {
+          bounds.extend(this.listMarkers[i]);
+        }
+        this.mapView.fitBounds(bounds);
+        this.mapView.setZoom(this.mapView.getZoom()-1);
+      } else if (this.eventsToDisplay.length === 1) {
+        this.mapView.latitude = this.eventsToDisplay[0].lat;
+        this.mapView.longitude = this.eventsToDisplay[0].long;
+      }
     }
   }
 };
@@ -207,10 +233,10 @@ export default {
         }
       }
       &__content-description {
-        margin: 0 $size-l;
-        margin-top: $size-l;
-        margin-bottom: $size-l;
+        flex-direction: column;
+        margin-bottom: $size-m;
         &__item {
+          margin: $size-s 0;
           border-color: white;
           border-width: 2;
           padding: $size-s;

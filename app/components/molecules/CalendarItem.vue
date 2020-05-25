@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import dateNames from '../../utils/date';
+import dateUtils from '../../utils/date';
 export default {
   props: ["state", "dateObj"],
   data() {
     return {
-      arrayDayName: dateNames.dayOfTheWeekShort,
-      arrayMonthName: dateNames.monthOfTheYearShort
+      arrayDayName: dateUtils.dayOfTheWeekShort,
+      arrayMonthName: dateUtils.monthOfTheYearShort
     };
   },
   computed: {
