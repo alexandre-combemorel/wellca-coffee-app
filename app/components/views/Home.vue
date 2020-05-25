@@ -92,13 +92,13 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 @keyframes animTitle {
-  0% { opacity: 0; transform: translate(0, $size-l) }
-  50% { opacity: 1; }
+  0% { opacity: 0; transform: translate(0, $size-xxxl) }
+  70% { opacity: 1; }
   100% { transform: translate(0, 0) }
 }
 @keyframes animSection {
-  0% { opacity: 0; transform: translate(0, 200) }
-  50% { opacity: 1; }
+  0% { opacity: 0; transform: translate(0, $size-xxxl+$size-xxl) }
+  70% { opacity: 1; }
   100% { transform: translate(0, 0) }
 }
 .home {
@@ -106,12 +106,12 @@ export default {
   height: 100%;
   &__title {
     text-align:center;
-    margin-top: $size-l;
+    margin-top: $size-xl;
     margin-bottom: $size-l;
-    animation: animTitle 2s linear;
+    animation: animTitle 1.5s ease-in-out;
   }
   &__section {
-    animation: animSection 2s linear;
+    animation: animSection 1.5s ease-in-out;
     &__section-title {
       margin-bottom: $size-m;
     }
