@@ -119,7 +119,7 @@ export default {
       try {
         const { start, end } = this.getStartEndDate();
         // Fetch the items
-        const response = await fetch(`${config.apiUrl}/events?date_start_gte=${start.getTime()}&date_end_lte=${end.getTime()}`);
+        const response = await fetch(`${config.apiUrl}/events?store.id=${this.$store.getters[`stores/getStoreSelected`].id}&date_start_gte=${start.getTime()}&date_end_lte=${end.getTime()}`);
         this.$store.commit(`calendar/setEvents`, await response.json())
       } catch (e) {
         console.error("Couldn't load the events:", e);
