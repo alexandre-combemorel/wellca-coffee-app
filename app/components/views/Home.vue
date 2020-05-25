@@ -53,7 +53,6 @@ export default {
       eventsToDisplay: [],
       dateDaySelected: undefined,
       promiseMapReady: undefined,
-      listMarkers: [],
     };
   },
   async mounted() {
@@ -143,10 +142,7 @@ export default {
     async addMarkers() {
       try {
         await this.promiseMapReady;
-        this.listMarkers.forEach(marker => {
-          marker.setMap(null);
-        });
-        this.listMarkers = [];
+        this.mapView.removeAllMarkers()
         this.eventsToDisplay.forEach(event => {
           const locationInfo = {
             lat: event.lat,
@@ -159,21 +155,27 @@ export default {
           marker.title = locationInfo.title;
           marker.snippet = locationInfo.sub_title;
           this.mapView.addMarker(marker);
-          this.listMarkers.push(marker);
         });
-        if (this.eventsToDisplay.length > 1) {
-          // console.log("addMarkers -> mapsModule.LatLngBounds", Object.keys(mapsModule))
-          let bounds = new mapsModule.Bounds();
-          
-          for (let i = 0; i < this.listMarkers.length; i++) {
-            bounds.extend(this.listMarkers[i]);
+        setTimeout(() => {
+          if (this.eventsToDisplay.length > 1) {
+            if (isAndroid) {
+              let builder = new com.google.android.gms.maps.model.LatLngBounds.Builder();
+              this.mapView.findMarker(marker => {
+                  builder.include(marker.android.getPosition());
+                  return false;
+              });
+
+              let bounds = builder.build();
+              let padding = 100;
+              let cu = com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds(bounds, padding);
+              this.mapView.gMap.animateCamera(cu);
+            }
+          } else if (this.eventsToDisplay.length === 1) {
+            this.mapView.latitude = this.eventsToDisplay[0].lat;
+            this.mapView.longitude = this.eventsToDisplay[0].long;
           }
-          this.mapView.fitBounds(bounds);
-          this.mapView.setZoom(this.mapView.getZoom()-1);
-        } else if (this.eventsToDisplay.length === 1) {
-          this.mapView.latitude = this.eventsToDisplay[0].lat;
-          this.mapView.longitude = this.eventsToDisplay[0].long;
-        }
+        }, 10)
+        
       } catch (e) {
         console.log("addMarkers -> e", e)
       }
