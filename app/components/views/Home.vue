@@ -45,6 +45,7 @@
 
 <script>
 import { isAndroid, isIOS } from "tns-core-modules/platform";
+import config from '../../config/config.json'
 var mapsModule = require("nativescript-google-maps-sdk");
 
 import SectionTitle from "../molecules/SectionTitle";
@@ -56,9 +57,18 @@ export default {
     SectionTitle, Title, CalendarItem
   },
   methods: {
+    async fetchEvents(dates) {
+      try {
+        // Fetch the items
+        const response = await fetch(`${config.apiUrl}/events?date_start_gte=${dates.start}&date_end_lte=${dates.end}`);
+        // this.$store.commit(`${this.item.type_selected}/setItems`, await response.json())
+      } catch (e) {
+        console.error("Couldn't load the events:", e);
+      }
+    },
     onMapReady(args) {
       this.mapView = args.object;
-      this.mapView.zoomGesturesEnabled = true;
+      this.mapView.zoomGesturesEnabled = false;
       const gMap = this.mapView.gMap;
       this.mapView.latitude = 47.082692;
       this.mapView.longitude = 2.392121;
@@ -75,8 +85,6 @@ export default {
         long: this.mapView.longitude
       });
     },
-    onMarkerSelect() {},
-    onMarkerInfoWindowTapped() {},
     addMarker(coords) {
       const marker = new mapsModule.Marker();
       marker.position = mapsModule.Position.positionFromLatLng(coords.lat, coords.long);

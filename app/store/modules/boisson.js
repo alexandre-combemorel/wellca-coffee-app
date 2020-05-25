@@ -1,4 +1,4 @@
-const moduleBoisson = {
+const moduleMenu = {
   namespaced: true,
   state: {
     categories: [],
@@ -46,4 +46,4 @@ const moduleBoisson = {
     getMenuItemSelected: state => state.menuItemSelected,
   }
 }
-export default moduleBoisson;
+export default moduleMenu;

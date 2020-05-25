@@ -1,4 +1,4 @@
-const moduleCafeGrain = {
+const moduleMenu = {
   namespaced: true,
   state: {
     categories: [],
@@ -46,4 +46,4 @@ const moduleCafeGrain = {
     getMenuItemSelected: state => state.menuItemSelected,
   }
 }
-export default moduleCafeGrain;
+export default moduleMenu;
