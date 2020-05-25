@@ -141,35 +141,41 @@ export default {
       this.resolveMapReady(true);
     },
     async addMarkers() {
-      await this.promiseMapReady;
-      this.listMarkers.forEach(marker => {
-        marker.setMap(null);
-      });
-      this.listMarkers = [];
-      this.eventsToDisplay.forEach(event => {
-        const locationInfo = {
-          lat: event.lat,
-          long: event.long,
-          title: event.title,
-          sub_title: event.sub_title
+      try {
+        await this.promiseMapReady;
+        this.listMarkers.forEach(marker => {
+          marker.setMap(null);
+        });
+        this.listMarkers = [];
+        this.eventsToDisplay.forEach(event => {
+          const locationInfo = {
+            lat: event.lat,
+            long: event.long,
+            title: event.title,
+            sub_title: event.sub_title
+          }
+          const marker = new mapsModule.Marker();
+          marker.position = mapsModule.Position.positionFromLatLng(locationInfo.lat, locationInfo.long);
+          marker.title = locationInfo.title;
+          marker.snippet = locationInfo.sub_title;
+          this.mapView.addMarker(marker);
+          this.listMarkers.push(marker);
+        });
+        if (this.eventsToDisplay.length > 1) {
+          // console.log("addMarkers -> mapsModule.LatLngBounds", Object.keys(mapsModule))
+          let bounds = new mapsModule.Bounds();
+          
+          for (let i = 0; i < this.listMarkers.length; i++) {
+            bounds.extend(this.listMarkers[i]);
+          }
+          this.mapView.fitBounds(bounds);
+          this.mapView.setZoom(this.mapView.getZoom()-1);
+        } else if (this.eventsToDisplay.length === 1) {
+          this.mapView.latitude = this.eventsToDisplay[0].lat;
+          this.mapView.longitude = this.eventsToDisplay[0].long;
         }
-        const marker = new mapsModule.Marker();
-        marker.position = mapsModule.Position.positionFromLatLng(locationInfo.lat, locationInfo.long);
-        marker.title = locationInfo.title;
-        marker.snippet = locationInfo.sub_title;
-        this.mapView.addMarker(marker);
-        this.listMarkers.push(marker);
-      });
-      if (this.eventsToDisplay.length > 1) {
-        let bounds = new mapsModule.LatLngBounds();
-        for (let i = 0; i < this.listMarkers.length; i++) {
-          bounds.extend(this.listMarkers[i]);
-        }
-        this.mapView.fitBounds(bounds);
-        this.mapView.setZoom(this.mapView.getZoom()-1);
-      } else if (this.eventsToDisplay.length === 1) {
-        this.mapView.latitude = this.eventsToDisplay[0].lat;
-        this.mapView.longitude = this.eventsToDisplay[0].long;
+      } catch (e) {
+        console.log("addMarkers -> e", e)
       }
     }
   }
