@@ -5,7 +5,8 @@ import navigation from './modules/navigation'
 import sliderBottom from './modules/sliderBottom'
 import boisson from './modules/boisson'
 import cafe_grain from './modules/cafe_grain'
-import app from './modules/app'
+import calendar from './modules/calendar'
+import app_settings from './modules/app_settings'
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     sliderBottom,
     boisson,
     cafe_grain,
-    app
+    calendar,
+    app_settings
   }
 });

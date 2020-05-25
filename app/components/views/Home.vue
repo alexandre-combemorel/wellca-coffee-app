@@ -1,38 +1,28 @@
 <template>
   <GridLayout rows="auto, *" class="home">
     <Title row="0" :content="`WELCOME`" class="home__title"/>
-    <ScrollView row="1" @scroll="getScroll" orientation="vertical" class="home__section">
+    <ScrollView row="1" orientation="vertical" class="home__section">
       <StackLayout class="home__wrapper">
         <SectionTitle :content="`OUVERTURE`" class="home__section-title"/>
         <StackLayout class="home__section__opening">
           <StackLayout class="home__section__opening__calendar">
-            <calendar-item/>
-            <calendar-item/>
-            <calendar-item state="disabled"/>
-            <calendar-item state="disabled"/>
-            <calendar-item/>
-            <calendar-item/>
+            <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="isDayWithEvent(dateDay)" v-on:datetap="displayEventsForDay"/>
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
             <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock"></StackLayout>
-            <Title row="0" col="1" :content="`Mercredi`" class="home__section__opening__content__title"/>
+            <Title row="0" col="1" :content="getCurrentDaySelectedNameLong()" class="home__section__opening__content__title"/>
             <StackLayout row="1" col="1" class="home__section__opening__content__info">
-              <StackLayout class="home__section__opening__content__info__item" orientation="vertical">
-                <Label text="7h - 13h" class="home__section__opening__content__info__item__text"/>
-                <Label text="Bourges" class="home__section__opening__content__info__item__text"/>
-                <Label text="Marché de la chancellerie" class="home__section__opening__content__info__item__text"/>
-              </StackLayout>
-              <StackLayout class="home__section__opening__content__info__item" orientation="vertical">
-                <Label text="7h - 13h" class="home__section__opening__content__info__item__text"/>
-                <Label text="Bourges" class="home__section__opening__content__info__item__text"/>
-                <Label text="Marché de la chancellerie" class="home__section__opening__content__info__item__text"/>
+              <StackLayout class="home__section__opening__content__info__item" v-for="event in eventsToDisplay" :key="event.id">
+                <Label :text="getCurrentDaySelectedHours(event)" class="home__section__opening__content__info__item__text"/>
+                <Label :text="event.title" class="home__section__opening__content__info__item__text"/>
+                <Label :text="event.sub_title" class="home__section__opening__content__info__item__text"/>
               </StackLayout>
             </StackLayout>
           </GridLayout>
           <FlexboxLayout class="home__section__opening__content-description">
-            <StackLayout class="home__section__opening__content-description__item">
-              <Label text="Evenement :" class="home__section__opening__content-description__item__title"/>
-              <Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla rhoncus, risus in convallis vehicula, nisl leo mollis orci, id vestibulum sem enim maximus enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi nibh sapien, ultricies eget turpis ut, interdum molestie purus. " class="home__section__opening__content-description__item__text"/>
+            <StackLayout class="home__section__opening__content-description__item" v-for="(description, index) in eventsDescriptionToDisplay" :key="index">
+              <Label :text="description.title" class="home__section__opening__content-description__item__title"/>
+              <Label :text="description.description" class="home__section__opening__content-description__item__text"/>
             </StackLayout>
           </FlexboxLayout>
         </StackLayout>
@@ -45,6 +35,7 @@
 
 <script>
 import { isAndroid, isIOS } from "tns-core-modules/platform";
+import dateNames from '../../utils/date';
 import config from '../../config/config.json'
 var mapsModule = require("nativescript-google-maps-sdk");
 
@@ -56,12 +47,74 @@ export default {
   components: {
     SectionTitle, Title, CalendarItem
   },
+  data() {
+    return {
+      dateRange: [],
+      eventsToDisplay: [],
+      dateDaySelected: undefined,
+    };
+  },
+  async mounted() {
+    this.setDateRange(new Date());
+    await this.fetchEvents();
+  },
+  computed: {
+    eventsDescriptionToDisplay() {
+      const listDescriptions = [];
+      this.eventsToDisplay.forEach(event => {
+        event.descriptions.forEach(description => {
+          listDescriptions.push(description);
+        })
+      });
+      return listDescriptions;
+    }
+  },
   methods: {
-    async fetchEvents(dates) {
+    setDateRange(date) {
+      const dateStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      this.dateRange = [];
+      for(let numDay = 0; numDay < 7; numDay++) {
+        this.dateRange.push(new Date(dateStart.getFullYear(), dateStart.getMonth(), dateStart.getDate()+numDay));
+      }
+    },
+    getStartEndDate() {
+      if (this.dateRange.length > 0) {
+        const lastDay = this.dateRange[this.dateRange.length-1];
+        const dateEnd = new Date(lastDay.getFullYear(), lastDay.getMonth(), lastDay.getDate(), 0, 0, -1);
+        const firstDay = this.dateRange[0];
+        return { start: firstDay, end: dateEnd };
+      }
+      return undefined;
+    },
+    isDayWithEvent(dateDay) {
+      return this.$store.getters['calendar/isDayWithEvent'](dateDay) ? "" : "disabled";
+    },
+    displayEventsForDay(dateDay) {
+      this.dateDaySelected = dateDay;
+      this.eventsToDisplay = this.$store.getters['calendar/getEventsForTheDay'](dateDay);
+    },
+    getCurrentDaySelectedNameLong() {
+      return this.dateDaySelected ? dateNames.dayOfTheWeekLong[this.dateDaySelected.getDay()] : "";
+    },
+    getCurrentDaySelectedHours(event) {
+      const formatHoursStart = event.date_start.getHours() < 10 ? `0${event.date_start.getHours()}` : event.date_start.getHours();
+      const formatMinutesStart = event.date_start.getMinutes() < 10 ? `0${event.date_start.getMinutes()}` : event.date_start.getMinutes();
+      const formatHoursEnd = event.date_end.getHours() < 10 ? `0${event.date_end.getHours()}` : event.date_end.getHours();
+      const formatMinutesEnd = event.date_end.getMinutes() < 10 ? `0${event.date_end.getMinutes()}` : event.date_end.getMinutes();
+
+      const textStart = this.dateDaySelected.getDay() === event.date_start.getDay() ? `${formatHoursStart}h${formatMinutesStart}` : "Jour précédent";
+      const textEnd = this.dateDaySelected.getDay() === event.date_end.getDay() ? `${formatHoursEnd}h${formatMinutesEnd}` : "jour suivant";
+      return `${textStart} - ${textEnd}`;
+    },
+
+
+
+    async fetchEvents() {
       try {
+        const { start, end } = this.getStartEndDate();
         // Fetch the items
-        const response = await fetch(`${config.apiUrl}/events?date_start_gte=${dates.start}&date_end_lte=${dates.end}`);
-        // this.$store.commit(`${this.item.type_selected}/setItems`, await response.json())
+        const response = await fetch(`${config.apiUrl}/events?date_start_gte=${start.getTime()}&date_end_lte=${end.getTime()}`);
+        this.$store.commit(`calendar/setEvents`, await response.json())
       } catch (e) {
         console.error("Couldn't load the events:", e);
       }
@@ -144,6 +197,7 @@ export default {
           &__item {
             text-align: right;
             margin-top: $size-m;
+            orientation: vertical;
             &__text {
               margin-top: $size-s;
               font-size: 16;
