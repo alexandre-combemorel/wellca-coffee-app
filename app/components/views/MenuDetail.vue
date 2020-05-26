@@ -48,6 +48,7 @@ export default {
       widthScreen: 0,
       menuListView: undefined,
       itemsLoaded: undefined,
+      componentLoaded: undefined,
     }
   },
   watch: {
@@ -57,8 +58,8 @@ export default {
       }
     }
   },
-  async mounted() {
-    await this.initVar();
+  mounted() {
+    this.componentLoaded = this.initVar();
   },
   computed: {
     categoryName() {
@@ -109,15 +110,14 @@ export default {
       const indexToSelect = Math.abs(positionX + this.widthScreen * 0.2) / this.widthItem;
       this.$store.commit(`${this.type_selected}/setMenuItemSelected`, this.getItemFromIndex(Math.trunc(indexToSelect)));
     },
-    setListPosition(animate) {
-      if (this.menuListView) {
-        const index = this.getIndexItemSelected();
-        const distanceToTranslate = this.widthItem * index;
-        // hack to get the scrollView to animate
-        setTimeout(() => {
-          this.menuListView.scrollToHorizontalOffset(distanceToTranslate, animate);
-        }, 1);
-      }
+    async setListPosition(animate) {
+      await this.componentLoaded;
+      const index = this.getIndexItemSelected();
+      const distanceToTranslate = this.widthItem * index;
+      // hack to get the scrollView to animate
+      setTimeout(() => {
+        this.menuListView.scrollToHorizontalOffset(distanceToTranslate, animate);
+      }, 1);
     },
     getItemFromIndex(indexParam) {
       let itemToReturn = 0;
