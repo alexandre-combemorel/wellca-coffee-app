@@ -28,5 +28,11 @@ export default {
     border-width: 2;
     border-radius: 50;
   }
+  &.size-medium {
+    width: 36;
+    height: 36;
+    font-size: 22;
+    padding: 5;
+  }
 }
 </style>

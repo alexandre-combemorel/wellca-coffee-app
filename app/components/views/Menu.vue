@@ -1,6 +1,6 @@
 <template>
   <AbsoluteLayout class="menu">
-    <BackArrow class="menu__back-btn" v-on:taped="showMenuAll"/>
+    <button-icon class="menu__back-arrow" codeicon="f060" options="borders size-medium" v-show="!isMenuAllVisibile" v-on:icontapped="showMenuAll"/>
     <MenuAll v-show="isMenuAllVisibile" :type_selected="item.type_selected"/>
     <MenuDetail v-show="!isMenuAllVisibile" :is-display="!isMenuAllVisibile" :type_selected="item.type_selected"/>
   </AbsoluteLayout>
@@ -9,14 +9,14 @@
 <script>
 import config from '../../config/config.json'
 
-import BackArrow from '../atoms/BackArrow';
+import ButtonIcon from "../atoms/ButtonIcon";
 import MenuDetail from './MenuDetail';
 import MenuAll from './MenuAll';
 
 
 export default {
   components: {
-    BackArrow, MenuAll, MenuDetail
+    MenuAll, MenuDetail, ButtonIcon
   },
   props: ['item'],
   watch: {
@@ -52,11 +52,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .menu {
   width: 100%;
   height: 100%;
-  &__back-btn {
-    z-index: 1;
+  &__back-arrow {
+    margin-top: $size-xs;
+    margin-left: $size-xs;
   }
   
 }
