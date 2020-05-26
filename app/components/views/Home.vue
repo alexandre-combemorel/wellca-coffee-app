@@ -225,10 +225,10 @@ export default {
     text-align:center;
     margin-top: $size-xl;
     margin-bottom: $size-l;
-    // animation: animTitle 1.5s ease-in-out;
+    animation: animTitle 1.5s ease-in-out;
   }
   &__section {
-    // animation: animSection 1.5s ease-in-out;
+    animation: animSection 1.5s ease-in-out;
     &__section-title {
       margin-bottom: $size-m;
     }

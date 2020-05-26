@@ -1,5 +1,5 @@
 <template>
-  <StackLayout class="calendar-item" :class="state" @tap="$emit('datetap', dateObj)">
+  <StackLayout class="calendar-item" :class="state" @tap="emitToParent">
     <Label :text="day" class="calendar-item__day"/>
     <Label :text="date" class="calendar-item__date"/>
     <label :text="month" class="calendar-item__month"/>
@@ -25,6 +25,11 @@ export default {
     },
     month() {
       return this.dateObj ? this.arrayMonthName[this.dateObj.getMonth()] : "ProbM";
+    }
+  },
+  methods: {
+    emitToParent() {
+      !this.state.includes("disabled") && this.$emit('datetap', this.dateObj);
     }
   }
 }
