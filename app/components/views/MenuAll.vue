@@ -2,9 +2,7 @@
   <AbsoluteLayout class="menu-all" ref="menu-all">
     <AbsoluteLayout class="menu-all--wrapper">
       <FlexboxLayout @tap="openActionCategorySelector()" class="menu-all__page-title" ref="menu-all__page-title">
-        <StackLayout>
-          <Title :content="categoryName"/>
-        </StackLayout>
+          <Title :content="categoryName"/><button-icon codeicon="f078" class="menu-all__page-title__icon"/>
       </FlexboxLayout>
       <ScrollView @scroll="getScroll" orientation="vertical" ref="menu-all__section" class="menu-all__section">
         <StackLayout @pan="makeSticky" orientation="vertical" class="menu-all__section--wrapper">
@@ -28,6 +26,7 @@
 import Title from '../atoms/Title';
 import SectionTitle from '../molecules/SectionTitle';
 import TileImage from '../molecules/TileImage';
+import ButtonIcon from "../atoms/ButtonIcon";
 
 import config from '../../config/config.json'
 import utils from '../../utils/all';
@@ -40,12 +39,12 @@ const stateMenu = {
 
 export default {
   components: {
-    Title, SectionTitle, TileImage
+    Title, SectionTitle, TileImage, ButtonIcon
   },
   props: ['type_selected'],
   data() {
     return {
-      allCategoryName: config.views.MenuAll.title,
+      allCategoryName: config.views.MenuAll[this.type_selected].title,
       topGradientActive: false,
       scrollView: undefined,
       pageTitleView: undefined,
@@ -180,6 +179,10 @@ export default {
     margin-bottom: $size-xxl+$size-xl;
     justify-content: center;
     align-items: center;
+    &__icon {
+      margin-left: $size-s;
+      margin-top: 3;
+    }
   }
   &__section {
     z-index: 10;
