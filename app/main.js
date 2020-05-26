@@ -8,6 +8,9 @@ if(TNS_ENV !== 'production') {
 import store from './store/store'
 Vue.prototype.$store = store
 
+import DateTimePicker from "nativescript-datetimepicker/vue";
+Vue.use(DateTimePicker);
+
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')
 

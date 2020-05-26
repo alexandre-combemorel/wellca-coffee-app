@@ -7,6 +7,7 @@
         <StackLayout class="home__section__opening">
           <StackLayout class="home__section__opening__calendar">
             <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="isDayWithEvent(dateDay)" v-on:datetap="selectDay"/>
+            <button-icon codeicon="f13a" class="home__section__opening__calendar__expand" v-on:icontapped="onPickDateTap"/>
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
             <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock"></StackLayout>
@@ -38,30 +39,30 @@ import { isAndroid, isIOS } from "tns-core-modules/platform";
 import dateUtils from '../../utils/date';
 import config from '../../config/config.json'
 var mapsModule = require("nativescript-google-maps-sdk");
+import { DateTimePicker } from "nativescript-datetimepicker";
 
 import SectionTitle from "../molecules/SectionTitle";
 import CalendarItem from "../molecules/CalendarItem";
 import Title from "../atoms/Title";
+import ButtonIcon from "../atoms/ButtonIcon";
 
 export default {
   components: {
-    SectionTitle, Title, CalendarItem
+    SectionTitle, Title, CalendarItem, ButtonIcon
   },
   data() {
     return {
       dateRange: [],
       eventsToDisplay: [],
-      dateDaySelected: undefined,
+      dateDaySelected: new Date(),
       promiseMapReady: undefined,
     };
   },
-  async mounted() {
-    this.setDateRange(new Date());
+  mounted() {
     this.promiseMapReady = new Promise(resolve => {
       this.resolveMapReady = resolve;
     });
-    await this.fetchEvents();
-    this.selectDay(this.$store.getters['calendar/getFirstDateDayWithEvent']);
+    this.selectStartDate(new Date());
   },
   computed: {
     eventsDescriptionToDisplay() {
@@ -75,6 +76,28 @@ export default {
     }
   },
   methods: {
+    async selectStartDate(date) {
+      this.setDateRange(date);
+      await this.fetchEvents();
+      this.selectDay(this.$store.getters['calendar/getFirstDateDayWithEvent']);
+    },
+    onPickDateTap(args) {
+        DateTimePicker
+            .pickDate({
+                context: args.object._context,
+                date: this.dateDaySelected,
+                okButtonText: "OK",
+                cancelButtonText: "Annuler",
+                title: "Changer la date",
+                locale: "fr_FR"
+            })
+            .then(selectedDate => {
+                if (selectedDate) {
+                    this.dateDaySelected = selectedDate;
+                    this.selectStartDate(this.dateDaySelected);
+                }
+            });
+    },
     setDateRange(date) {
       const dateStart = dateUtils.simplifyDate(date);
       this.dateRange = [];
@@ -203,10 +226,10 @@ export default {
     text-align:center;
     margin-top: $size-xl;
     margin-bottom: $size-l;
-    animation: animTitle 1.5s ease-in-out;
+    // animation: animTitle 1.5s ease-in-out;
   }
   &__section {
-    animation: animSection 1.5s ease-in-out;
+    // animation: animSection 1.5s ease-in-out;
     &__section-title {
       margin-bottom: $size-m;
     }
@@ -216,6 +239,9 @@ export default {
         margin: 0 $size-m;
         height: 100;
         orientation: horizontal;
+        &__expand {
+          margin-top: -10;
+        }
       }
       &__content {
         margin: 0 $size-l;

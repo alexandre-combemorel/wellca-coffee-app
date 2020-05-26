@@ -59,6 +59,7 @@ export default {
   height: 100%;
   top: 5;
   margin-top: 100%;
+  color: white;
   &__content {
     top: 0;
     left: 0;
@@ -75,9 +76,8 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: $tertiary-color;
+    background: $primary-color;
     border-radius: 15 15 0 0;
-    opacity: 0.9;
   }
 }
 </style>

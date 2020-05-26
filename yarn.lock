@@ -3629,6 +3629,11 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+nativescript-datetimepicker@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/nativescript-datetimepicker/-/nativescript-datetimepicker-1.2.2.tgz#b48b343afebf04093422079639f7fb89e696b6b3"
+  integrity sha512-Nk13FBEI0bIuvA/9BQfFH24LsFksD+aNrJTKZE3x5Y/y8CPcMfm4beBxnI1ZvIZMfpZsNMhRPnqd+Qqe9W/oGw==
+
 nativescript-dev-webpack@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/nativescript-dev-webpack/-/nativescript-dev-webpack-1.5.1.tgz#1ad4492bbafe94e183a222a3d5654ca98a1bedae"

@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@vue/devtools": "^5.3.3",
+    "nativescript-datetimepicker": "^1.2.2",
     "nativescript-google-maps-sdk": "^2.9.1",
     "nativescript-socketio": "^3.3.1",
     "nativescript-toasty": "^3.0.0-alpha.2",
