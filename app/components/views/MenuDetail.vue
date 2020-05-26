@@ -37,11 +37,10 @@ import Title from '../atoms/Title';
 import Button from '../atoms/Button';
 
 export default {
-  props: ['isDisplay'],
+  props: ['isDisplay', 'type_selected'],
   components: {
     TileImage, TextBlock, Title, Button
   },
-  props: ['type_selected'],
   data() {
     return {
       positionList: 0,
