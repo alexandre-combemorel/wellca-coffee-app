@@ -82,21 +82,20 @@ export default {
       this.selectDay(this.$store.getters['calendar/getFirstDateDayWithEvent']);
     },
     onPickDateTap(args) {
-        DateTimePicker
-            .pickDate({
-                context: args.object._context,
-                date: this.dateDaySelected,
-                okButtonText: "OK",
-                cancelButtonText: "Annuler",
-                title: "Changer la date",
-                locale: "fr_FR"
-            })
-            .then(selectedDate => {
-                if (selectedDate) {
-                    this.dateDaySelected = selectedDate;
-                    this.selectStartDate(this.dateDaySelected);
-                }
-            });
+      DateTimePicker
+          .pickDate({
+              context: args.object._context,
+              date: this.dateRange[0],
+              okButtonText: "OK",
+              cancelButtonText: "Annuler",
+              title: "Changer la date",
+              locale: "fr_FR"
+          })
+          .then(selectedDate => {
+              if (selectedDate) {
+                  this.selectStartDate(selectedDate);
+              }
+          });
     },
     setDateRange(date) {
       const dateStart = dateUtils.simplifyDate(date);
