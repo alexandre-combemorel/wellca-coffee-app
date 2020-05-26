@@ -6,7 +6,7 @@
         <SectionTitle :content="config.views.Home.title_section_1" class="home__section__section-title"/>
         <StackLayout class="home__section__opening">
           <StackLayout class="home__section__opening__calendar">
-            <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="isDayWithEvent(dateDay)" v-on:datetap="selectDay"/>
+            <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="giveStateOfCalendarItem(dateDay)" v-on:datetap="selectDay"/>
             <button-icon codeicon="f13a" class="home__section__opening__calendar__expand" v-on:icontapped="onPickDateTap"/>
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
@@ -114,8 +114,14 @@ export default {
       }
       return undefined;
     },
-    isDayWithEvent(dateDay) {
-      return this.$store.getters['calendar/isDayWithEvent'](dateDay) ? "" : "disabled";
+    giveStateOfCalendarItem(dateDay) {
+      let state = "";
+      if (!this.$store.getters['calendar/isDayWithEvent'](dateDay)) {
+        state = "disabled";
+      } else if (this.dateDaySelected && dateDay && this.dateDaySelected.getTime() === dateDay.getTime()) {
+        state = "active";
+      }
+      return state;
     },
     selectDay(dateDay) {
       this.dateDaySelected = dateDay;

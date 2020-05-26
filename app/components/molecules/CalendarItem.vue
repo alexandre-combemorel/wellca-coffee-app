@@ -57,5 +57,11 @@ export default {
       border-color: #B3B3B3;
     }
   }
+  &.active {
+    .calendar-item__date {
+      background: $active-state;
+      border-color: $active-state;
+    }
+  }
 }
 </style>
