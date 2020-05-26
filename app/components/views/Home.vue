@@ -1,9 +1,9 @@
 <template>
   <GridLayout rows="auto, *" class="home">
-    <Title row="0" :content="`WELCOME`" class="home__title"/>
+    <Title row="0" :content="config.views.Home.title_view" class="home__title"/>
     <ScrollView row="1" orientation="vertical" class="home__section">
       <StackLayout class="home__wrapper">
-        <SectionTitle :content="`OUVERTURE`" class="home__section-title"/>
+        <SectionTitle :content="config.views.Home.title_section_1" class="home__section__section-title"/>
         <StackLayout class="home__section__opening">
           <StackLayout class="home__section__opening__calendar">
             <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="isDayWithEvent(dateDay)" v-on:datetap="selectDay"/>
@@ -27,7 +27,7 @@
             </StackLayout>
           </FlexboxLayout>
         </StackLayout>
-        <SectionTitle :content="`MAP`" class="home__section__section-title"/>
+        <SectionTitle :content="config.views.Home.title_section_2" class="home__section__section-title"/>
         <MapView v-show="dateDaySelected" class="home__section__map" iosOverflowSafeArea="true" @mapReady="onMapReady"></MapView>
       </StackLayout>
     </ScrollView>
@@ -52,6 +52,7 @@ export default {
   },
   data() {
     return {
+      config: config,
       dateRange: [],
       eventsToDisplay: [],
       dateDaySelected: new Date(),

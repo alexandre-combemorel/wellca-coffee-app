@@ -10,11 +10,14 @@
       }
     },
     "Home": {
+      "title_view": "WELLCA COFFEE",
       "datepicker": {
         "title": "Changer la date",
         "button_ok": "OK",
         "button_cancel": "Annuler"
-      }
+      },
+      "title_section_1": "OUVERTURE",
+      "title_section_2": "MAP"
     }
   },
   "version": "1.0",
