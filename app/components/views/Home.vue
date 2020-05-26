@@ -86,9 +86,9 @@ export default {
           .pickDate({
               context: args.object._context,
               date: this.dateRange[0],
-              okButtonText: config.Home.datepicker.button_ok,
-              cancelButtonText: config.Home.datepicker.button_cancel,
-              title: config.Home.datepicker.title,
+              okButtonText: config.views.Home.datepicker.button_ok,
+              cancelButtonText: config.views.Home.datepicker.button_cancel,
+              title: config.views.Home.datepicker.title,
               locale: "fr_FR"
           })
           .then(selectedDate => {
