@@ -1,10 +1,13 @@
 <template>
-  <Label :text="icon" class="button-icon fas" :class="options" @tap="emitToParent"/>
+  <AbsoluteLayout>
+    <Label :text="icon" class="button-icon fas" :class="options" @tap="emitToParent"/>
+    <Label v-show="isActive" class="dot-active"/>
+  </AbsoluteLayout>
 </template>
 
 <script>
 export default {
-  props: ["options", "codeicon"],
+  props: ["options", "codeicon", "isActive"],
   computed: {
     icon() {
       return String.fromCharCode(`0x${this.codeicon}`);
@@ -19,6 +22,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~/assets/css/variables.scss';
 .button-icon {
   width: 40;
   height: 30;
@@ -34,5 +38,14 @@ export default {
     font-size: 22;
     padding: 5;
   }
+}
+.dot-active {
+  background: $active-state;
+  width: 12;
+  height: 12;
+  border-radius: 50;
+  z-index: 1;
+  top: 16;
+  left: 18;
 }
 </style>
