@@ -31,7 +31,7 @@
       this.translateCircle(this.distanceCalculated());
 
       await utils.returnSizeWhenNativeViewLoaded(this.$refs.circlePan.nativeView)
-      this.selectItem(2); // to be removed
+      // this.selectItem(2); // to be removed
     },
     methods: {
       panCircle(args) {

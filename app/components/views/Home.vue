@@ -246,7 +246,7 @@ export default {
         height: 100;
         orientation: horizontal;
         &__expand {
-          margin-top: -10;
+          margin-top: 30;
         }
       }
       &__content {
