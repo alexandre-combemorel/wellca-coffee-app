@@ -2,7 +2,7 @@
   <AbsoluteLayout class="menu-all" ref="menu-all">
     <AbsoluteLayout class="menu-all--wrapper">
       <FlexboxLayout @tap="openActionCategorySelector()" class="menu-all__page-title" ref="menu-all__page-title">
-          <Title :content="categoryName"/><button-icon codeicon="f078" class="menu-all__page-title__icon"/>
+          <Title :content="categoryName"/><button-icon codeicon="f13a" class="menu-all__page-title__icon"/>
       </FlexboxLayout>
       <ScrollView @scroll="getScroll" orientation="vertical" ref="menu-all__section" class="menu-all__section">
         <StackLayout @pan="makeSticky" orientation="vertical" class="menu-all__section--wrapper">
