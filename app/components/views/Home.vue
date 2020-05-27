@@ -1,6 +1,6 @@
 <template>
   <GridLayout rows="auto, *" class="home">
-    <Title row="0" :content="config.views.Home.title_view" class="home__title"/>
+    <Title row="0" :content="config.views.Home.title_view" class="home__title" type="h1"/>
     <ScrollView row="1" orientation="vertical" class="home__section">
       <StackLayout class="home__wrapper">
         <SectionTitle :content="config.views.Home.title_section_1" class="home__section__section-title"/>
@@ -11,19 +11,19 @@
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
             <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock"></StackLayout>
-            <Title row="0" col="1" :content="getCurrentDaySelectedNameLong()" class="home__section__opening__content__title"/>
+            <Title row="0" col="1" :content="getCurrentDaySelectedNameLong()" class="home__section__opening__content__title" type="h3"/>
             <StackLayout row="1" col="1" class="home__section__opening__content__info">
               <StackLayout class="home__section__opening__content__info__item" v-for="event in eventsToDisplay" :key="event.id">
-                <Label :text="getCurrentDaySelectedHours(event)" class="home__section__opening__content__info__item__text"/>
-                <Label :text="event.title" class="home__section__opening__content__info__item__text"/>
-                <Label :text="event.sub_title" class="home__section__opening__content__info__item__text"/>
+                <Title :content="getCurrentDaySelectedHours(event)" class="home__section__opening__content__info__item__text" type="h4"/>
+                <TextBlock :content="event.title" class="home__section__opening__content__info__item__text" type="p1"/>
+                <TextBlock :content="event.sub_title" class="home__section__opening__content__info__item__text" type="p2"/>
               </StackLayout>
             </StackLayout>
           </GridLayout>
           <FlexboxLayout class="home__section__opening__content-description">
             <StackLayout class="home__section__opening__content-description__item" v-for="(description, index) in eventsDescriptionToDisplay" :key="index">
-              <Label :text="description.title" class="home__section__opening__content-description__item__title"/>
-              <Label :text="description.description" class="home__section__opening__content-description__item__text"/>
+              <Title :content="description.title" class="home__section__opening__content-description__item__title" type="h4"/>
+              <TextBlock :content="description.description" class="home__section__opening__content-description__item__text" type="p2"/>
             </StackLayout>
           </FlexboxLayout>
         </StackLayout>
@@ -45,10 +45,11 @@ import SectionTitle from "../molecules/SectionTitle";
 import CalendarItem from "../molecules/CalendarItem";
 import Title from "../atoms/Title";
 import ButtonIcon from "../atoms/ButtonIcon";
+import TextBlock from "../atoms/TextBlock";
 
 export default {
   components: {
-    SectionTitle, Title, CalendarItem, ButtonIcon
+    SectionTitle, Title, CalendarItem, ButtonIcon, TextBlock
   },
   data() {
     return {
@@ -232,10 +233,10 @@ export default {
     text-align:center;
     margin-top: $size-xl;
     margin-bottom: $size-l;
-    animation: animTitle 1.5s ease-in-out;
+    // animation: animTitle 1.5s ease-in-out;
   }
   &__section {
-    animation: animSection 1.5s ease-in-out;
+    // animation: animSection 1.5s ease-in-out;
     &__section-title {
       margin-bottom: $size-m;
     }
@@ -266,8 +267,6 @@ export default {
             orientation: vertical;
             &__text {
               margin-top: $size-s;
-              font-size: 16;
-              text-wrap: true;
             }
           }
         }
@@ -280,9 +279,6 @@ export default {
           border-color: white;
           border-width: 2;
           padding: $size-s;
-          &__title {
-            font-size: 18;
-          }
           &__text {
             margin-top: $size-s;
             text-wrap: true;

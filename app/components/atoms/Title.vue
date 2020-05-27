@@ -1,16 +1,12 @@
 <template>
-  <Label class="title" :text="content"/>
+  <Label class="title" :text="content" :class="type || 'h1'"/>
 </template>
 
 <script>
 export default {
-  props: ["content"],
+  props: ["content", "type"],
 }
 </script>
 
 <style scoped lang="scss">
-@import '~/assets/css/variables.scss';
-.title {
-  font-size: $title-size;
-}
 </style>

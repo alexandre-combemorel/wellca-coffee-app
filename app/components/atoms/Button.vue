@@ -1,6 +1,6 @@
 <template>
   <StackLayout class="button--wrapper">
-    <Label :text="content" class="button" :class="addClasses" @tap="pressed"/>
+    <Label :text="content" class="button btn" :class="addClasses" @tap="pressed"/>
   </StackLayout>
 </template>
 

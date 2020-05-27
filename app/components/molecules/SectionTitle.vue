@@ -1,6 +1,6 @@
 <template>
   <FlexboxLayout class="section-title">
-    <Title :content="content" class="section-title__title"/>
+    <Title :content="content" class="section-title__title" type="h2"/>
     <Label class="section-title__barre"/>
   </FlexboxLayout>
 </template>

@@ -1,16 +1,21 @@
 <template>
   <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoomed' : '' ]">
     <Image :src="img" class="tile-image__image"/>
-    <Label v-if="maintext" :text="maintext" class="tile-image__main-text"/>
-    <Label v-if="secondtext" :text="secondtext" class="tile-image__second-text"/>
+    <TextBlock v-if="maintext" :content="maintext" type="p1" class="tile-image__main-text"/>
+    <TextLabel v-if="secondtext" :content="secondtext" type="p2" class="tile-image__second-text"/>
   </FlexboxLayout>
 </template>
 
 <script>
 import utils from '../../utils/all';
+import TextBlock from '../atoms/TextBlock';
+import TextLabel from '../atoms/TextLabel';
 
 export default {
   props: ['img', 'maintext', 'secondtext', 'size', 'zoomed'],
+  components: {
+    TextBlock, TextLabel
+  },
   async mounted() {
     this.$emit("sizecomponent", await utils.returnSizeWhenNativeViewLoaded(this.$refs['tile-image'].nativeView));
   }

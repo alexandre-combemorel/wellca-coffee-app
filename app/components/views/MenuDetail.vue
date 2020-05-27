@@ -14,9 +14,9 @@
       </ScrollView>
       <ScrollView row="2" orientation="vertical" class="menu-detail__information--wrapper">
         <FlexboxLayout class="menu-detail__information">
-          <Label v-if="itemSelected" :text="itemSelected.item.title" class="menu-detail__information__title"/>
-          <Label v-if="itemSelected" :text="itemSelected.item.sub_title" class="menu-detail__information__subtitle"/>
-          <TextBlock v-if="itemSelected" :data="itemSelected.item.description" class="menu-detail__information__description"/>
+          <Title v-if="itemSelected" :text="itemSelected.item.title" type="h4" class="menu-detail__information__title"/>
+          <TextLabel v-if="itemSelected" :text="itemSelected.item.sub_title" type="hashtag" class="menu-detail__information__subtitle"/>
+          <TextBlock v-if="itemSelected" :content="itemSelected.item.description" type="p2" class="menu-detail__information__description"/>
         </FlexboxLayout>
       </ScrollView>
       <FlexboxLayout row="3" class="menu-detail__button-price">
@@ -32,6 +32,7 @@ const platformModule = require("tns-core-modules/platform");
 import utils from '../../utils/all';
 
 import TextBlock from '../atoms/TextBlock'
+import TextLabel from '../atoms/TextLabel'
 import TileImage from '../molecules/TileImage';
 import Title from '../atoms/Title';
 import Button from '../atoms/Button';
@@ -39,7 +40,7 @@ import Button from '../atoms/Button';
 export default {
   props: ['isDisplay', 'type_selected'],
   components: {
-    TileImage, TextBlock, Title, Button
+    TileImage, TextBlock, TextLabel, Title, Button
   },
   data() {
     return {
