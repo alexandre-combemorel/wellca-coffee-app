@@ -14,7 +14,7 @@
       </ScrollView>
       <ScrollView row="2" orientation="vertical" class="menu-detail__information--wrapper">
         <FlexboxLayout class="menu-detail__information">
-          <Title v-if="itemSelected" :text="itemSelected.item.title" type="h4" class="menu-detail__information__title"/>
+          <Title v-if="itemSelected" :text="itemSelected.item.title" type="h3" class="menu-detail__information__title"/>
           <TextLabel v-if="itemSelected" :text="itemSelected.item.sub_title" type="hashtag" class="menu-detail__information__subtitle"/>
           <TextBlock v-if="itemSelected" :content="itemSelected.item.description" type="p2" class="menu-detail__information__description"/>
         </FlexboxLayout>
