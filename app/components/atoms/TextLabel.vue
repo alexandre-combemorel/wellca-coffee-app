@@ -1,5 +1,5 @@
 <template>
-  <Label :text="content" class="text-label" :class="type"/>
+  <Label :text="content" class="text-label" :class="type || 'p'" @tap="$emit('tap')"/>
 </template>
 
 <script>

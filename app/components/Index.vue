@@ -78,7 +78,6 @@ export default {
     &__gridmain {
       width: 100%;
       height: 100%;
-      color: $text-color-primary;
       &__views-container {
         background: linear-gradient(to bottom, $secondary-color, $primary-color);
         width: 100%;

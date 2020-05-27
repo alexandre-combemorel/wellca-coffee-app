@@ -18,6 +18,7 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .section-title {
+  margin-bottom: $size-m;
   &__title {
     margin-left: $size-m;
   }

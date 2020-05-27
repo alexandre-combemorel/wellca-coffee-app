@@ -1,10 +1,10 @@
 <template>
     <Page class="select-page">
       <FlexboxLayout v-if="isLoaded" class="store-list-container" flexDirection="column">
-        <Label @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :text="store.information.title" class="store-list-container__store"/>
+        <TextLabel @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :content="store.information.title" class="store-list-container__store"/>
       </FlexboxLayout>
       <FlexboxLayout v-else class="loader" flexDirection="column">
-        <Label text="Loading..." class="loader__item"/>
+        <TextLabel content="Loading..." class="loader__item"/>
       </FlexboxLayout>
     </Page>
 </template>
@@ -13,9 +13,11 @@
   import Index from './Index';
   import config from '../config/config.json';
 
+  import TextLabel from './atoms/TextLabel'
+
   export default {
     components: {
-      Index
+      Index, TextLabel
     },
     mounted() {
       this.fetchStores();
@@ -71,7 +73,6 @@
       border-radius: 5;
       font-weight: bold;
       border-color: white;
-      color: $text-color-primary;
       margin: 10;
       width: 100%;
       padding: 10;

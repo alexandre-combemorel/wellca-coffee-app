@@ -2,9 +2,9 @@
   <AbsoluteLayout @swipe="closeSliderFromSwipe" ref="slider-bottom" class="slider-bottom">
     <FlexboxLayout class="slider-bottom__background"></FlexboxLayout>
     <GridLayout columns="*, auto" rows="auto, auto" class="slider-bottom__content">
-      <Label row="0" col="0" class="slider-bottom__content__title" :text="$store.getters['sliderBottom/getComponentTitle']"/>
-      <Label row="0" col="1" class="slider-bottom__content__close" text="Close" @tap="closeSlider"/>
-      <component :is="$store.getters['sliderBottom/getComponentSelected']" :data="$store.getters['sliderBottom/getDataSliderBottom']" row="1" colSpan="2"/>
+      <Title row="0" col="0" class="slider-bottom__content__title" type="h2" :content="$store.getters['sliderBottom/getComponentTitle']"/>
+      <ButtonIcon row="0" col="1" class="slider-bottom__content__close" codeicon="f057" v-on:icontapped="closeSlider"/>
+      <component :is="$store.getters['sliderBottom/getComponentSelected']" class="slider-bottom__content__component" :content="$store.getters['sliderBottom/getDataSliderBottom']" row="1" colSpan="2"/>
     </GridLayout>
   </AbsoluteLayout>
 </template>
@@ -12,10 +12,13 @@
 <script>
 
 import TextBlock from '../atoms/TextBlock'
+import TextLabel from '../atoms/TextLabel'
+import Title from '../atoms/Title'
+import ButtonIcon from '../atoms/ButtonIcon'
 
 export default {
   components: {
-    TextBlock
+    TextBlock, TextLabel, ButtonIcon, Title
   },
   computed: {
     visibility() {
@@ -59,16 +62,18 @@ export default {
   height: 100%;
   top: 5;
   margin-top: 100%;
-  color: white;
   &__content {
     top: 0;
     left: 0;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    padding: 10 15;
-    &__title {
-      color: $text-color-secondary;
+    padding: $size-m;
+    &__close {
+      text-align: right;
+    }
+    &__component {
+      margin-top: $size-m;
     }
   }
   &__background {

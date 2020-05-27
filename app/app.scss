@@ -1,6 +1,8 @@
 // Global SCSS styling
 // @see https://docs.nativescript.org/ui/styling
 
+@import '~/assets/css/variables.scss';
+
 .fab {
   font-family: "Font Awesome 5 Brands", "fa-brands-400";
   font-weight: 400;
@@ -55,4 +57,8 @@
 
 .btn {
   font-family: "Avenir Light", "Avenir-Light";
+}
+
+.fab, .fas, .far, .h1, .h2, .h3, .h4, .hashtag, .p, .lien, .info, .btn {
+  color: $text-color-primary;
 }
