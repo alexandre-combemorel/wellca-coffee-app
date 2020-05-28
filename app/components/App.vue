@@ -21,8 +21,13 @@ export default {
   components: {
     Index, TextLabel
   },
-  mounted() {
-    this.fetchStores();
+  async mounted() {
+    await this.fetchStores();
+    const storeId = appSettings.getNumber(config.views.Settings.localisation.storageName);
+    console.log("fetchStores -> storeId", storeId)
+    if (storeId) {
+      this.selectStore(this.$store.getters['stores/getStores'].find(store => store.id === storeId));
+    }
   },
   computed: {
     isLoaded() {
@@ -37,13 +42,9 @@ export default {
         });
         const stores = await response.json();
         this.$store.commit('stores/setStores', stores);
-        
-        this.selectStore(stores[0]); // to be removed
-        
       } catch (e) {
         console.error("Couldn't load the Stores (shops):", e);
       }
-      
     },
     selectStore(storeSelected) {
       this.$store.commit('navigation/setMenu', storeSelected.navigations);

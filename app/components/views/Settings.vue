@@ -87,6 +87,7 @@ export default {
       appSettings.setBoolean(config.views.Settings.notification.storageName, this.notification);
     },
     redirectToHomePage() {
+      appSettings.remove(config.views.Settings.localisation.storageName);
       this.$navigateTo(App,{
           animated: true,
           transition: {

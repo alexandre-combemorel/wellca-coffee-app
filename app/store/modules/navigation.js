@@ -48,7 +48,7 @@ const moduleNavigation = {
       });
       return indexSelected;
     },
-    getMenuSelected: state => state.menu.filter(item => item.selected)[0].component
+    getMenuSelected: state => state.menu.find(item => item.selected)?.component
   }
 }
 
