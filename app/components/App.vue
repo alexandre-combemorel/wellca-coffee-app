@@ -22,7 +22,7 @@ export default {
     Index, TextLabel
   },
   async mounted() {
-    await this.fetchStores();
+    if (!this.$store.getters['stores/isStoresLoaded']) await this.fetchStores();
     const storeId = appSettings.getNumber(config.views.Settings.localisation.storageName);
     console.log("fetchStores -> storeId", storeId)
     if (storeId) {
@@ -50,7 +50,6 @@ export default {
       this.$store.commit('navigation/setMenu', storeSelected.navigations);
       this.$store.commit('stores/setStoreSelected', storeSelected);
       appSettings.setNumber(config.views.Settings.localisation.storageName, storeSelected.id);
-      // load everything
       this.$navigateTo(Index,{
         animated: true,
         transition: {
