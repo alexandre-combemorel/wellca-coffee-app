@@ -9,6 +9,12 @@
         </FlexboxLayout>
         <SectionTitle :content="config.views.Settings.title_section2" class="settings__section__title"/>
         <FlexboxLayout class="settings__section__content">
+          <FlexboxLayout class="settings__section__content__setting-item">
+            <TextLabel type="p" class="settings__section__content__setting-item__notification" content="Notification:" /><Switch v-model="notification" />
+          </FlexboxLayout>
+          <FlexboxLayout class="settings__section__content__setting-item">
+            <TextLabel type="p" class="settings__section__content__setting-item__notification" content="Localisation:" /><Button content="Changer"/>
+          </FlexboxLayout>
         </FlexboxLayout>
         <SectionTitle :content="config.views.Settings.title_section3" class="settings__section__title"/>
         <FlexboxLayout class="settings__section__content">
@@ -28,15 +34,17 @@ import SectionTitle from "../molecules/SectionTitle";
 import Title from '../atoms/Title'
 import TextLabel from '../atoms/TextLabel'
 import TextBlock from '../atoms/TextBlock'
+import Button from '../atoms/Button'
 
 export default {
   components: {
-    Title, SectionTitle, TextLabel, TextBlock
+    Title, SectionTitle, TextLabel, TextBlock, Button
   },
   data() {
     return {
       config,
       data: [],
+      notification: true,
       componentReady: undefined
     }
   },
@@ -91,6 +99,12 @@ export default {
       margin-bottom: $size-l;
       &__labels {
         margin-bottom: $size-m;
+      }
+      &__setting-item {
+        width: 100%;
+        margin-bottom: $size-m;
+        justify-content: space-between;
+        align-items: center;
       }
     }
   }
