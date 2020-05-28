@@ -1,14 +1,19 @@
 <template>
   <StackLayout class="calendar-item" :class="state" @tap="emitToParent">
-    <Label :text="day" class="calendar-item__day"/>
-    <Label :text="date" class="calendar-item__date"/>
-    <label :text="month" class="calendar-item__month"/>
+    <TextLabel :content="day" class="calendar-item__day"/>
+    <TextLabel :text="date" class="calendar-item__date"/>
+    <TextLabel :content="month" class="calendar-item__month"/>
   </StackLayout>
 </template>
 
 <script>
+import TextLabel from '../atoms/TextLabel'
+
 import dateUtils from '../../utils/date';
 export default {
+  components: {
+    TextLabel
+  },
   props: ["state", "dateObj"],
   data() {
     return {
@@ -40,10 +45,9 @@ export default {
 .calendar-item {
   width: 36;
   text-align: center;
-  font-size: 14;
   margin-right: $size-s;
   &__date {
-    padding-top: 4;
+    padding-top: 6;
     height: 36;
     margin: $size-xs 0;
     border-color: white;
@@ -52,7 +56,9 @@ export default {
     font-size: 16;
   }
   &.disabled {
-    color: #B3B3B3;
+    .p {
+      color: #B3B3B3;
+    }
     .calendar-item__date {
       border-color: #B3B3B3;
     }
