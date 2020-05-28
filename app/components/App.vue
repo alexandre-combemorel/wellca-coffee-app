@@ -1,11 +1,14 @@
 <template>
-    <Page class="select-page">
-      <FlexboxLayout v-if="isLoaded" class="store-list-container" flexDirection="column">
-        <TextLabel @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :content="store.information.title" class="store-list-container__store"/>
-      </FlexboxLayout>
-      <FlexboxLayout v-else class="loader" flexDirection="column">
-        <TextLabel content="Loading..." class="loader__item"/>
-      </FlexboxLayout>
+    <Page class="select-page" actionBarHidden="true">
+        <FlexboxLayout class="select-page--container" rows="auto, *">
+          <Image row="0" src="~/assets/images/logo.jpg" class="select-page__image"/>
+          <FlexboxLayout row="1" v-if="isLoaded" class="select-page__store-list-container">
+            <TextLabel type="h1" @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :content="store.information.title" class="select-page__store-list-container__store"/>
+          </FlexboxLayout>
+          <FlexboxLayout row="1" v-else class="select-page__loader">
+            <TextLabel content="Loading..." class="select-page__loader__item"/>
+          </FlexboxLayout>
+        </FlexboxLayout>
     </Page>
 </template>
 
@@ -24,7 +27,6 @@ export default {
   async mounted() {
     if (!this.$store.getters['stores/isStoresLoaded']) await this.fetchStores();
     const storeId = appSettings.getNumber(config.views.Settings.localisation.storageName);
-    console.log("fetchStores -> storeId", storeId)
     if (storeId) {
       this.selectStore(this.$store.getters['stores/getStores'].find(store => store.id === storeId));
     }
@@ -66,23 +68,32 @@ export default {
 <style scoped lang="scss">
 @import '~/assets/css/variables.scss';
 .select-page {
+  width: 100%;
+  height: 100%;
   background: linear-gradient(to bottom, $secondary-color, $primary-color);
-  .store-list-container {
+  &--container {
     height: 100%;
-    width: 100%;
-    padding: 20;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__image {
+    margin-bottom: $size-xl;
+    width: 264;
+  }
+  &__store-list-container {
+    flex-direction: column;
+    width: 80%;
     justify-content: center;
     &__store {
-      border-width: 1;
-      border-radius: 5;
-      font-weight: bold;
+      border-width: 2;
       border-color: white;
-      margin: 10;
-      width: 100%;
-      padding: 10;
+      text-align: center;
+      padding: $size-s;
+      margin-bottom: $size-l;
     }
   }
-  .loader {
+  &__loader {
     padding: 20;
     justify-content: center;
     align-items: center;
