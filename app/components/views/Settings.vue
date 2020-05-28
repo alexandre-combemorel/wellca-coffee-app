@@ -10,10 +10,14 @@
         <SectionTitle :content="config.views.Settings.title_section2" class="settings__section__title"/>
         <FlexboxLayout class="settings__section__content">
           <FlexboxLayout class="settings__section__content__setting-item">
-            <TextLabel type="p" class="settings__section__content__setting-item__notification" content="Notification:" /><Switch v-model="notification" />
+            <TextLabel type="p" class="settings__section__content__setting-item__notification" :content="config.views.Settings.notification.title" /><Switch v-model="notification" @checkedChange="changeNotification"/>
           </FlexboxLayout>
           <FlexboxLayout class="settings__section__content__setting-item">
-            <TextLabel type="p" class="settings__section__content__setting-item__notification" content="Localisation:" /><Button content="Changer"/>
+            <TextLabel type="p" class="settings__section__content__setting-item__localisation" :content="config.views.Settings.localisation.title" />
+            <FlexboxLayout @tap="redirectToHomePage" class="settings__section__content__setting-item__localisation-button">
+              <TextLabel :content="$store.getters['stores/getStoreSelected'].location"/>
+              <ButtonIcon codeicon="f304" options="size-small" class="settings__section__content__setting-item__localisation-button__item-button"/>
+            </FlexboxLayout>
           </FlexboxLayout>
         </FlexboxLayout>
         <SectionTitle :content="config.views.Settings.title_section3" class="settings__section__title"/>
@@ -28,23 +32,25 @@
 </template>
 
 <script>
+const appSettings = require("tns-core-modules/application-settings");
 import config from '../../config/config.json';
 
 import SectionTitle from "../molecules/SectionTitle";
-import Title from '../atoms/Title'
-import TextLabel from '../atoms/TextLabel'
-import TextBlock from '../atoms/TextBlock'
-import Button from '../atoms/Button'
-
+import Title from '../atoms/Title';
+import TextLabel from '../atoms/TextLabel';
+import TextBlock from '../atoms/TextBlock';
+import Button from '../atoms/Button';
+import ButtonIcon from '../atoms/ButtonIcon';
+import App from '../App';
 export default {
   components: {
-    Title, SectionTitle, TextLabel, TextBlock, Button
+    Title, SectionTitle, TextLabel, TextBlock, Button, ButtonIcon
   },
   data() {
     return {
       config,
       data: [],
-      notification: true,
+      notification: appSettings.getBoolean(config.views.Settings.notification.storageName) || false,
       componentReady: undefined
     }
   },
@@ -77,6 +83,19 @@ export default {
       });
       this.$store.commit("sliderBottom/showSlider");
     },
+    changeNotification(){
+      appSettings.setBoolean(config.views.Settings.notification.storageName, this.notification);
+    },
+    redirectToHomePage() {
+      this.$navigateTo(App,{
+          animated: true,
+          transition: {
+            name: "slideRight",
+            duration: 200,
+            curve: "easeIn"
+          }
+        })
+    }
   }
 }
 </script>
@@ -105,6 +124,12 @@ export default {
         margin-bottom: $size-m;
         justify-content: space-between;
         align-items: center;
+        &__localisation-button {
+          align-items: center;
+          &__item-button {
+            margin-left: $size-s;
+          }
+        }
       }
     }
   }

@@ -23,7 +23,15 @@
       "title_view": "REGLAGES",
       "title_section1": "WELLCA",
       "title_section2": "REGLAGES",
-      "title_section3": "MENTION"
+      "title_section3": "MENTION",
+      "notification": {
+        "title": "Notification",
+        "storageName": "notification"
+      },
+      "localisation": {
+        "title": "Localisation",
+        "storageName": "localisation"
+      }
     }
   },
   "version": "1.0"

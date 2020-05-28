@@ -10,53 +10,57 @@
 </template>
 
 <script>
-  import Index from './Index';
-  import config from '../config/config.json';
+const appSettings = require("tns-core-modules/application-settings");
 
-  import TextLabel from './atoms/TextLabel'
+import Index from './Index';
+import config from '../config/config.json';
 
-  export default {
-    components: {
-      Index, TextLabel
-    },
-    mounted() {
-      this.fetchStores();
-    },
-    computed: {
-      isLoaded() {
-        return this.$store.getters['stores/isStoresLoaded'];
-      }
-    },
-    methods: {
-      async fetchStores() {
-        try {
-          const response = await fetch(`${config.apiUrl}/stores`, {
-            method: "GET",
-          });
-          const stores = await response.json();
-          this.$store.commit('stores/setStores', stores);
-          this.selectStore(stores[0]);
-          
-        } catch (e) {
-          console.error("Couldn't load the Stores (shops):", e);
-        }
+import TextLabel from './atoms/TextLabel'
+
+export default {
+  components: {
+    Index, TextLabel
+  },
+  mounted() {
+    this.fetchStores();
+  },
+  computed: {
+    isLoaded() {
+      return this.$store.getters['stores/isStoresLoaded'];
+    }
+  },
+  methods: {
+    async fetchStores() {
+      try {
+        const response = await fetch(`${config.apiUrl}/stores`, {
+          method: "GET",
+        });
+        const stores = await response.json();
+        this.$store.commit('stores/setStores', stores);
         
-      },
-      selectStore(storeSelected) {
-        this.$store.commit('navigation/setMenu', storeSelected.navigations);
-        this.$store.commit('stores/setStoreSelected', storeSelected);
-        // load everything
-        this.$navigateTo(Index,{
-          animated: true,
-          transition: {
-            name: "slideLeft",
-            duration: 200,
-            curve: "easeIn"
-          }
-        })
+        this.selectStore(stores[0]); // to be removed
+        
+      } catch (e) {
+        console.error("Couldn't load the Stores (shops):", e);
       }
+      
+    },
+    selectStore(storeSelected) {
+      this.$store.commit('navigation/setMenu', storeSelected.navigations);
+      this.$store.commit('stores/setStoreSelected', storeSelected);
+      appSettings.setNumber(config.views.Settings.localisation.storageName, storeSelected.id);
+      // load everything
+      this.$navigateTo(Index,{
+        animated: true,
+        transition: {
+          name: "slideLeft",
+          duration: 200,
+          curve: "easeIn"
+        }
+      })
     }
   }
+}
 </script>
 
 <style scoped lang="scss">

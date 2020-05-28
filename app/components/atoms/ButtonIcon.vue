@@ -38,6 +38,11 @@ export default {
     font-size: 22;
     padding: 5;
   }
+  &.size-small {
+    width: 18;
+    height: 18;
+    font-size: 15;
+  }
 }
 .dot-active {
   background: $active-state;
