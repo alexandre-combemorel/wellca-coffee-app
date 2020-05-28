@@ -10,7 +10,9 @@
             <button-icon codeicon="f13a" class="home__section__opening__calendar__expand" v-on:icontapped="onPickDateTap"/>
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
-            <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock"></StackLayout>
+            <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock">
+              <Image src="~/assets/images/horloge.png"/>
+            </StackLayout>
             <Title row="0" col="1" :content="getCurrentDaySelectedNameLong()" class="home__section__opening__content__title" type="h3"/>
             <StackLayout row="1" col="1" class="home__section__opening__content__info">
               <StackLayout class="home__section__opening__content__info__item" v-for="event in eventsToDisplay" :key="event.id">
@@ -254,7 +256,6 @@ export default {
         margin: 0 $size-l;
         &__clock {
           width: 115;
-          background: grey;
           margin-right: $size-l;
         }
         &__title {
