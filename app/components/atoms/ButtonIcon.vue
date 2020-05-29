@@ -1,13 +1,13 @@
 <template>
   <AbsoluteLayout>
-    <Label :text="icon" class="button-icon fas" :class="options" @tap="emitToParent"/>
+    <Label :text="icon" class="button-icon" :class="`${options} ${type || 'fas'}`" @tap="emitToParent"/>
     <Label v-show="isActive" class="dot-active"/>
   </AbsoluteLayout>
 </template>
 
 <script>
 export default {
-  props: ["options", "codeicon", "isActive"],
+  props: ["options", "codeicon", "isActive", "type"],
   computed: {
     icon() {
       return String.fromCharCode(`0x${this.codeicon}`);

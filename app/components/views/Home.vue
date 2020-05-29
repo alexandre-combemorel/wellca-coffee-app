@@ -7,7 +7,7 @@
         <StackLayout class="home__section__opening">
           <StackLayout class="home__section__opening__calendar">
             <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="giveStateOfCalendarItem(dateDay)" v-on:datetap="selectDay"/>
-            <button-icon codeicon="f13a" class="home__section__opening__calendar__expand" v-on:icontapped="onPickDateTap"/>
+            <button-icon codeicon="f073" type="far" class="home__section__opening__calendar__expand" v-on:icontapped="onPickDateTap"/>
           </StackLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
             <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock">
@@ -249,7 +249,7 @@ export default {
         height: 100;
         orientation: horizontal;
         &__expand {
-          margin-top: 30;
+          margin-top: 28;
         }
       }
       &__content {
