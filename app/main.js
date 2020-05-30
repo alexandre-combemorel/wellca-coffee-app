@@ -10,6 +10,8 @@ if(TNS_ENV !== 'production') {
 import store from './store/store'
 Vue.prototype.$store = store
 
+import ImageCacheIt from 'nativescript-image-cache-it/vue';
+Vue.use(ImageCacheIt);
 
 import DateTimePicker from "nativescript-datetimepicker/vue";
 Vue.use(DateTimePicker);

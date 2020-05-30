@@ -1,24 +1,44 @@
 <template>
   <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoomed' : '' ]">
-    <Image :src="img" class="tile-image__image"/>
-    <TextBlock v-if="maintext" :content="maintext" type="p1" class="tile-image__main-text"/>
-    <TextLabel v-if="secondtext" :content="secondtext" type="p2" class="tile-image__second-text"/>
+    <!-- <Image :src="img" class="tile-image__image"/> -->
+    <ImageCacheIt placeHolder="res://place" class="tile-image__image" errorHolder="res://error" stretch="fill"
+			:width="width"
+      :height="height"
+      :src="img"/>
+    <Title v-if="maintext" :content="maintext" type="h3" class="tile-image__main-text"/>
+    <TextLabel :content="secondtext" type="hashtag" class="tile-image__second-text"/>
   </FlexboxLayout>
 </template>
 
 <script>
 import utils from '../../utils/all';
-import TextBlock from '../atoms/TextBlock';
+import Title from '../atoms/Title';
 import TextLabel from '../atoms/TextLabel';
 
 export default {
   props: ['img', 'maintext', 'secondtext', 'size', 'zoomed'],
   components: {
-    TextBlock, TextLabel
+    Title, TextLabel
+  },
+  computed: {
+    width() {
+      if(this.size === "small") {
+        return 137;
+      } else {
+        return 192;
+      }
+    },
+    height() {
+      if(this.size === "small") {
+        return 120;
+      } else {
+        return 168;
+      }
+    }
   },
   async mounted() {
     this.$emit("sizecomponent", await utils.returnSizeWhenNativeViewLoaded(this.$refs['tile-image'].nativeView));
-  }
+  },
 }
 </script>
 
@@ -30,15 +50,11 @@ export default {
   align-items: center;
   justify-content: center;
   &__image {
-    width: 100%;
     animation-name: zoomOff;
     animation-duration: 0.15s;
     animation-fill-mode: forwards;
   }
   &--small {
-    .tile-image__image {
-      width: 70%;
-    }
     &.zoomed {
       .tile-image__image {
         animation-name: zoomOn;

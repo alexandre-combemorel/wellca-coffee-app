@@ -190,7 +190,7 @@ export default {
     height: 100%;
     top: 336; // &__page-title margin-top + margin-bottom + height &__page-title
     &--wrapper {
-      padding-bottom: 70; // menu size
+      padding-bottom: 150;
     }
     &__items {
       width: 100%;

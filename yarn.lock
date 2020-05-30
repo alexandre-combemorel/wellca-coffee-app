@@ -3688,6 +3688,11 @@ nativescript-hook@0.2.5:
     glob "^6.0.1"
     mkdirp "^0.5.1"
 
+nativescript-image-cache-it@^5.0.0-beta.20:
+  version "5.0.0-beta.20"
+  resolved "https://registry.yarnpkg.com/nativescript-image-cache-it/-/nativescript-image-cache-it-5.0.0-beta.20.tgz#10c8bdd8982d5a0bafa4f78353b6585abae51cbf"
+  integrity sha512-T98vi4hePrI/Cg2IghJy/0z1EhzZHGF76BBz37KELFD0QzPuOpQoPKkPj8YhljQMXu5SeSEhNU3gVJKs39FcTw==
+
 nativescript-socketio@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/nativescript-socketio/-/nativescript-socketio-3.3.1.tgz#816089e18a5d54cb8ed3a133b91a89d0d5724203"

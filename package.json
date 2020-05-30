@@ -18,6 +18,7 @@
     "@vue/devtools": "^5.3.3",
     "nativescript-datetimepicker": "^1.2.2",
     "nativescript-google-maps-sdk": "^2.9.1",
+    "nativescript-image-cache-it": "^5.0.0-beta.20",
     "nativescript-socketio": "^3.3.1",
     "nativescript-toasty": "^3.0.0-alpha.2",
     "nativescript-vue": "^2.6.0",
