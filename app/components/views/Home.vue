@@ -151,8 +151,13 @@ export default {
       try {
         const { start, end } = this.getStartEndDate();
         // Fetch the items
-        const response = await fetch(`${config.apiUrl}/events?store.id=${this.$store.getters[`stores/getStoreSelected`].id}&date_start_gte=${start.getTime()}&date_end_lte=${end.getTime()}`);
-        this.$store.commit(`calendar/setEvents`, await response.json())
+        const eventsResponse = await fetch(`${config.apiUrl}/events?store.id=${this.$store.getters[`stores/getStoreSelected`].id}&recurrent=false&date_start_gte=${start.getTime()}&date_end_lte=${end.getTime()}`);
+        this.$store.commit(`calendar/setEvents`, await eventsResponse.json())
+        const recurringEventsResponse = await fetch(`${config.apiUrl}/events?store.id=${this.$store.getters[`stores/getStoreSelected`].id}&recurrent=true`);
+        this.$store.commit(`calendar/setEventsRecurrent`, { 
+          events: await recurringEventsResponse.json(),
+          dateRange: this.dateRange
+        });
       } catch (e) {
         console.error("Couldn't load the events:", e);
       }

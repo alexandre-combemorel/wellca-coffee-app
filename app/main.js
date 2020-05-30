@@ -1,12 +1,15 @@
 import Vue from 'nativescript-vue'
 import App from './components/App'
+
 import VueDevtools from 'nativescript-vue-devtools'
 
 if(TNS_ENV !== 'production') {
   Vue.use(VueDevtools)
 }
+
 import store from './store/store'
 Vue.prototype.$store = store
+
 
 import DateTimePicker from "nativescript-datetimepicker/vue";
 Vue.use(DateTimePicker);

@@ -39,7 +39,6 @@ export default {
   async mounted() {
     await utils.returnSizeWhenNativeViewLoaded(this.$refs['views-container'].nativeView);
     this.viewsContainerView = this.$refs['views-container'].nativeView;
-    // this.viewsContainerView.height = this.viewsContainerView.getActualSize().height - this.$refs.navigation.nativeView.getActualSize().height;
     
   },
   computed: {
