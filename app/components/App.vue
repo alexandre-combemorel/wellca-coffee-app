@@ -2,10 +2,10 @@
     <Page class="select-page" actionBarHidden="true">
         <FlexboxLayout class="select-page--container" rows="auto, *">
           <Image row="0" src="~/assets/images/logo.jpg" class="select-page__image"/>
-          <FlexboxLayout row="1" v-if="isLoaded" class="select-page__store-list-container">
+          <FlexboxLayout v-if="displayStores" row="1" class="select-page__store-list-container">
             <TextLabel type="h1" @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :content="store.information.title" class="select-page__store-list-container__store"/>
           </FlexboxLayout>
-          <FlexboxLayout row="1" v-else class="select-page__loader">
+          <FlexboxLayout v-else row="1" class="select-page__loader">
             <TextLabel content="Loading..." class="select-page__loader__item"/>
           </FlexboxLayout>
         </FlexboxLayout>
@@ -24,16 +24,23 @@ export default {
   components: {
     Index, TextLabel
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   async mounted() {
+    this.loading = false;
     if (!this.$store.getters['stores/isStoresLoaded']) await this.fetchStores();
     const storeId = appSettings.getNumber(config.views.Settings.localisation.storageName);
     if (storeId) {
-      this.selectStore(this.$store.getters['stores/getStores'].find(store => store.id === storeId));
+      const storeFound = this.$store.getters['stores/getStores'].find(store => store.id === storeId);
+      storeFound && this.selectStore(storeFound);
     }
   },
   computed: {
-    isLoaded() {
-      return this.$store.getters['stores/isStoresLoaded'];
+    displayStores() {
+      return this.$store.getters['stores/isStoresLoaded'] && !this.loading;
     }
   },
   methods: {
@@ -49,6 +56,7 @@ export default {
       }
     },
     selectStore(storeSelected) {
+      this.loading = true;
       this.$store.commit('navigation/setMenu', storeSelected.navigations);
       this.$store.commit('stores/setStoreSelected', storeSelected);
       appSettings.setNumber(config.views.Settings.localisation.storageName, storeSelected.id);
