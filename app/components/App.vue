@@ -57,17 +57,22 @@ export default {
     },
     selectStore(storeSelected) {
       this.loading = true;
-      this.$store.commit('navigation/setMenu', storeSelected.navigations);
-      this.$store.commit('stores/setStoreSelected', storeSelected);
-      appSettings.setNumber(config.views.Settings.localisation.storageName, storeSelected.id);
-      this.$navigateTo(Index,{
-        animated: true,
-        transition: {
-          name: "slideLeft",
-          duration: 200,
-          curve: "easeIn"
-        }
-      })
+      try {
+        this.$store.commit('navigation/setMenu', storeSelected.navigations);
+        this.$store.commit('stores/setStoreSelected', storeSelected);
+        appSettings.setNumber(config.views.Settings.localisation.storageName, storeSelected.id);
+        this.$navigateTo(Index,{
+          animated: true,
+          transition: {
+            name: "slideLeft",
+            duration: 200,
+            curve: "easeIn"
+          }
+        });
+      } catch (e) {
+        console.log("selectStore -> e", e)
+      }
+      
     }
   }
 }
