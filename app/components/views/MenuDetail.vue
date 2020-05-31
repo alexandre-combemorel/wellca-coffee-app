@@ -155,7 +155,7 @@ export default {
   }
   &__list {
     width: 100%;
-    height: 160;
+    height: 170;
   }
   &__information {
     &--wrapper {
