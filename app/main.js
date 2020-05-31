@@ -1,5 +1,6 @@
 import Vue from 'nativescript-vue'
 import App from './components/App'
+import { isAndroid, isIOS } from "tns-core-modules/platform";
 
 import VueDevtools from 'nativescript-vue-devtools'
 
@@ -19,6 +20,9 @@ Vue.use(DateTimePicker);
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production')
 
+if (isIOS) {
+    GMSServices.provideAPIKey('AIzaSyAgWBq60lfVikO1OxmVRJUOP8d0vkJI0oo');
+}
 Vue.registerElement('MapView', () => require('nativescript-google-maps-sdk').MapView);
 
 new Vue({
