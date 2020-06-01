@@ -1,7 +1,7 @@
 <template>
   <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoomed' : '' ]">
     <!-- <Image :src="img" class="tile-image__image"/> -->
-    <ImageCacheIt placeHolder="res://place" class="tile-image__image" errorHolder="res://error" stretch="fill"
+    <ImageCacheIt class="tile-image__image" stretch="fill"
 			:width="width"
       :height="height"
       :src="img"/>
