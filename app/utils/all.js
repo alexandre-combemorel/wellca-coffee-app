@@ -9,7 +9,7 @@ const returnSizeWhenNativeViewLoaded = (nativeView) => {
       } else {
         accept({
           height: heightView,
-          width: nativeView.getActualSize().width
+          width: nativeView.width
         });
       }
     };

@@ -31,6 +31,7 @@ import ButtonIcon from "../atoms/ButtonIcon";
 import config from '../../config/config.json'
 import utils from '../../utils/all';
 const platformModule = require("tns-core-modules/platform");
+import { isAndroid, isIOS } from "tns-core-modules/platform";
 
 const stateMenu = {
   first: "expanded",
@@ -76,8 +77,8 @@ export default {
       this.setScrollEnable(false);
     },
     setScrollEnable(isEnable) {
-      // this.scrollView.ios.scrollEnabled = isEnable;
-      this.scrollView.android.setScrollEnabled(isEnable);
+      if(isIOS) this.scrollView.ios.scrollEnabled = isEnable;
+      if(isAndroid) this.scrollView.android.setScrollEnabled(isEnable);
       this.scrollingEnabled = isEnable;
     },
     async initGradientPosition() {

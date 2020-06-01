@@ -45,6 +45,7 @@ export default {
       }
     },
     showMenuAll() {
+      console.log("back clicked")
       this.$store.commit(`${this.item.type_selected}/setMenuItemSelected`, undefined);
     },
   }
@@ -59,6 +60,7 @@ export default {
   &__back-arrow {
     margin-top: $size-xs;
     margin-left: $size-xs;
+    z-index: 10;
   }
   
 }

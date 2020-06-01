@@ -37,7 +37,8 @@ export default {
     }
   },
   async mounted() {
-    this.$emit("sizecomponent", await utils.returnSizeWhenNativeViewLoaded(this.$refs['tile-image'].nativeView));
+    const size = await utils.returnSizeWhenNativeViewLoaded(this.$refs['tile-image'].nativeView);
+    this.$emit("sizecomponent", size);
   },
 }
 </script>

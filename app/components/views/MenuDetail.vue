@@ -85,6 +85,7 @@ export default {
       });
       this.widthScreen = platformModule.screen.mainScreen.widthDIPs;
       this.startPosition = this.widthScreen / 2 - this.widthItem / 2;
+      
       this.$refs['menu-detail__list__buffer--start'].nativeView.width = this.startPosition;
       this.$refs['menu-detail__list__buffer--end'].nativeView.width = this.startPosition;
       this.menuListView = this.$refs['menu-detail__list'].nativeView;
