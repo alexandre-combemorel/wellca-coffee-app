@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Navigation from './molecules/Navigation';
+import Navigation from './modules/Navigation';
 import SliderBottom from './modules/SliderBottom';
 
 //Views
