@@ -5,3 +5,5 @@ tns run android
 
 
 tns build android --release --key-store-path /Users/alexandre/work-dev/testandoid/wellca-coffe-alpha --key-store-password <here> --key-store-alias key0 --key-store-alias-password <here>
+
+npx vue-devtools
