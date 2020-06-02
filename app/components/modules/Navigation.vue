@@ -139,8 +139,8 @@ $colorBackground: $tertiary-color;
     height: 100%;
     &__left {
       top: 0;
-      left: -1;
-      width: $wandhSide+1;
+      left: 0;
+      width: $wandhSide;
       height: $wandhSide;
       background: $colorBackground;
       border-radius: 0 50 50 0;
