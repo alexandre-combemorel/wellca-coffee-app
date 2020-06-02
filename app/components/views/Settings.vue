@@ -22,8 +22,8 @@
         </FlexboxLayout>
         <SectionTitle :content="config.views.Settings.title_section3" class="settings__section__title"/>
         <FlexboxLayout class="settings__section__content">
-          <TextLabel v-on:tap="openDialog(findItem('Terms_d_utilisation'))" type="lien" class="settings__content__termsOfUser settings__section__content__labels" :content="findItem('Terms_d_utilisation').title" />
-          <TextLabel v-on:tap="openDialog(findItem('mention_legales'))" type="lien" class="settings__content__privacyStatement settings__section__content__labels" :content="findItem('mention_legales').title" />
+          <TextLabel v-on:tap="openDialog(findItem('Terms_d_utilisation'))" type="lien" class="settings__content__termsOfUser settings__section__content__labels" :content="`${findItem('Terms_d_utilisation').title}`" />
+          <TextLabel v-on:tap="openDialog(findItem('mention_legales'))" type="lien" class="settings__content__privacyStatement settings__section__content__labels" :content="`${findItem('mention_legales').title}`" />
           <TextLabel :content="`Version: ${config.version}`" class="settings__content__version settings__content--labels" />
         </FlexboxLayout>
       </StackLayout>
