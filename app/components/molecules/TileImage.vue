@@ -1,5 +1,5 @@
 <template>
-  <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoomed' : '' ]">
+  <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoom-on' : 'zoom-off' ]">
     <!-- <Image :src="img" class="tile-image__image"/> -->
     <ImageCacheIt class="tile-image__image" stretch="fill"
 			:width="width"
@@ -50,13 +50,15 @@ export default {
   height: 100%;
   align-items: center;
   justify-content: center;
-  &__image {
-    animation-name: zoomOff;
-    animation-duration: 0.15s;
-    animation-fill-mode: forwards;
-  }
   &--small {
-    &.zoomed {
+    &.zoom-off {
+      .tile-image__image {
+        animation-name: zoomOff;
+        animation-duration: 0.15s;
+        animation-fill-mode: forwards;
+      }
+    }
+    &.zoom-on {
       .tile-image__image {
         animation-name: zoomOn;
         animation-duration: 0.15s;

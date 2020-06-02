@@ -110,7 +110,11 @@ export default {
     },
     selectItemAccordingToNewPostion(positionX) {
       const indexToSelect = Math.abs(positionX + this.widthScreen * 0.2) / this.widthItem;
-      this.$store.commit(`${this.type_selected}/setMenuItemSelected`, this.getItemFromIndex(Math.trunc(indexToSelect)));
+      const itemToSelect = this.getItemFromIndex(Math.trunc(indexToSelect));
+      if (this.itemSelected.id !== itemToSelect.id) {
+        this.$store.commit(`${this.type_selected}/setMenuItemSelected`, itemToSelect);
+      }
+      
     },
     async setListPosition(animate) {
       await this.componentLoaded;
