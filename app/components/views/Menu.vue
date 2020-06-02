@@ -1,8 +1,8 @@
 <template>
   <AbsoluteLayout class="menu">
-    <button-icon class="menu__back-arrow" codeicon="f060" options="borders size-medium" v-show="!isMenuAllVisibile" v-on:icontapped="showMenuAll"/>
     <MenuAll v-show="isMenuAllVisibile" :type_selected="item.type_selected"/>
-    <MenuDetail v-show="!isMenuAllVisibile" :is-display="!isMenuAllVisibile" :type_selected="item.type_selected"/>
+    <MenuDetail v-show="!isMenuAllVisibile" :is-display="!isMenuAllVisibile" :type_selected="item.type_selected" class="test"/>
+    <button-icon class="menu__back-arrow" codeicon="f060" options="borders size-medium" v-show="!isMenuAllVisibile" v-on:icontapped="showMenuAll"/>
   </AbsoluteLayout>
 </template>
 
@@ -62,6 +62,5 @@ export default {
     margin-left: $size-xs;
     z-index: 10;
   }
-  
 }
 </style>

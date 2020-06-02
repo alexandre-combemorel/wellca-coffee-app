@@ -1,7 +1,7 @@
 <template>
   <AbsoluteLayout>
     <Label :text="icon" class="button-icon" :class="`${options} ${type || 'fas'}`" @tap="emitToParent"/>
-    <Label v-show="isActive" class="dot-active"/>
+    <Label v-if="isActive" class="dot-active"/>
   </AbsoluteLayout>
 </template>
 
