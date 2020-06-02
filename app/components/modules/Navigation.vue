@@ -88,7 +88,7 @@ $colorCenter: $primary-color;
 $colorBackground: $tertiary-color;
 .navigation {
   width: 100%;
-  height: 70;
+  height: 60;
   &__backLayer {
     top: 10;
     background: $colorBackground;
@@ -101,16 +101,15 @@ $colorBackground: $tertiary-color;
     justify-content: space-around;
     align-items: center;
     &__item {
-      padding-top: 5;
       width: 100%;
       font-size: 25;
       text-align: center;
       color: $primary-color;
     }
     .active {
+      margin-top: 5;
       animation-name: upAndBigger;
       animation-duration: 0.2s;
-      // font-size: 40;
       color: $text-color-primary;
       transform: translateY(-15) scale(1.5);
     }
@@ -130,11 +129,11 @@ $colorBackground: $tertiary-color;
     }
     &__center {
       left: $wandhSide;
-      top: -12;
       width: $wandhCenter;
       height: $wandhCenter;
       background: $colorCenter;
       border-radius: 0 0 50 50;
+      height: 45;
     }
     &__right {
       left: $wandhCenter+$wandhSide;
