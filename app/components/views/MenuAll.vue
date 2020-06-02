@@ -8,11 +8,13 @@
         <StackLayout @pan="makeSticky" orientation="vertical" class="menu-all__section--wrapper">
           <StackLayout v-for="category in categoriesToDisplay" :key="category.id" orientation="vertical">
             <SectionTitle :content="category.name" v-if="categoriesToDisplay.length > 1" class="menu-all__section__title"/>
-            <FlexboxLayout orientation="horizontal" class="menu-all__section__items">
-              <StackLayout @tap="openMenuDetail(menuItem)" v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id">
-                <TileImage :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu-all__section__items__item"/>
-              </StackLayout>
-            </FlexboxLayout>
+            <GridLayout row="auto" class="menu-all__section__items--wrapper">
+              <FlexboxLayout class="menu-all__section__items">
+                <StackLayout @tap="openMenuDetail(menuItem)" v-for="menuItem in itemPerCategory(category.id)" :key="menuItem.id">
+                  <TileImage :maintext="menuItem.item.title" :secondtext="menuItem.item.sub_title" :img="returnImageUrl(menuItem.item.img[0].url)" class="menu-all__section__items__item"/>
+                </StackLayout>
+              </FlexboxLayout>
+            </GridLayout>
           </StackLayout>
         </StackLayout>
       </ScrollView>
@@ -173,6 +175,7 @@ export default {
   &--wrapper {
     height: 100%;
     width: 100%;
+    
   }
   &__page-title {
     width: 100%;
@@ -194,13 +197,10 @@ export default {
       padding-bottom: 150;
     }
     &__items {
-      width: 100%;
       padding: $size-m 0;
       flex-wrap: wrap;
-      justify-content: center;
-      &__item {
-        margin: $size-xs;
-      }
+      orientation: horizontal;
+      justify-content: space-between;
     }
   }
   &__gradient {
