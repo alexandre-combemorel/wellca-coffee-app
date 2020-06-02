@@ -7,77 +7,88 @@
         <StackLayout class="navigation__circle__center"/>
         <StackLayout class="navigation__circle__right"/>
       </AbsoluteLayout>
-      <FlexboxLayout class="navigation_items-container">
-        <Label v-for="(item, index) in $store.getters['navigation/getMenu']" :key="index" @tap="selectItem(index)" class="navigation_items-container__item fas" :class="{ 'active': item.active }" :text="item.icon"/>
+      <FlexboxLayout class="navigation__items-container">
+        <StackLayout @tap="selectItem(index)" v-for="(item, index) in $store.getters['navigation/getMenu']" :key="index" class="navigation__items-container__item__wrapper">
+          <Label v-if="item.type === 'icon'" class="navigation__items-container__item--icon fas" :class="{ 'active': item.active }" :text="convertIcon(item.value)"/>
+          <Image v-else :src="getImagePath(item)" class="navigation__items-container__item--img" :class="{ 'active': item.active }"/>
+        </StackLayout>
       </FlexboxLayout>
       <StackLayout @pan="panCircle" ref="circlePan" class="navigation__circlePan"/>
     </AbsoluteLayout>
 </template>
 
 <script>
-  import utils from '../../utils/all';
-  const platformModule = require("tns-core-modules/platform");
-  
-  export default {
-    data() {
-      return {
-        block: undefined,
-        halfABlock: undefined,
-      }
-    },
-    async mounted() {
-      this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.getters['navigation/getMenu'].length;
-      this.halfABlock = this.block / 2;
-      this.translateCircle(this.distanceCalculated());
+import utils from '../../utils/all';
+const platformModule = require("tns-core-modules/platform");
+const fileSystemModule = require("tns-core-modules/file-system");
 
-      await utils.returnSizeWhenNativeViewLoaded(this.$refs.circlePan.nativeView)
-      // this.selectItem(3); // to be removed
+export default {
+  data() {
+    return {
+      block: undefined,
+      halfABlock: undefined,
+    }
+  },
+  async mounted() {
+    this.block = platformModule.screen.mainScreen.widthDIPs / this.$store.getters['navigation/getMenu'].length;
+    this.halfABlock = this.block / 2;
+    this.translateCircle(this.distanceCalculated());
+
+    await utils.returnSizeWhenNativeViewLoaded(this.$refs.circlePan.nativeView)
+    // this.selectItem(3); // to be removed
+  },
+  methods: {
+    getImagePath(item) {
+      const rootPath = '~/assets/images/navigation/';
+      return item.active ? `${rootPath}${item.value}-on.png` : `${rootPath}${item.value}-off.png`;
     },
-    methods: {
-      panCircle(args) {
-        const indexToSelect = Math.trunc((this.$refs.circlePan.nativeView.translateX + 56) / this.block); // 56 is to align with the center of CirclePan: $wandhSide + $wandhCenter/2 (see css)
-        if (args.state === 1) {
-          // finger down
-          this.distanceStart = this.distanceCalculated();
-        } else if (args.state === 2) {
-          // finger moving
-          this.translateCircle(this.distanceStart + args.deltaX);
-          if (this.$store.getters['navigation/indexItemCurrentlyActive'] !== indexToSelect) this.activateItem(indexToSelect);
-        } else if (args.state === 3) {
-          // finger up
-          this.selectItem(indexToSelect);
-        }
-      },
-      activateItem(indexParam) {
-        this.$store.commit('navigation/changeActiveMenu', indexParam);
-      },
-      selectItem(indexParam) {
-        this.$store.commit('navigation/changeSelectedMenu', indexParam);
-        this.$emit('selected');
-        this.translateCircleAnimated();
-      },
-      distanceCalculated() {
-        const multiplicator = this.$store.getters['navigation/indexItemCurrentlyActive'] + 1;
-        const distance = multiplicator * this.block - this.halfABlock - 56;
-        return distance;
-      },
-      translateCircleAnimated() {
-        const distance = this.distanceCalculated();
-        this.$refs.circleMark.nativeView.animate({
-          translate: { x: distance, y: 0 },
-          duration: 200
-        });
-        this.$refs.circlePan.nativeView.animate({
-          translate: { x: distance, y: 0 },
-          duration: 200
-        });
-      },
-      translateCircle(distance) {
-        this.$refs.circlePan.nativeView.translateX = distance;
-        this.$refs.circleMark.nativeView.translateX = distance;
+    convertIcon(value) {
+      return String.fromCharCode(`0x${value}`)
+    },
+    panCircle(args) {
+      const indexToSelect = Math.trunc((this.$refs.circlePan.nativeView.translateX + 56) / this.block); // 56 is to align with the center of CirclePan: $wandhSide + $wandhCenter/2 (see css)
+      if (args.state === 1) {
+        // finger down
+        this.distanceStart = this.distanceCalculated();
+      } else if (args.state === 2) {
+        // finger moving
+        this.translateCircle(this.distanceStart + args.deltaX);
+        if (this.$store.getters['navigation/indexItemCurrentlyActive'] !== indexToSelect) this.activateItem(indexToSelect);
+      } else if (args.state === 3) {
+        // finger up
+        this.selectItem(indexToSelect);
       }
+    },
+    activateItem(indexParam) {
+      this.$store.commit('navigation/changeActiveMenu', indexParam);
+    },
+    selectItem(indexParam) {
+      this.$store.commit('navigation/changeSelectedMenu', indexParam);
+      this.$emit('selected');
+      this.translateCircleAnimated();
+    },
+    distanceCalculated() {
+      const multiplicator = this.$store.getters['navigation/indexItemCurrentlyActive'] + 1;
+      const distance = multiplicator * this.block - this.halfABlock - 56;
+      return distance;
+    },
+    translateCircleAnimated() {
+      const distance = this.distanceCalculated();
+      this.$refs.circleMark.nativeView.animate({
+        translate: { x: distance, y: 0 },
+        duration: 200
+      });
+      this.$refs.circlePan.nativeView.animate({
+        translate: { x: distance, y: 0 },
+        duration: 200
+      });
+    },
+    translateCircle(distance) {
+      this.$refs.circlePan.nativeView.translateX = distance;
+      this.$refs.circleMark.nativeView.translateX = distance;
     }
   }
+}
 </script>
 
 <style scoped lang="scss">
@@ -88,26 +99,33 @@ $colorCenter: $primary-color;
 $colorBackground: $tertiary-color;
 .navigation {
   width: 100%;
-  height: 60;
+  height: 70;
   &__backLayer {
     top: 10;
     background: $colorBackground;
     height: 60;
     width: 100%;
   }
-  &_items-container {
+  &__items-container {
     height: 100%;
     width: 100%;
     justify-content: space-around;
     align-items: center;
     &__item {
-      width: 100%;
-      font-size: 25;
-      text-align: center;
-      color: $primary-color;
+      &--icon {
+        font-size: 25;
+        text-align: center;
+        color: $primary-color;
+      }
+      &--img {
+        width: 30;
+      }
+      &__wrapper {
+        width: 100%;
+        margin-top: 5;
+      }
     }
     .active {
-      margin-top: 5;
       animation-name: upAndBigger;
       animation-duration: 0.2s;
       color: $text-color-primary;
@@ -121,8 +139,8 @@ $colorBackground: $tertiary-color;
     height: 100%;
     &__left {
       top: 0;
-      left: 0;
-      width: $wandhSide;
+      left: -1;
+      width: $wandhSide+1;
       height: $wandhSide;
       background: $colorBackground;
       border-radius: 0 50 50 0;
@@ -133,7 +151,7 @@ $colorBackground: $tertiary-color;
       height: $wandhCenter;
       background: $colorCenter;
       border-radius: 0 0 50 50;
-      height: 45;
+      height: 50;
     }
     &__right {
       left: $wandhCenter+$wandhSide;

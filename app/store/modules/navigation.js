@@ -23,14 +23,7 @@ const moduleNavigation = {
   },
   actions: {},
   getters: {
-    getMenu: state => {
-      return state.menu.map(item => {
-        return {
-          ...item,
-          icon: String.fromCharCode(`0x${item.icon}`)
-        };
-      });
-    },
+    getMenu: state => state.menu,
     isMenuLoaded: state => {
       return state.menu.length > 0;
     },
