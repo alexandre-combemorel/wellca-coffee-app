@@ -25,14 +25,14 @@ export default {
       if(this.size === "small") {
         return 137;
       } else {
-        return 192;
+        return 180;
       }
     },
     height() {
       if(this.size === "small") {
         return 120;
       } else {
-        return 168;
+        return 157;
       }
     }
   },
@@ -46,7 +46,7 @@ export default {
 <style scoped lang="scss">
 .tile-image {
   flex-direction: column;
-  width: 192;
+  width: 180;
   height: 100%;
   align-items: center;
   justify-content: center;
