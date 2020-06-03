@@ -1,7 +1,9 @@
 <template>
   <StackLayout class="calendar-item" :class="state" @tap="emitToParent">
     <TextLabel :content="day" class="calendar-item__day"/>
-    <TextLabel :text="date" class="calendar-item__date"/>
+    <AbsoluteLayout class="calendar-item__date">
+      <TextLabel :text="date" class="calendar-item__date__item"/>
+    </AbsoluteLayout>
     <TextLabel :content="month" class="calendar-item__month"/>
   </StackLayout>
 </template>
@@ -46,13 +48,15 @@ export default {
   width: 36;
   text-align: center;
   &__date {
-    padding-top: 6;
-    height: 36;
-    margin: $size-xs 0;
+    height: 34;
     border-color: white;
     border-width: 2;
     border-radius: 50;
     font-size: 16;
+    &__item {
+      top: 6;
+      left: 11;
+    }
   }
   &.disabled {
     .p {

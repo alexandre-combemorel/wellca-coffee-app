@@ -255,8 +255,8 @@ export default {
         padding: 0 $size-s;
         justify-content: space-between;
         &__expand {
-          width: 20;
-          margin-top: 28;
+          width: 25;
+          margin-top: 22;
         }
       }
       &__content {
