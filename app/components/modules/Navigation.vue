@@ -8,10 +8,10 @@
         <StackLayout class="navigation__circle__right"/>
       </AbsoluteLayout>
       <FlexboxLayout class="navigation__items-container">
-        <StackLayout @tap="selectItem(index)" v-for="(item, index) in $store.getters['navigation/getMenu']" :key="index" class="navigation__items-container__item__wrapper">
+        <FlexboxLayout @tap="selectItem(index)" v-for="(item, index) in $store.getters['navigation/getMenu']" :key="index" class="navigation__items-container__item__wrapper">
           <Label v-if="item.type === 'icon'" class="navigation__items-container__item--icon fas" :class="{ 'active': item.active }" :text="convertIcon(item.value)"/>
           <Image v-else :src="getImagePath(item)" class="navigation__items-container__item--img" :class="{ 'active': item.active }"/>
-        </StackLayout>
+        </FlexboxLayout>
       </FlexboxLayout>
       <StackLayout @pan="panCircle" ref="circlePan" class="navigation__circlePan"/>
     </AbsoluteLayout>
@@ -122,14 +122,16 @@ $colorBackground: $tertiary-color;
       }
       &__wrapper {
         width: 100%;
-        margin-top: 5;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
       }
     }
     .active {
       animation-name: upAndBigger;
-      animation-duration: 0.2s;
+      animation-duration: 0.15s;
       color: $text-color-primary;
-      transform: translateY(-15) scale(1.5);
+      transform: translateY(-10) scale(1.5);
     }
   }
   &__circle {
@@ -180,7 +182,7 @@ $colorBackground: $tertiary-color;
       transform: translateY(0) scale(1);
     }
     to { 
-      transform: translateY(-15) scale(1.5);
+      transform: translateY(-10) scale(1.5);
     }
 }
 </style>
