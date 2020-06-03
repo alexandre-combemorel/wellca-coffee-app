@@ -45,7 +45,6 @@ export default {
 .calendar-item {
   width: 36;
   text-align: center;
-  margin-right: $size-s;
   &__date {
     padding-top: 6;
     height: 36;

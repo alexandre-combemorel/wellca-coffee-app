@@ -5,13 +5,13 @@
       <StackLayout class="home__wrapper">
         <SectionTitle :content="config.views.Home.title_section_1" class="home__section__section-title"/>
         <StackLayout class="home__section__opening">
-          <StackLayout class="home__section__opening__calendar">
+          <FlexboxLayout class="home__section__opening__calendar">
             <calendar-item v-for="(dateDay) in dateRange" :key="dateDay.getDate()" :date-obj="dateDay" :state="giveStateOfCalendarItem(dateDay)" v-on:datetap="selectDay"/>
             <button-icon codeicon="f073" type="far" class="home__section__opening__calendar__expand" v-on:icontapped="onPickDateTap"/>
-          </StackLayout>
+          </FlexboxLayout>
           <GridLayout columns="auto, *" rows="auto, auto" class="home__section__opening__content">
             <StackLayout rowSpan="2" col="0" class="home__section__opening__content__clock">
-              <Image src="~/assets/images/horloge.png"/>
+              <Image src="~/assets/images/clock.png"/>
             </StackLayout>
             <Title row="0" col="1" :content="getCurrentDaySelectedNameLong()" class="home__section__opening__content__title" type="h3"/>
             <StackLayout row="1" col="1" class="home__section__opening__content__info">
@@ -250,10 +250,12 @@ export default {
     &__opening {
       width:100%;
       &__calendar {
-        margin: 0 $size-m;
         height: 100;
-        orientation: horizontal;
+        width: 100%;
+        padding: 0 $size-s;
+        justify-content: space-between;
         &__expand {
+          width: 20;
           margin-top: 28;
         }
       }
