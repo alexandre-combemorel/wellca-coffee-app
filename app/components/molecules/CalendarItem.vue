@@ -28,7 +28,8 @@ export default {
       return this.dateObj ? this.arrayDayName[this.dateObj.getDay()] : "ProbD";
     },
     date() {
-      return this.dateObj ? this.dateObj.getDate() : "00";
+      let date = this.dateObj ? this.dateObj.getDate() : "00"
+      return date < 10 ? `0${date}` : date;
     },
     month() {
       return this.dateObj ? this.arrayMonthName[this.dateObj.getMonth()] : "ProbM";
@@ -54,8 +55,9 @@ export default {
     border-radius: 50;
     font-size: 16;
     &__item {
+      width: 20;
       top: 6;
-      left: 11;
+      left: 6;
     }
   }
   &.disabled {
