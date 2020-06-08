@@ -5,7 +5,7 @@
   "author": "Alexandre9118 <alexandre.combemorel@homeday.de>",
   "license": "MIT",
   "nativescript": {
-    "id": "wellcacoffee.application",
+    "id": "wellcacoffee.app",
     "templateVersion": "v2",
     "tns-android": {
       "version": "6.5.0"
