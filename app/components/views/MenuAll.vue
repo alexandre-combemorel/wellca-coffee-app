@@ -114,22 +114,7 @@ export default {
           this.translateElementDuringTransition(event.deltaY);
         } else if (event.state === 3 && event.deltaY < 0) {
           this.setViewToState(stateMenu.second, event.deltaY);
-        }
-      } else if (this.stateMenu === stateMenu.second) {
-        if (event.state === 1) {
-          this.positionStart = this.scrollView.translateY;
-          this.scrollingStart = this.scrollingPosition;
-        }
-        if (event.deltaY > 0 && this.scrollingPosition === 0) {
-          if (event.state === 2) {
-            this.translateElementDuringTransition(event.deltaY);
-            this.topGradientActive = false;
-          } else if (event.state === 3 && event.deltaY > 0) {
-            this.setViewToState(stateMenu.first, event.deltaY);
-          }
-        } else if (event.state === 2) { // emulate scroll because pan and scroll can't work together
-          this.scrollView.scrollToVerticalOffset(this.scrollingStart - event.deltaY, false);
-          this.topGradientActive = true;
+          this.setScrollEnable(true);
         }
       }
     },
@@ -139,7 +124,7 @@ export default {
       this.pageTitleView.translateY = translateTo*0.5;
     },
     setViewToState(state, deltaY, forceState) {
-      if (Math.abs(deltaY) < 200 && !forceState) {
+      if (Math.abs(deltaY) < 100 && !forceState) {
         state = state === stateMenu.first ? stateMenu.second : stateMenu.first;
       }
       let yTitle, yScroll;
@@ -162,6 +147,7 @@ export default {
     },
     getScroll(event) {
       this.scrollingPosition = event.scrollY;
+      this.topGradientActive = Boolean(this.scrollingPosition > 0);
     }
   }
 }
