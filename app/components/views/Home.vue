@@ -68,7 +68,7 @@ export default {
     this.promiseMapReady = new Promise(resolve => {
       this.resolveMapReady = resolve;
     });
-    this.selectStartDate(new Date("2020", "4", "26"));
+    this.selectStartDate(new Date());
   },
   computed: {
     eventsDescriptionToDisplay() {
