@@ -10,7 +10,7 @@
         <SectionTitle :content="config.views.Settings.title_section2" class="settings__section__title"/>
         <FlexboxLayout class="settings__section__content">
           <FlexboxLayout class="settings__section__content__setting-item">
-            <TextLabel type="p" class="settings__section__content__setting-item__notification" :content="config.views.Settings.notification.title" /><Switch v-model="notification" @checkedChange="changeNotification"/>
+            <TextLabel type="p" class="settings__section__content__setting-item__notification" :content="config.views.Settings.notification.title" /><TextLabel v-on:tap="notificationChange" :content="`${notificationAtives() ? 'Actives' : 'Inactives' }`"/>
           </FlexboxLayout>
           <FlexboxLayout class="settings__section__content__setting-item">
             <TextLabel type="p" class="settings__section__content__setting-item__localisation" :content="config.views.Settings.localisation.title" />
@@ -34,6 +34,7 @@
 <script>
 const appSettings = require("tns-core-modules/application-settings");
 import config from '../../config/config.json';
+import { messaging, Message } from "nativescript-plugin-firebase/messaging";
 
 import SectionTitle from "../molecules/SectionTitle";
 import Title from '../atoms/Title';
@@ -50,7 +51,6 @@ export default {
     return {
       config,
       data: [],
-      notification: appSettings.getBoolean(config.views.Settings.notification.storageName) || false,
       componentReady: undefined
     }
   },
@@ -62,6 +62,15 @@ export default {
     this.fetchData(resolve);
   },
   methods: {
+    notificationAtives() {
+      return messaging.areNotificationsEnabled();
+    },
+    notificationChange() {
+      this.openDialog({
+        title: config.views.Settings.notification.title,
+        content: config.views.Settings.notification.description
+      });
+    },
     async fetchData(resolve) {
       try {
         // Fetch the items
@@ -82,9 +91,6 @@ export default {
         componentName: "TextBlock"
       });
       this.$store.commit("sliderBottom/showSlider");
-    },
-    changeNotification(){
-      appSettings.setBoolean(config.views.Settings.notification.storageName, this.notification);
     },
     redirectToHomePage() {
       appSettings.remove(config.views.Settings.localisation.storageName);

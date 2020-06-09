@@ -18,6 +18,8 @@
 <script>
 import Navigation from './modules/Navigation';
 import SliderBottom from './modules/SliderBottom';
+import notification from '../notification';
+
 
 //Views
 import Settings from './views/Settings';
@@ -39,7 +41,8 @@ export default {
   async mounted() {
     await utils.returnSizeWhenNativeViewLoaded(this.$refs['views-container'].nativeView);
     this.viewsContainerView = this.$refs['views-container'].nativeView;
-    
+    // init notification
+    notification.init();
   },
   computed: {
     whenMenuChange() {

@@ -29,27 +29,3 @@ new Vue({
   store,
   render: h => h('frame', [h(App)])
 }).$start()
-
-
-// --------------------------
-// Fire base configuration
-// --------------------------
-var firebase = require("nativescript-plugin-firebase");
-
-firebase.init({
-  onMessageReceivedCallback: function(message) {
-    console.log("Title: " + message.title);
-    console.log("Body: " + message.body);
-    // if your server passed a custom property called 'foo', then do this:
-    console.log("Value of 'foo': " + message.data.foo);
-  }
-  // Optionally pass in properties for database, authentication and cloud messaging,
-  // see their respective docs.
-}).then(
-    function () {
-      console.log("firebase.init done");
-    },
-    function (error) {
-      console.log("firebase.init error: " + error);
-    }
-);

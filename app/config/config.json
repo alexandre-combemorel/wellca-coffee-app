@@ -26,7 +26,7 @@
       "title_section3": "MENTION",
       "notification": {
         "title": "Notification",
-        "storageName": "notification"
+        "description": "Pour changer les notification. Aller dans les parametres du telephone et desactiver les notifications pour l'application Wellca Coffee."
       },
       "localisation": {
         "title": "Localisation",
