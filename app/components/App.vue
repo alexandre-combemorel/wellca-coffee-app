@@ -30,8 +30,9 @@ export default {
     };
   },
   async mounted() {
-    this.loading = false;
+    this.loading = true;
     if (!this.$store.getters['stores/isStoresLoaded']) await this.fetchStores();
+    this.loading = false;
     const storeId = appSettings.getNumber(config.views.Settings.localisation.storageName);
     if (storeId) {
       const storeFound = this.$store.getters['stores/getStores'].find(store => store.id === storeId);
@@ -55,7 +56,7 @@ export default {
         console.error("Couldn't load the Stores (shops):", e);
       }
     },
-    selectStore(storeSelected) {
+    async selectStore(storeSelected) {
       this.loading = true;
       try {
         this.$store.commit('navigation/setMenu', storeSelected.navigations);
@@ -65,10 +66,13 @@ export default {
           animated: true,
           transition: {
             name: "slideLeft",
-            duration: 200,
+            duration: 100,
             curve: "easeIn"
           }
         });
+        setTimeout(() => {
+          this.loading = false;
+        }, 100)
       } catch (e) {
         console.log("selectStore -> e", e)
       }
