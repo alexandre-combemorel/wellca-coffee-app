@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1022189337815-vpceggc241od90tca76rm4jvinhqfk7r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1022189337815-vpceggc241od90tca76rm4jvinhqfk7r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB4S9RFi7-bRm9AClJTMM5WvfT003s5SVs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1022189337815</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>wellcacoffee.app</string>
+	<key>PROJECT_ID</key>
+	<string>local-fortress-278106</string>
+	<key>STORAGE_BUCKET</key>
+	<string>local-fortress-278106.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1022189337815:ios:778e7fc86d5585c29dc492</string>
+	<key>DATABASE_URL</key>
+	<string>https://local-fortress-278106.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1022189337815",
+    "firebase_url": "https://local-fortress-278106.firebaseio.com",
+    "project_id": "local-fortress-278106",
+    "storage_bucket": "local-fortress-278106.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022189337815:android:24c614bbc681569d9dc492",
+        "android_client_info": {
+          "package_name": "wellcacoffee.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022189337815-aqg8ni26ji4llfv9p7ojpibd5ppdeb38.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-2A2y9d3bRjKGq83bB6mdWdWc7vb1bow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022189337815-aqg8ni26ji4llfv9p7ojpibd5ppdeb38.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
