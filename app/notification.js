@@ -5,9 +5,9 @@ var firebase = require("nativescript-plugin-firebase");
 export default {
   init() {
     firebase.init({
-      // onPushTokenReceivedCallback: function(token) {
-      //   console.log("Firebase push token: " + token);
-      // },
+      onPushTokenReceivedCallback: function(token) {
+        console.log("Firebase push token: " + token);
+      },
       onMessageReceivedCallback: function(message) {
         console.log("Title: " + message.title);
         console.log("Body: " + message.body);

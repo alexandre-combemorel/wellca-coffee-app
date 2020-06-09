@@ -20,7 +20,6 @@ import Navigation from './modules/Navigation';
 import SliderBottom from './modules/SliderBottom';
 import notification from '../notification';
 
-
 //Views
 import Settings from './views/Settings';
 import Home from './views/Home';
