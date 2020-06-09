@@ -62,10 +62,10 @@ export default {
   }
   &.disabled {
     .p {
-      color: #B3B3B3;
+      color: $disable-state;
     }
     .calendar-item__date {
-      border-color: #B3B3B3;
+      border-color: $disable-state;
     }
   }
   &.active {

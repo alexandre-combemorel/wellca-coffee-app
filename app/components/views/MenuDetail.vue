@@ -20,9 +20,7 @@
         </FlexboxLayout>
       </ScrollView>
       <FlexboxLayout row="3" class="menu-detail__button-price">
-        <Button content="button 1$"/>
-        <Button content="button 2$"/>
-        <Button content="button 3$"/>
+        <Button :content="config.views.MenuDetail.button_bottom" state="disabled"/>
       </FlexboxLayout>
     </GridLayout>
 </template>
@@ -30,6 +28,7 @@
 <script>
 const platformModule = require("tns-core-modules/platform");
 import utils from '../../utils/all';
+import config from '../../config/config.json'
 
 import TextBlock from '../atoms/TextBlock'
 import TextLabel from '../atoms/TextLabel'
@@ -50,6 +49,7 @@ export default {
       menuListView: undefined,
       itemsLoaded: undefined,
       componentLoaded: undefined,
+      config
     }
   },
   watch: {
@@ -183,7 +183,7 @@ export default {
   }
   &__button-price {
     justify-content: space-around;
-    padding: $size-s 0;
+    padding: $size-s $size-m;
   }
 }
 </style>

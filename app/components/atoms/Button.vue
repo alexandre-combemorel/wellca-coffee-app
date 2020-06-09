@@ -1,12 +1,12 @@
 <template>
   <StackLayout class="button--wrapper">
-    <Label :text="content" class="button btn" :class="addClasses" @tap="pressed"/>
+    <Label :text="content" class="button btn" :class="[...addClasses, state]" @tap="pressed"/>
   </StackLayout>
 </template>
 
 <script>
 export default {
-  props: ['content'],
+  props: ['content', 'state'],
   data() {
     return {
       addClasses: [],
@@ -14,11 +14,13 @@ export default {
   },
   methods: {
     pressed() {
-      const pressClass = "button--press";
-      this.addClasses = [pressClass];
-      setTimeout(() => {
-        this.addClasses = [];
-      }, 150);
+      if (this.state === undefined || !this.state.includes("disabled")) {
+        const pressClass = "button--press";
+        this.addClasses = [pressClass];
+        setTimeout(() => {
+          this.addClasses = [];
+        }, 150);
+      }
     }
   }
 }
@@ -31,9 +33,15 @@ export default {
   border-radius: 5;
   border-color: $tertiary-color;
   padding: $size-s;
+  text-wrap: true;
+  text-align: center;
   &--press {
     background: $tertiary-color;
     color: $text-color-secondary;
+  }
+  &.disabled {
+    border-color: $disable-state;
+    color: $disable-state;
   }
 }
 </style>

@@ -9,6 +9,9 @@
         "title": "Tous nos grain de café"
       }
     },
+    "MenuDetail": {
+      "button_bottom": "Tous nos cafés peuvent vous être proposé fraichement moulue."
+    },
     "Home": {
       "title_view": "WELLCA COFFEE",
       "datepicker": {
