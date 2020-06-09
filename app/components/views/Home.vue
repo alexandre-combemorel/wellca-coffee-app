@@ -29,8 +29,10 @@
             </StackLayout>
           </FlexboxLayout>
         </StackLayout>
-        <SectionTitle :content="config.views.Home.title_section_2" class="home__section__section-title"/>
-        <MapView v-show="dateDaySelected" class="home__section__map" iosOverflowSafeArea="true" @mapReady="onMapReady"></MapView>
+        <StackLayout v-show="eventsToDisplay.length > 0">
+          <SectionTitle :content="config.views.Home.title_section_2" class="home__section__section-title"/>
+          <MapView v-show="dateDaySelected" class="home__section__map" iosOverflowSafeArea="true" @mapReady="onMapReady"></MapView>
+        </StackLayout>
       </StackLayout>
     </ScrollView>
   </GridLayout>
@@ -119,9 +121,10 @@ export default {
     },
     giveStateOfCalendarItem(dateDay) {
       let state = "";
-      if (!this.$store.getters['calendar/isDayWithEvent'](dateDay)) {
+      const isDateSelected = this.dateDaySelected && dateDay && this.dateDaySelected.getTime() === dateDay.getTime();
+      if (!this.$store.getters['calendar/isDayWithEvent'](dateDay) && !isDateSelected) {
         state = "disabled";
-      } else if (this.dateDaySelected && dateDay && this.dateDaySelected.getTime() === dateDay.getTime()) {
+      } else if (isDateSelected) {
         state = "active";
       }
       return state;

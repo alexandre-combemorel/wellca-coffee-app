@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     emitToParent() {
-      !this.state.includes("disabled") && this.$emit('datetap', this.dateObj);
+      this.$emit('datetap', this.dateObj);
     }
   }
 }
