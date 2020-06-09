@@ -68,7 +68,7 @@ export default {
     this.promiseMapReady = new Promise(resolve => {
       this.resolveMapReady = resolve;
     });
-    this.selectStartDate(new Date());
+    this.selectStartDate(new Date("2020", "4", "26"));
   },
   computed: {
     eventsDescriptionToDisplay() {
@@ -113,7 +113,7 @@ export default {
     getStartEndDate() {
       if (this.dateRange.length > 0) {
         const lastDay = this.dateRange[this.dateRange.length-1];
-        const dateEnd = new Date(lastDay.getFullYear(), lastDay.getMonth(), lastDay.getDate(), 0, 0, -1);
+        const dateEnd = new Date(lastDay.getFullYear(), lastDay.getMonth(), lastDay.getDate()+1, 0, 0, -1);
         const firstDay = this.dateRange[0];
         return { start: firstDay, end: dateEnd };
       }
