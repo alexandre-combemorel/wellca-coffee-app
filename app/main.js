@@ -21,7 +21,7 @@ Vue.use(DateTimePicker);
 Vue.config.silent = (TNS_ENV === 'production')
 
 if (isIOS) {
-    GMSServices.provideAPIKey('AIzaSyAgWBq60lfVikO1OxmVRJUOP8d0vkJI0oo');
+    GMSServices.provideAPIKey('AIzaSyCyOLmfY8eNlQmX8_9yDAfIWcj9G46_bgg');
 }
 Vue.registerElement('MapView', () => require('nativescript-google-maps-sdk').MapView);
 
