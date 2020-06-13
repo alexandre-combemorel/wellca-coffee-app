@@ -1,4 +1,5 @@
 import dateUtils from '../../utils/date';
+import cloneDeep from 'lodash.clonedeep';
 const moduleCalendar = {
   namespaced: true,
   state: {
@@ -11,25 +12,34 @@ const moduleCalendar = {
     },
     setEventsRecurrent(state, data) {
       data.events = formatDateForEvent(data.events);
-      data.events.forEach(event => {
-        const diffTimeBetweenStartEnd = event.date_end.getTime() - event.date_start.getTime();
-        const matchingDateStart = data.dateRange.find(date => date.getDay() === event.date_start.getDay());
-        const matchingDateEnd = data.dateRange.find(date => date.getDay() === event.date_end.getDay());
-        if (matchingDateStart) {
-          event.date_start = new Date(matchingDateStart.getFullYear(), matchingDateStart.getMonth(), matchingDateStart.getDate(), event.date_start.getHours(), event.date_start.getMinutes());
-          event.date_end = new Date(event.date_start.getTime()+diffTimeBetweenStartEnd);
-        } else if (matchingDateEnd) {
-          event.date_end = new Date(matchingDateEnd.getFullYear(), matchingDateEnd.getMonth(), matchingDateEnd.getDate(), event.date_end.getHours(), event.date_end.getMinutes());
-          event.date_start = new Date(event.date_end.getTime()-diffTimeBetweenStartEnd);
-        }
+      const listEventReccurent = [];
+      data.dateRange.forEach(dateDay => {
+        data.events.forEach(event => {
+          const diffTimeBetweenStartEnd = event.date_end.getTime() - event.date_start.getTime();
+          const matchingDateStart = dateDay.getDay() === event.date_start.getDay() && dateDay;
+          const matchingDateEnd = dateDay.getDay() === event.date_end.getDay() && dateDay;
+          
+          const eventCopy = cloneDeep(event);
+          if (matchingDateStart) {
+            eventCopy.date_start = new Date(matchingDateStart.getFullYear(), matchingDateStart.getMonth(), matchingDateStart.getDate(), eventCopy.date_start.getHours(), eventCopy.date_start.getMinutes());
+            eventCopy.date_end = new Date(eventCopy.date_start.getTime()+diffTimeBetweenStartEnd);
+          } else if (matchingDateEnd) {
+            eventCopy.date_end = new Date(matchingDateEnd.getFullYear(), matchingDateEnd.getMonth(), matchingDateEnd.getDate(), eventCopy.date_end.getHours(), eventCopy.date_end.getMinutes());
+            eventCopy.date_start = new Date(eventCopy.date_end.getTime()-diffTimeBetweenStartEnd);
+          }
+
+          // Does the event has already been created for this week
+          const isAlreadyExisting = !!listEventReccurent.find(event => event.date_start.getTime() === eventCopy.date_start.getTime() && event.date_end.getTime() === eventCopy.date_end.getTime());
+          ((matchingDateStart || matchingDateEnd) && !isAlreadyExisting) && listEventReccurent.push(eventCopy);
+        });
       });
-      state.events = [...state.events, ...data.events];
+      state.events = [...state.events, ...listEventReccurent];
     }
   },
   actions: {},
   getters: {
     isDayWithEvent: state => dateDay => {
-      return state.events && state.events.filter(event => {
+      return state.events && !!state.events.filter(event => {
         const startDay = new Date(event.date_start.getFullYear(), event.date_start.getMonth(), event.date_start.getDate());
         const endDay = new Date(event.date_end.getFullYear(), event.date_end.getMonth(), event.date_end.getDate());
         const selectedDay = new Date(dateDay.getFullYear(), dateDay.getMonth(), dateDay.getDate());

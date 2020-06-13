@@ -15,7 +15,7 @@
             </StackLayout>
             <Title row="0" col="1" :content="getCurrentDaySelectedNameLong()" class="home__section__opening__content__title" type="h3"/>
             <StackLayout row="1" col="1" class="home__section__opening__content__info">
-              <StackLayout class="home__section__opening__content__info__item" v-for="event in eventsToDisplay" :key="event.id">
+              <StackLayout class="home__section__opening__content__info__item" v-for="(event, index) in eventsToDisplay" :key="index">
                 <Title :content="getCurrentDaySelectedHours(event)" class="home__section__opening__content__info__item__text" type="h4"/>
                 <TextBlock :content="event.title" class="home__section__opening__content__info__item__text" type="p1"/>
                 <TextBlock :content="event.sub_title" class="home__section__opening__content__info__item__text" type="p2"/>
