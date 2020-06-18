@@ -7,6 +7,6 @@ node_modules
 # NativeScript application
 hooks
 platforms
-deployment.md
+documentation.md
 
 yarn-error.log
