@@ -1,12 +1,12 @@
 <template>
   <StackLayout class="button--wrapper">
-    <Label :text="content" class="button btn" :class="[...addClasses, state]" @tap="pressed"/>
+    <Label :text="content" class="button btn" :class="[...addClasses, state, ...type]" @tap="pressed"/>
   </StackLayout>
 </template>
 
 <script>
 export default {
-  props: ['content', 'state'],
+  props: ['content', 'state', 'type'],
   data() {
     return {
       addClasses: [],
@@ -21,6 +21,7 @@ export default {
           this.addClasses = [];
         }, 150);
       }
+      this.$emit("tap");
     }
   }
 }
@@ -42,6 +43,9 @@ export default {
   &.disabled {
     border-color: $disable-state;
     color: $disable-state;
+  }
+  &.square {
+    border-radius: 0;
   }
 }
 </style>
