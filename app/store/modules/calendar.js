@@ -54,14 +54,16 @@ const moduleCalendar = {
         return startDay.getTime() <= selectedDay.getTime() && selectedDay.getTime() <= endDay.getTime();
       });
     },
-    getFirstDateDayWithEvent: state => {
+    getFirstDateDayWithEvent: state => firstDate => {
       let earliestDateDay = Infinity;
       state.events.forEach(event => {
         if (event.date_start.getTime() < earliestDateDay) {
           earliestDateDay = event.date_start.getTime();
         }
       });
-      return earliestDateDay !== Infinity ? dateUtils.simplifyDate(new Date(earliestDateDay)) : undefined;
+      earliestDateDay = dateUtils.simplifyDate(new Date(earliestDateDay));
+      earliestDateDay = earliestDateDay !== Infinity && earliestDateDay.getTime() < firstDate.getTime() ? firstDate : earliestDateDay;
+      return earliestDateDay !== Infinity ? earliestDateDay : undefined;
     },
   }
 }

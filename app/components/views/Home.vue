@@ -60,7 +60,7 @@ export default {
       config: config,
       dateRange: [],
       eventsToDisplay: [],
-      dateDaySelected: new Date(),
+      dateDaySelected: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
       promiseMapReady: undefined,
     };
   },
@@ -85,7 +85,7 @@ export default {
     async selectStartDate(date) {
       this.setDateRange(date);
       await this.fetchEvents();
-      this.selectDay(this.$store.getters['calendar/getFirstDateDayWithEvent']);
+      this.selectDay(this.$store.getters['calendar/getFirstDateDayWithEvent'](date));
     },
     onPickDateTap(args) {
       DateTimePicker
