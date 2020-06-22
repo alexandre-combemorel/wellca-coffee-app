@@ -124,7 +124,7 @@ export default {
       this.pageTitleView.translateY = translateTo*0.5;
     },
     setViewToState(state, deltaY, forceState) {
-      if (Math.abs(deltaY) < 100 && !forceState) {
+      if (Math.abs(deltaY) < 0 && !forceState) {
         state = state === stateMenu.first ? stateMenu.second : stateMenu.first;
       }
       let yTitle, yScroll;

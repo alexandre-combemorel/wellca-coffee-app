@@ -1,6 +1,5 @@
 <template>
   <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoom-on' : 'zoom-off' ]">
-    <!-- <Image :src="img" class="tile-image__image"/> -->
     <ImageCacheIt class="tile-image__image" stretch="fill"
 			:width="width"
       :height="height"
@@ -23,16 +22,16 @@ export default {
   computed: {
     width() {
       if(this.size === "small") {
-        return 137;
+        return 133;
       } else {
         return 180;
       }
     },
     height() {
       if(this.size === "small") {
-        return 120;
+        return 133;
       } else {
-        return 157;
+        return 180;
       }
     }
   },
@@ -77,10 +76,10 @@ export default {
 }
 @keyframes zoomOn {
     from { transform: scale(1); }
-    to { transform: scale(1.5); }
+    to { transform: scale(1.3); }
 }
 @keyframes zoomOff {
-    from { transform: scale(1.5); }
+    from { transform: scale(1.3); }
     to { transform: scale(1); }
 }
 </style>
