@@ -1,7 +1,7 @@
 <template>
     <Page class="select-page" actionBarHidden="true">
         <FlexboxLayout class="select-page--container" rows="auto, *">
-          <Image row="0" src="~/assets/images/logo.jpg" class="select-page__image"/>
+          <Image row="0" src="~/assets/images/logo-opening.png" class="select-page__image"/>
           <FlexboxLayout v-if="displayStores" row="1" class="select-page__store-list-container">
             <TextLabel type="h1" @tap="selectStore(store)" v-for="store in $store.getters['stores/getStores']" :key="store.id" :content="store.information.title" class="select-page__store-list-container__store"/>
           </FlexboxLayout>
