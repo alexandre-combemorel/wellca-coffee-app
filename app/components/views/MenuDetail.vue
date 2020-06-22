@@ -20,7 +20,9 @@
         </FlexboxLayout>
       </ScrollView>
       <FlexboxLayout row="3" class="menu-detail__button-price">
-        <Button :content="config.views.MenuDetail.button_bottom" state="disabled"/>
+        <StackLayout class="menu-detail__button-price--wrapper">
+          <Button :content="config.views.MenuDetail.button_bottom" state="disabled"/>
+        </StackLayout>
       </FlexboxLayout>
     </GridLayout>
 </template>
@@ -182,8 +184,11 @@ export default {
     }
   }
   &__button-price {
+    &--wrapper {
+      width: 100%;
+      padding: $size-s $size-m;
+    }
     justify-content: space-around;
-    padding: $size-s $size-m;
   }
 }
 </style>

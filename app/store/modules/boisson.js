@@ -17,7 +17,7 @@ const moduleMenu = {
         }
       });
       state.categories = arrayCategories;
-      // state.menuItemSelected = items[0];// to be removed
+      state.menuItemSelected = items[0];// to be removed
     },
     setMenuLoaded(state, isLoaded) {
       state.menuLoaded = isLoaded;
