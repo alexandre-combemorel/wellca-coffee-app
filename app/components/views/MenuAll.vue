@@ -1,6 +1,6 @@
 <template>
   <AbsoluteLayout class="menu-all" ref="menu-all">
-    <AbsoluteLayout class="menu-all--wrapper">
+    <AbsoluteLayout v-show="categoriesToDisplay.length > 0" class="menu-all--wrapper">
       <FlexboxLayout @tap="openActionCategorySelector()" class="menu-all__page-title" ref="menu-all__page-title">
           <Title :content="categoryName" type="h1"/><button-icon codeicon="f13a" class="menu-all__page-title__icon" :is-active="categoriesToDisplay.length === 1"/>
       </FlexboxLayout>
@@ -18,6 +18,11 @@
           </StackLayout>
         </StackLayout>
       </ScrollView>
+    </AbsoluteLayout>
+    <AbsoluteLayout v-show="categoriesToDisplay.length === 0" class="menu-all--wrapper">
+      <FlexboxLayout class="menu-all__page-title">
+          <Title content="Loading..." type="h1"/>
+      </FlexboxLayout>
     </AbsoluteLayout>
     <Label class="menu-all__gradient menu-all__gradient--top" v-show="topGradientActive"/>
     <Label class="menu-all__gradient menu-all__gradient--bottom" ref="menu-all__gradient--bottom"/>

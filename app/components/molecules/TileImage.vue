@@ -1,8 +1,9 @@
 <template>
   <FlexboxLayout ref="tile-image" class="tile-image" :class="[ `tile-image--${size}`, zoomed ? 'zoom-on' : 'zoom-off' ]">
-    <ImageCacheIt class="tile-image__image" stretch="fill"
+    <ImageCacheIt class="tile-image__image" stretch="aspectFit"
 			:width="width"
       :height="height"
+      placeHolder="~/assets/images/placeholder.png"
       :src="img"/>
     <Title v-if="maintext" :content="maintext" type="h3" class="tile-image__main-text"/>
     <TextLabel :content="secondtext" type="hashtag" class="tile-image__second-text"/>
